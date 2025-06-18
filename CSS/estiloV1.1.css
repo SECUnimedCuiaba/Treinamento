@@ -1,0 +1,351 @@
+.sector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding-right: 10px;
+}
+
+.arrow {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+
+.equipment-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  overflow: auto;
+  max-height: 1000px;
+  transition: max-height 0.5s ease;
+  gap: 16px;
+  padding-bottom: 16px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+
+    
+}
+
+.equipment-cards::-webkit-scrollbar {
+  height: 6px;
+}
+
+.equipment-cards::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 3px;
+}
+
+.equipment-cards.collapsed {
+  max-height: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.sector-header.open .arrow {
+  transform: rotate(90deg);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.header {
+  max-width: 1200px;
+      margin: auto;
+margin-bottom: 30px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  height: 140px;
+  padding: 0 30px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.logo {
+  position: absolute;
+  left: 30px;
+  width: 220px;
+  height: 90px;
+  background-image: url("../imagens/logo-equipacare2.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.logo_cba {
+  right: 30px; 
+  position: absolute;
+  width: 190px;
+  height: 90px;
+  background-image: url("../imagens/logo-unimed-cuiaba.png");
+  background-size:contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+.title-container {
+  text-align: center;
+}
+
+.title-container h1 {
+  margin: 0;
+  font-size: 40px;
+  color: #153664;
+}
+
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #153664;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+.sector-category {
+    margin-bottom: 50px;
+}
+
+.sector-category h2 {
+    color: #0056b3;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+
+.card {
+    min-width: 200px;
+    flex: 1 1 calc(33.333% - 16px); /* 3 por linha */
+    min-width: 250px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    border-bottom: 1px solid #eee;
+}
+
+.card h3 {
+    margin: 15px 0;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.card a {
+    display: block;
+    padding: 10px 0;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.card a:hover {
+    background-color: #218838;
+}
+
+footer {
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    color: #666;
+    font-size: 0.9em;
+}
+
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card a {
+    position: relative;
+    overflow: hidden;
+}
+
+.card a:hover::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(30deg);
+}
+.button-group {
+    margin-top: 15px; 
+    text-align: center;
+    
+}
+
+.common-button {
+    background-color: #34495e; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none; 
+    display: inline-block; 
+    margin: 0 5px;
+    transition: background-color 0.2s ease; 
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+
+.common-button:hover {
+    background-color: #4a637c; 
+}
+
+
+
+
+/* Estilos para o buscador de equipamentos */
+#equipment-search {
+  margin: 30px 0 20px;
+  position: relative;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+.equipment-list {
+  position: relative;  /*ou remova */
+  width: 100%;
+  max-height: 40vh; /* altura máxima proporcional à tela */
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index: 100;
+  display: none;
+}
+
+.equipment-list div {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.equipment-list div:hover {
+  background-color: #f5f5f5;
+}
+
+.equipment-list div:last-child {
+  border-bottom: none;
+}
+
+
+
+.filter-section {
+  margin-bottom: 50px;
+}
+
+.filter-section h2 {
+  color: #0056b3;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+}
+
+.filtered-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+    
+    
+    .equipment-list div.selected {
+      background-color: #e0e0e0;
+    }
+    
+    #equipment-search {
+      position: relative;
+    }
+    
+  
+
+    @media (min-width: 768px) {
+  .equipment-cards {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+
+}
+
+@media (min-width: 768px) {
+  .equipment-cards {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+}
+
+.common-button:focus {
+  outline: 2px solid #007bff;
+}
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 40px auto;
+}
+
+
+.search-wrapper input[type="text"] {
+  width: 100%;
+  padding: 10px 36px 10px 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
