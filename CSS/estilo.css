@@ -215,6 +215,13 @@ footer {
   transform: rotate(30deg);
 }
 
+a.disabled {
+  pointer-events: none;
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
 .button-group {
   margin-top: 15px;
   text-align: center;
@@ -299,15 +306,6 @@ footer {
 
 #equipment-search {
   position: relative;
-}
-
-@media (min-width: 768px) {
-  .equipment-cards {
-    flex-wrap: wrap;
-    overflow-x: visible;
-    scroll-snap-type: none;
-  }
-
 }
 
 @media (min-width: 768px) {
