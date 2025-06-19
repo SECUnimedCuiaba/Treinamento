@@ -11,7 +11,6 @@
   transition: transform 0.3s ease;
 }
 
-
 .equipment-cards {
   display: flex;
    flex-wrap: wrap;
@@ -25,8 +24,6 @@
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   justify-content: center;
-
-
 }
 
 .equipment-cards::-webkit-scrollbar {
@@ -71,15 +68,12 @@ body {
   flex-wrap: wrap;
 }
 
-
-
 @media (max-width: 600px) {
   .header {
     flex-direction: column;
     text-align: center;
   }
 }
-
 
 .logo {
   position: absolute;
@@ -102,7 +96,6 @@ body {
   background-repeat: no-repeat;
   background-position: center;
 }
-
 
 .title-container {
   text-align: center;
@@ -249,10 +242,6 @@ footer {
   background-color: #4a637c;
 }
 
-
-
-
-/* Estilos para o buscador de equipamentos */
 #equipment-search {
   margin: 30px 0 20px;
   position: relative;
@@ -261,14 +250,10 @@ footer {
   margin-right: auto;
 }
 
-
-
 .equipment-list {
   position: relative;
-  /*ou remova */
   width: 100%;
   max-height: 40vh;
-  /* altura máxima proporcional à tela */
   overflow-y: auto;
   background: white;
   border: 1px solid #ddd;
@@ -291,9 +276,6 @@ footer {
 .equipment-list div:last-child {
   border-bottom: none;
 }
-
-
-
 .filter-section {
   margin-bottom: 50px;
 }
@@ -311,8 +293,6 @@ footer {
   gap: 25px;
 }
 
-
-
 .equipment-list div.selected {
   background-color: #e0e0e0;
 }
@@ -320,8 +300,6 @@ footer {
 #equipment-search {
   position: relative;
 }
-
-
 
 @media (min-width: 768px) {
   .equipment-cards {
@@ -350,7 +328,6 @@ footer {
   max-width: 500px;
   margin: 0 auto 40px auto;
 }
-
 
 .search-wrapper input[type="text"] {
   width: 100%;
