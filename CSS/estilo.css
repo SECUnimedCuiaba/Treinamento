@@ -347,7 +347,7 @@ a.disabled {
 
 @media (max-width: 768px) {
   
-  header {
+  .header {
   height: 70px;
   display: flex;
   justify-content: center;
