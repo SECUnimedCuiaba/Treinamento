@@ -12,8 +12,7 @@
 }
 
 .equipment-cards {
-  display: flex;
-  flex-wrap: wrap;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   overflow: auto;
   max-height: 1000px;
   transition: max-height 0.5s ease;
