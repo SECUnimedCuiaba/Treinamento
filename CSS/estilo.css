@@ -76,11 +76,16 @@ body {
 
 
 @media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-  }
+  
+  header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 10px 20px;
+  position: relative; /* útil se você usar z-index ou outras posições depois */
+}
+  
   .title-container h1 {
     font-size: 18px;
   }
