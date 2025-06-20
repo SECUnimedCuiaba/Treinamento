@@ -81,6 +81,9 @@ body {
     text-align: center;
     align-items: center;
   }
+  .title-container h1 {
+    font-size: 18px;
+  }
 
   
 }
