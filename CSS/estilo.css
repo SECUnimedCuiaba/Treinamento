@@ -356,11 +356,10 @@ a.disabled {
   padding: 10px 20px;
   position: relative; 
   text-align: center;
- 
-}
-    .title-container h1 {
-    font-size: 24px;
+ }
     
+  .title-container h1 {
+    font-size: 24px;
   }
   
 .logo {
