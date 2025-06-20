@@ -18,8 +18,6 @@
   transition: max-height 0.5s ease;
   gap: 16px;
   padding-bottom: 16px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
   justify-content: center;
 }
 
