@@ -75,15 +75,14 @@ body {
 
 
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .header {
     flex-direction: column;
     text-align: center;
     align-items: center;
   }
-}
 
-.logo,
+  .logo,
 .logo_cba {
   width: 120px;
   height: 90px;
@@ -91,6 +90,13 @@ body {
   background-repeat: no-repeat;
   background-position: center;
 }
+
+   .title-container h1 {
+    font-size: 24px;
+  }
+}
+
+
 
 .title-container {
   text-align: center;
