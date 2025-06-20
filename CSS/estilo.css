@@ -359,26 +359,15 @@ a.disabled {
   top: 0px;
   width: 120px;
   height: 90px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url("../imagens/logo-equipacare2.png");
  }
 
 .logo_cba {
   top: 0px;
   width: 120px;
   height: 90px;
-  background-image: url("../imagens/logo-unimed-cuiaba.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
 }
  
   h1 {
-  color: #153664;
-  text-align: center;
-  margin-bottom: 0px;
   font-size: 24px;
 }
   
