@@ -348,6 +348,7 @@ a.disabled {
 @media (max-width: 768px) {
   
   header {
+    
   display: flex;
   justify-content: center;
   align-items: center;
@@ -364,7 +365,7 @@ a.disabled {
   }
   
 .logo {
-  margin: 0;
+  top: 10px;
   width: 120px;
   height: 90px;
   background-size: contain;
@@ -374,7 +375,7 @@ a.disabled {
  }
 
 .logo_cba {
-  margin: 0;
+  top: 10px;
   width: 120px;
   height: 90px;
   background-image: url("../imagens/logo-unimed-cuiaba.png");
