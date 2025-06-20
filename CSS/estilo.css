@@ -354,7 +354,7 @@ a.disabled {
   flex-wrap: wrap;
   padding: 10px 20px;
   position: relative; 
-    text-align: center;
+  text-align: center;
  
 }
   
@@ -363,8 +363,7 @@ a.disabled {
   }
   
 .logo {
-  aling
-  width: 120px;
+   width: 120px;
   height: 90px;
   background-size: contain;
   background-repeat: no-repeat;
