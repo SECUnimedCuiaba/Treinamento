@@ -83,13 +83,30 @@ body {
   align-items: center;
   flex-wrap: wrap;
   padding: 10px 20px;
-  position: relative; /* útil se você usar z-index ou outras posições depois */
+  position: relative; 
 }
   
   .title-container h1 {
-    font-size: 18px;
+    font-size: 14px;
   }
+  
+.logo {
+  width: 120px;
+  height: 90px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("../imagens/logo-equipacare2.png");
+ }
 
+.logo_cba {
+  width: 120px;
+  height: 90px;
+  background-image: url("../imagens/logo-unimed-cuiaba.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
   
 }
 
