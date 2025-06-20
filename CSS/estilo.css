@@ -60,7 +60,7 @@ body {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content:  space-between;
+  justify-content: center;  
   height: 140px;
   padding: 10px 20px;
   background: #ffffff;
