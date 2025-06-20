@@ -339,21 +339,21 @@ a.disabled {
 @media (max-width: 768px) {
   
   .header {
-  height: auto;
-    padding: 10px;
+  height: auto
+  padding: 10px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  padding: 10px 20px;
   position: relative; 
   text-align: center;
  }
     
-  .title-container h1 {
-    font-size: 24px;
-    top: 30px;
-  }
+.title-container h1 {
+  position: relative;
+  font-size: 24px;
+  top: 30px;
+}
   
 .logo {
   top: 0px;
@@ -379,7 +379,7 @@ a.disabled {
   color: #153664;
   text-align: center;
   margin-bottom: 0px;
-    font-size: 24px;
+  font-size: 24px;
 }
   
 }
