@@ -55,21 +55,24 @@ body {
 
 
 .header {
+  display: flex;
   max-width: 1200px;
   margin: auto;
   margin-bottom: 30px;
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content:  space-between;
   height: 140px;
-  padding: 0 30px;
+  padding: 10px 20px;
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   flex-wrap: wrap;
   text-align: center;
+  position: relative; 
 }
+
 
 
 @media (max-width: 600px) {
