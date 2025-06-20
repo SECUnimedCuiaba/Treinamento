@@ -75,7 +75,7 @@ body {
 
 
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .header {
     flex-direction: column;
     text-align: center;
@@ -96,8 +96,6 @@ body {
   }
 }
 
-
-
 .title-container {
   text-align: center;
 }
@@ -107,7 +105,6 @@ body {
   font-size: 40px;
   color: #153664;
 }
-
 
 .container {
   max-width: 1200px;
@@ -137,9 +134,7 @@ h1 {
 
 
 .card {
-
-  
- display: flex;
+  display: flex;
   flex-direction: column;
   min-width: 200px;
   flex: 1 1 calc(33.333% - 16px);
