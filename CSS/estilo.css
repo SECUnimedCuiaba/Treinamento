@@ -360,10 +360,12 @@ a.disabled {
   
   .title-container h1 {
     font-size: 22px;
+    
   }
   
 .logo {
-   width: 120px;
+  margin: 0;
+  width: 120px;
   height: 90px;
   background-size: contain;
   background-repeat: no-repeat;
@@ -372,6 +374,7 @@ a.disabled {
  }
 
 .logo_cba {
+  margin: 0;
   width: 120px;
   height: 90px;
   background-image: url("../imagens/logo-unimed-cuiaba.png");
