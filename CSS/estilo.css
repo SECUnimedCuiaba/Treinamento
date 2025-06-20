@@ -82,10 +82,27 @@ body {
     align-items: center;
   }
 
-  .logo,
-.logo_cba {
-  width: 120px;
+  
+}
+
+
+.logo {
+  position: absolute;
+  left: 30px;
+  width: 220px;
   height: 90px;
+  background-image: url("../imagens/logo-equipacare2.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.logo_cba {
+  right: 30px;
+  position: absolute;
+  width: 190px;
+  height: 90px;
+  background-image: url("../imagens/logo-unimed-cuiaba.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
