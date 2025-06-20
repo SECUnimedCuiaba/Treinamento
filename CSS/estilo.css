@@ -52,8 +52,6 @@ body {
   color: #333;
 }
 
-
-
 .header {
   display: flex;
   max-width: 1200px;
@@ -72,11 +70,6 @@ body {
   text-align:center;
   
 }
-
-
-
-
-
 
 .logo {
   position: absolute;
@@ -365,7 +358,7 @@ a.disabled {
 }
   
   .title-container h1 {
-    font-size: 14px;
+    font-size: 22px;
   }
   
 .logo {
