@@ -70,45 +70,12 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   flex-wrap: wrap;
   text-align: center;
-  position: relative; 
+  
 }
 
 
 
-@media (max-width: 768px) {
-  
-  header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 10px 20px;
-  position: relative; 
-}
-  
-  .title-container h1 {
-    font-size: 14px;
-  }
-  
-.logo {
-  width: 120px;
-  height: 90px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url("../imagens/logo-equipacare2.png");
- }
 
-.logo_cba {
-  width: 120px;
-  height: 90px;
-  background-image: url("../imagens/logo-unimed-cuiaba.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-  
-}
 
 
 .logo {
@@ -346,14 +313,6 @@ a.disabled {
   position: relative;
 }
 
-@media (min-width: 768px) {
-  .equipment-cards {
-    flex-wrap: wrap;
-    overflow-x: visible;
-    scroll-snap-type: none;
-  }
-}
-
 .common-button:focus {
   outline: 2px solid #007bff;
 }
@@ -383,4 +342,48 @@ a.disabled {
   border: none;
   font-size: 20px;
   cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .equipment-cards {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+}
+
+@media (max-width: 768px) {
+  
+  header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 10px 20px;
+  position: relative; 
+ 
+}
+  
+  .title-container h1 {
+    font-size: 14px;
+  }
+  
+.logo {
+  width: 120px;
+  height: 90px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("../imagens/logo-equipacare2.png");
+ }
+
+.logo_cba {
+  width: 120px;
+  height: 90px;
+  background-image: url("../imagens/logo-unimed-cuiaba.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+  
 }
