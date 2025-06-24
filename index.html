@@ -1,385 +1,237 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR" dir="ltr">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Treinamentos Operacionais - Engenharia Clínica </title>
+  <title>Treinamentos Operacionais - Engenharia Clínica</title>
   <link rel="stylesheet" href="CSS/estilo.css">
 </head>
 
-
 <body>
   <header class="header">
-      <div class="logo"></div>
+    <div class="logo"></div>
     <div class="title-container">
       <a href="https://equipacare.com.br/" target="_blank">
         <h1>Engenharia Clínica</h1>
       </a>
     </div>
-    <div class="logo_cba">
+    <div class="logo_cba"></div>
   </header>
 
   <main class="container">
-
     <h1 style="margin-bottom: 60px;">Treinamentos Operacionais em Equipamentos Médicos</h1>
 
     <div id="equipment-search" class="search-wrapper">
-  <input type="text" id="equipmentSearchInput" placeholder="Buscar por equipamento...">
-  
-  <button type="button" class="clear-search-btn" onclick="clearSearch()">×</button>
-  <div id="equipmentList" class="equipment-list"></div>
-</div>
+      <input type="text" id="equipmentSearchInput" placeholder="Buscar por equipamento...">
+      <button type="button" class="clear-search-btn" onclick="clearSearch()">×</button>
+      <div id="equipmentList" class="equipment-list"></div>
+    </div>
 
-
-    <section class="sector-category" data-setor="centro-cirurgico"><!-- CENTRO CIRÚRGICO-->
-      <h2 class="sector-header" onclick="toggleSector(this)">
-        Setor: Centro Cirúrgico <span class="arrow">&#9654;</span>
-      </h2>
-
-      <div class="equipment-cards">
-        
-        <div class="card"><!-- Monitor Philips-->
-          <img src="imagens/monitor-philips.png" alt="Monitor Philips Efficia">
-          <h3>Monitor Multiparâmetros | Philips Efficia</h3>
-          <a href="https://forms.gle/xgdswhyromyNBCbQ7">Acessar Treinamento</a>
-        </div>
-
-        <div class="card"><!-- Aspirador Fanem-->
-          <img src="imagens/aspirador-fanem.png" alt="Aspirador Fanem Colibri">
-          <h3>Aspirador Elétrico | Fanem DPM-60</h3>
-          <a href="https://forms.gle/K1vzW2ruwrX4ygSw6">Acessar Treinamento</a>
-        </div>
-
-        <div class="card"><!-- Cardioversor Philips-->
-          <img src="imagens/dfm_100.jpg" alt="Cardioversor Philips DFM100">
-          <h3>Cardioversor | Philips - DFM-100</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!-- Mesa Cirurgica barrfab-->
-          <img src="imagens/mesa_cirurgica_barrfab.png" alt="Mesa Cirúrgica Barrfab">
-          <h3>Mesa Cirúrgica | Barrfab BF683 TDP</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!-- Sistema de Hipo-hipertermia-->
-          <img src="imagens/hipohipertermia.jpg" alt="Sistema de Hipo-hipertermia">
-          <h3>Sistema de Hipo-hipertermia | Hico Variotherm 550</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!-- Termohigrômetro-->
-          <img src="imagens/termohigrometro.png" alt="Termohigrômetro">
-          <h3>Termômetro Digital - Higrômetro</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!-- Aparelho de anestesia Drager-->
-          <img src="imagens/aparelho_anestesia_drager.jpg" alt="Aparelho de anestesia Drager Atlan A3xx">
-          <h3>Aparelho de Anestesia | Drager Atlan A300/350</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!-- Ventilador de transporte-->
-          <img src="imagens/ventilador_magnamed.png" alt="Ventilador de transporte Magnamed Oxymag">
-          <h3>Ventilador Pulmonar | Magnamed Oxymag</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!-- Torniquete Stryker-->
-          <img src="imagens/torniquete_stryker.png" alt="Sistema de Torniquete Stryker Smartpump">
-          <h3>Sistema de Torniquete | Stryker SmartPump</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!-- Bisturi WEM SS501SX-->
-          <img src="imagens/WEM SS501sx.png" alt="Bisturi Elétrico WEM SS 501SX">
-          <h3>Bisturi Elétrico | WEM SS-501sx</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-      </div>
+    <section id="sectors-container">
+      <!-- Os setores e equipamentos serão gerados dinamicamente -->
     </section>
-
-
-    <section class="sector-category" data-setor="uti"><!-- UTI-->
-      <h2 class="sector-header" onclick="toggleSector(this)">
-        Setor: UTI <span class="arrow">&#9654;</span>
-      </h2>
-
-      <div class="equipment-cards">
-        
-        <div class="card"><!-- Monitor Philips-->
-          <img src="imagens/monitor-philips.png" alt="Monitor Philips Efficia">
-          <h3>Monitor Multiparâmetros | Philips Efficia</h3>
-          <a href="https://forms.gle/xgdswhyromyNBCbQ7">Acessar Treinamento</a>
-        </div>
-
-        <div class="card"><!-- Ventilador TECME-->
-          <img src="imagens/ventilador_tecme.png" alt="Ventilador Pulmonar Tecme Graphnet TS+">
-          <h3>Ventilador Pulmonar | Tecme GraphNet TS+</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!-- Ventilador de transporte-->
-          <img src="imagens/ventilador_magnamed.png" alt="Ventilador de transporte Magnamed Oxymag">
-          <h3>Ventilador Pulmonar | Magnamed Oxymag</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!--ECG Alfamed-->
-          <img src="imagens/EcgAlfamed.png" alt="Eletrocardiógrafo Alfamed Ritmus1200">
-          <h3>Eletrocardiógrafo | Alfamed Ritmus1200</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!-- Cardioversor Philips-->
-          <img src="imagens/dfm_100.jpg" alt="Cardioversor Philips DFM-100">
-          <h3>Cardioversor | Philips - DFM-100</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!-- Cardioversor Instramed Cardiomax8-->
-          <img src="imagens/cardioversor_instramed_cardiomax8.png" alt="Cardioversor Instramed Cardiomax 8">
-          <h3>Cardioversor | Instramed Cardiomax 8 Series</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-         <div class="card"><!-- Cama Hospitalar ARJO-->
-          <img src="imagens/Cama_Arjo.jpg" alt="Cama Hospitalar ARJO Prioma">
-          <h3>Cama Hospitalar | Arjo Prioma 600</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!-- Termohigrômetro-->
-          <img src="imagens/termohigrometro.png" alt="Termohigrômetro">
-          <h3>Termômetro Digital - Higrômetro</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-
-      </div>
-    </section>
-
-
-    <section class="sector-category" data-setor="internacao"><!-- INTERNAÇÃO-->
-      <h2 class="sector-header" onclick="toggleSector(this)">
-        Setor: Internação <span class="arrow">&#9654;</span>
-      </h2>
-      <div class="equipment-cards">
-
-        <div class="card"><!-- Monitor Philips-->
-          <img src="imagens/monitor-philips.png" alt="Monitor Philips Efficia">
-          <h3>Monitor Multiparâmetros | Philips Efficia</h3>
-          <a href="https://forms.gle/xgdswhyromyNBCbQ7">Acessar Treinamento</a>
-        </div>
-
-
-        <div class="card"><!-- Cardioversor Philips-->
-          <img src="imagens/dfm_100.jpg" alt="Cardioversor Philips DFM-100">
-          <h3>Cardioversor | Philips - DFM-100</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!--Ventilador RESMED-->
-          <img src="imagens/ventilador_resmed.png" alt="Ventilador Resmed Astral 150">
-          <h3>Ventilador Pulmonar | Resmed - Astral 150</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!-- ECG Alfamed-->
-          <img src="imagens/EcgAlfamed.png" alt="Eletrocardiógrafo Alfamed Ritmus1200">
-          <h3>Eletrocardiógrafo | Alfamed Ritmus1200</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-         <div class="card"><!-- Cama Hospitalar ARJO-->
-          <img src="imagens/Cama_Arjo.jpg" alt="Cama Hospitalar ARJO Prioma">
-          <h3>Cama Hospitalar | Arjo Prioma 600</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!-- Termohigrômetro-->
-          <img src="imagens/termohigrometro.png" alt="Termohigrômetro">
-          <h3>Termômetro Digital - Higrômetro</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-        
-
-      </div>
-    </section>
-
-
-    <section class="sector-category" data-setor="pa"><!-- PRONTO ATENDIMENTO-->
-      <h2 class="sector-header" onclick="toggleSector(this)">
-        Setor: Pronto Atendimento <span class="arrow">&#9654;</span>
-      </h2>
-      <div class="equipment-cards">
-        <div class="card"><!-- ECG Alfamed-->
-          <img src="imagens/EcgAlfamed.png" alt="Eletrocardiógrafo Alfamed Ritmus1200">
-          <h3>Eletrocardiógrafo | Alfamed Ritmus1200</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!-- Cardioversor Instramed Cardiomax8-->
-          <img src="imagens/cardioversor_instramed_cardiomax8.png" alt="Cardioversor Instramed Cardiomax 8">
-          <h3>Cardioversor | Instramed Cardiomax 8 Series</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-         <div class="card"><!-- Desfibrilador Instramed Apolus-->
-          <img src="imagens/Desfibrilador_Instramed_Apolus.png" alt="Desfibrilador Instramed Apolus">
-          <h3>Cardioversor | Instramed Apolus</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-        
-         <div class="card"><!-- Ventilador TECME-->
-          <img src="imagens/ventilador_tecme.png" alt="Ventilador Pulmonar Tecme Graphnet TS+">
-          <h3>Ventilador Pulmonar | Tecme GraphNet TS+</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        <div class="card"><!--Ventilador RESMED-->
-          <img src="imagens/ventilador_resmed.png" alt="Ventilador Resmed Astral 150">
-          <h3>Ventilador Pulmonar | Resmed - Astral 150</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-      </div>
-    </section>
-
-    <section class="sector-category" data-setor="farmacia"><!-- FARMÁCIA-->
-      <h2 class="sector-header" onclick="toggleSector(this)">
-        Setor: Farmácia <span class="arrow">&#9654;</span>
-      </h2>
-
-      <div class="equipment-cards">
-        <div class="card"><!-- Estufa para soro Fanem-->
-          <img src="imagens/estufa-fanem.jpg" alt="Estufa para aquecimento de soro Fanem">
-          <h3>Estufa para Aquecimento de Soro | Fanem 2503/1</h3>
-          <a href="https://forms.gle/e3GST5oeCh3WVLZP9" target="_blank">Acessar Treinamento</a>
-        </div>
-
-        <div class="card"><!-- Termohigrômetro-->
-          <img src="imagens/termohigrometro.png" alt="Termohigrômetro">
-          <h3>Termômetro Digital - Higrômetro</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-        
-      </div>
-    </section>
-
-    <section class="sector-category" data-setor="imagem"><!--DIAGNÓSTICO POR IMAGEM-->
-      <h2 class="sector-header" onclick="toggleSector(this)">
-        Setor: Diagnóstico por Imagem <span class="arrow">&#9654;</span>
-      </h2>
-      <div class="equipment-cards">
-
-        <div class="card"><!-- Termohigrômetro-->
-          <img src="imagens/termohigrometro.png" alt="Termohigrômetro">
-          <h3>Termômetro Digital - Higrômetro</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-         <div class="card"><!-- Desfibrilador Instramed Apolus-->
-          <img src="imagens/Desfibrilador_Instramed_Apolus.png" alt="Desfibrilador Instramed Apolus">
-          <h3>Cardioversor | Instramed Apolus</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-        
-      </div>
-    </section>
-
-    <section class="sector-category" data-setor="infusao"><!--INFUSÃO-->
-      <h2 class="sector-header" onclick="toggleSector(this)">
-        Setor: Centro de Infusão <span class="arrow">&#9654;</span>
-      </h2>
-      <div class="equipment-cards">
-
-         <div class="card"><!-- Desfibrilador Instramed Apolus-->
-          <img src="imagens/Desfibrilador_Instramed_Apolus.png" alt="Desfibrilador Instramed Apolus">
-          <h3>Cardioversor | Instramed Apolus</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-         <div class="card"><!-- Cardioversor Philips-->
-          <img src="imagens/dfm_100.jpg" alt="Cardioversor Philips DFM100">
-          <h3>Cardioversor | Philips - DFM-100</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-
-        
-      </div>
-    </section>
-
-    <section class="sector-category" data-setor="cme"><!-- CME-->
-      <h2 class="sector-header" onclick="toggleSector(this)">
-        Setor: CME <span class="arrow">&#9654;</span>
-      </h2>
-
-      <div class="equipment-cards">
-      </div>
-    </section>
-
-    <section class="sector-category" data-setor="ambulatorio"><!-- AMBULATÓRIO-->
-      <h2 class="sector-header" onclick="toggleSector(this)">
-        Setor: Ambulatório <span class="arrow">&#9654;</span>
-      </h2>
-      <div class="equipment-cards">
-        <div class="card"><!-- ECG Alfamed-->
-          <img src="imagens/EcgAlfamed.png" alt="Eletrocardiógrafo Alfamed Ritmus1200">
-          <h3>Eletrocardiógrafo | Alfamed Ritmus1200</h3>
-          <a class="disabled" href="#" onclick="return false;">Disponível em breve</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="sector-category" data-setor="centro-medico"><!--CENTRO MÉDICO-->
-      <h2 class="sector-header" onclick="toggleSector(this)">
-        Setor: Centro Médico <span class="arrow">&#9654;</span>
-      </h2>
-      <div class="equipment-cards">
-      </div>
-    </section>
-
-    <section class="sector-category" data-setor="feridas"><!--AMBULATÓRIO DE FERIDAS-->
-      <h2 class="sector-header" onclick="toggleSector(this)">
-        Setor: Ambulatório de Feridas <span class="arrow">&#9654;</span>
-      </h2>
-      <div class="equipment-cards">
-      </div>
-    </section>
-
 
     <section id="filtered-results" class="filter-section" style="display: none;">
-      <h2 class="sector-header">
-        Resultados da Busca
-      </h2>
+      <h2 class="sector-header">Resultados da Busca</h2>
       <div class="equipment-cards filtered-cards"></div>
     </section>
 
-    
-
     <div id="filters">
       <div class="button-group">
-        <!--  <button id="showAllSectorsBtn" class="common-button">
-          Ver Todos os Setores
-        </button>-->
         <a href="https://equipacare-edu.com.br/" class="common-button equipacare-edu-button" target="_blank">
           EquipacareEdu
         </a>
       </div>
     </div>
-
   </main>
+
   <footer>
     <p>&copy; 2025 Equipacare. Todos os direitos reservados.</p>
   </footer>
 
-  <script src="script.js" defer>
-    
+  <script>
+    const equipmentData = {
+      "centro-cirurgico": [
+        "monitorPhilips", "aspiradorFanem", "cardioversorPhilips", "mesaBarrfab", "hipoHipertermia",
+        "termohigrometro", "anestesiaDrager", "ventiladorMagnamed", "torniqueteStryker", "bisturiWem"
+      ],
+      "uti": [
+        "monitorPhilips", "ventiladorTecme", "ventiladorMagnamed", "ecgAlfamed", 
+        "cardioversorPhilips", "cardioversorInstramed8", "camaArjo", "termohigrometro"
+      ],
+      "internacao": [
+        "monitorPhilips", "cardioversorPhilips", "ventiladorResmed", "ecgAlfamed", "camaArjo", "termohigrometro"
+      ],
+      "pa": [
+        "ecgAlfamed", "cardioversorInstramed8", "cardioversorApolus", "ventiladorTecme", "ventiladorResmed"
+      ],
+      "farmacia": [
+        "estufaFanem", "termohigrometro"
+      ],
+      "imagem": [
+        "termohigrometro", "cardioversorApolus"
+      ],
+      "infusao": [
+        "cardioversorApolus", "cardioversorPhilips"
+      ],
+      "ambulatorio": [
+        "ecgAlfamed"
+      ]
+    };
+
+    const equipmentTemplates = {
+      monitorPhilips: {
+        img: "imagens/monitor-philips.png",
+        alt: "Monitor Philips Efficia",
+        title: "Monitor Multiparâmetros | Philips Efficia",
+        link: "https://forms.gle/xgdswhyromyNBCbQ7"
+      },
+      aspiradorFanem: {
+        img: "imagens/aspirador-fanem.png",
+        alt: "Aspirador Fanem Colibri",
+        title: "Aspirador Elétrico | Fanem DPM-60",
+        link: "https://forms.gle/K1vzW2ruwrX4ygSw6"
+      },
+      cardioversorPhilips: {
+        img: "imagens/dfm_100.jpg",
+        alt: "Cardioversor Philips DFM-100",
+        title: "Cardioversor | Philips - DFM-100",
+        link: null
+      },
+      mesaBarrfab: {
+        img: "imagens/mesa_cirurgica_barrfab.png",
+        alt: "Mesa Cirúrgica Barrfab",
+        title: "Mesa Cirúrgica | Barrfab BF683 TDP",
+        link: null
+      },
+      hipoHipertermia: {
+        img: "imagens/hipohipertermia.jpg",
+        alt: "Sistema de Hipo-hipertermia",
+        title: "Sistema de Hipo-hipertermia | Hico Variotherm 550",
+        link: null
+      },
+      termohigrometro: {
+        img: "imagens/termohigrometro.png",
+        alt: "Termohigrômetro",
+        title: "Termômetro Digital - Higrômetro",
+        link: null
+      },
+      anestesiaDrager: {
+        img: "imagens/aparelho_anestesia_drager.jpg",
+        alt: "Aparelho de anestesia Drager Atlan A3xx",
+        title: "Aparelho de Anestesia | Drager Atlan A300/350",
+        link: null
+      },
+      ventiladorMagnamed: {
+        img: "imagens/ventilador_magnamed.png",
+        alt: "Ventilador de transporte Magnamed Oxymag",
+        title: "Ventilador Pulmonar | Magnamed Oxymag",
+        link: null
+      },
+      torniqueteStryker: {
+        img: "imagens/torniquete_stryker.png",
+        alt: "Sistema de Torniquete Stryker Smartpump",
+        title: "Sistema de Torniquete | Stryker SmartPump",
+        link: null
+      },
+      bisturiWem: {
+        img: "imagens/WEM SS501sx.png",
+        alt: "Bisturi Elétrico WEM SS 501SX",
+        title: "Bisturi Elétrico | WEM SS-501sx",
+        link: null
+      },
+      ventiladorTecme: {
+        img: "imagens/ventilador_tecme.png",
+        alt: "Ventilador Pulmonar Tecme Graphnet TS+",
+        title: "Ventilador Pulmonar | Tecme GraphNet TS+",
+        link: null
+      },
+      ecgAlfamed: {
+        img: "imagens/EcgAlfamed.png",
+        alt: "Eletrocardiógrafo Alfamed Ritmus1200",
+        title: "Eletrocardiógrafo | Alfamed Ritmus1200",
+        link: null
+      },
+      cardioversorInstramed8: {
+        img: "imagens/cardioversor_instramed_cardiomax8.png",
+        alt: "Cardioversor Instramed Cardiomax 8",
+        title: "Cardioversor | Instramed Cardiomax 8 Series",
+        link: null
+      },
+      camaArjo: {
+        img: "imagens/Cama_Arjo.jpg",
+        alt: "Cama Hospitalar ARJO Prioma",
+        title: "Cama Hospitalar | Arjo Prioma 600",
+        link: null
+      },
+      estufaFanem: {
+        img: "imagens/estufa-fanem.jpg",
+        alt: "Estufa para aquecimento de soro Fanem",
+        title: "Estufa para Aquecimento de Soro | Fanem 2503/1",
+        link: "https://forms.gle/e3GST5oeCh3WVLZP9"
+      },
+      cardioversorApolus: {
+        img: "imagens/Desfibrilador_Instramed_Apolus.png",
+        alt: "Desfibrilador Instramed Apolus",
+        title: "Cardioversor | Instramed Apolus",
+        link: null
+      },
+      ventiladorResmed: {
+        img: "imagens/ventilador_resmed.png",
+        alt: "Ventilador Resmed Astral 150",
+        title: "Ventilador Pulmonar | Resmed - Astral 150",
+        link: null
+      }
+    };
+
+    const sectorNames = {
+      "centro-cirurgico": "Centro Cirúrgico",
+      "uti": "UTI",
+      "internacao": "Internação",
+      "pa": "Pronto Atendimento",
+      "farmacia": "Farmácia",
+      "imagem": "Diagnóstico por Imagem",
+      "infusao": "Centro de Infusão",
+      "ambulatorio": "Ambulatório"
+    };
+
+    const sectorsContainer = document.getElementById("sectors-container");
+
+    for (const [sectorKey, items] of Object.entries(equipmentData)) {
+      const section = document.createElement("section");
+      section.className = "sector-category";
+      section.dataset.setor = sectorKey;
+
+      const h2 = document.createElement("h2");
+      h2.className = "sector-header";
+      h2.onclick = () => toggleSector(h2);
+      h2.innerHTML = `Setor: ${sectorNames[sectorKey]} <span class="arrow">&#9654;</span>`;
+      section.appendChild(h2);
+
+      const cardsContainer = document.createElement("div");
+      cardsContainer.className = "equipment-cards";
+
+      items.forEach(item => {
+        const equip = equipmentTemplates[item];
+        if (equip) {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <img src="${equip.img}" alt="${equip.alt}">
+            <h3>${equip.title}</h3>
+            ${equip.link 
+              ? `<a href="${equip.link}" target="_blank">Acessar Treinamento</a>`
+              : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`}
+          `;
+          cardsContainer.appendChild(card);
+        }
+      });
+
+      section.appendChild(cardsContainer);
+      sectorsContainer.appendChild(section);
+    }
   </script>
+  <script src="script.js" defer></script>
 </body>
 </html>
