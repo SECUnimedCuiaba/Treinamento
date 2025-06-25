@@ -12,16 +12,12 @@
       el.classList.add('open');
     });
 
-
     document.addEventListener("DOMContentLoaded", function () {
+     
       // 1. Primeiro inicializa todos os setores como abertos
       document.querySelectorAll('.sector-category').forEach(section => {
         const header = section.querySelector('.sector-header');
         const cards = section.querySelector('.equipment-cards');
-
-        // Remove todas as classes que possam estar interferindo
-       // header.classList.remove('collapsed', 'open');
-        //cards.classList.remove('collapsed', 'open');
 
         // Adiciona as classes corretas
         header.classList.add('open');
@@ -47,14 +43,6 @@
           }
         });
       }
-
-      /* Código do botão "Ver Todos os Setores"
-      const showAllBtn = document.getElementById("showAllSectorsBtn");
-      if (showAllBtn) {
-        showAllBtn.addEventListener("click", () => {
-          window.location.href = window.location.pathname;
-        });
-      }*/
 
       // Código do buscador de equipamentos
       const searchInput = document.getElementById('equipmentSearchInput');
