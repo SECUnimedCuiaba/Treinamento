@@ -307,6 +307,9 @@ const equipmentData = {
       "ambulatorio": [
         "ecgAlfamed"
       ]
+      "cme": [
+        "autoclaveBaumer"
+      ]
     };
 
     const equipmentTemplates = {
@@ -412,6 +415,12 @@ const equipmentData = {
         title: "Ventilador Pulmonar | Resmed - Astral 150",
         link: null
       }
+      autoclaveBaumer: {
+        img: "imagens/autoclave_baumer.jpg",
+        alt: "Autoclave Baumer",
+        title: "Autoclave | Baumer HI VAC II 542L",
+        link: null
+      },
     };
 
     const sectorNames = {
@@ -423,6 +432,7 @@ const equipmentData = {
       "imagem": "Diagnóstico por Imagem",
       "infusao": "Centro de Infusão",
       "ambulatorio": "Ambulatório"
+      "cme": "CME"
     };
 
     const sectorsContainer = document.getElementById("sectors-container");
