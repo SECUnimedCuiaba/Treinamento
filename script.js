@@ -416,7 +416,7 @@ const equipmentData = {
         link: null
       },
       autoclaveBaumer: {
-        img: "imagens/autoclave_baumer.jpg",
+        img: "imagens/autoclave_baumer.jpeg",
         alt: "Autoclave Baumer",
         title: "Autoclave | Baumer - HI VAC  II 542L",
         link: null
