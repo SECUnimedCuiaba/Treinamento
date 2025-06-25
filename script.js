@@ -431,7 +431,7 @@ const equipmentData = {
       "farmacia": "Farmácia",
       "imagem": "Diagnóstico por Imagem",
       "infusao": "Centro de Infusão",
-      "ambulatorio": "Ambulatório"
+      "ambulatorio": "Ambulatório",
       "cme": "CME"
     };
 
