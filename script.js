@@ -414,13 +414,14 @@ const equipmentData = {
         alt: "Ventilador Resmed Astral 150",
         title: "Ventilador Pulmonar | Resmed - Astral 150",
         link: null
-      }
-      autoclaveBaumer: {
+      },
+       autoclaveBaumer: {
         img: "imagens/autoclave_baumer.jpg",
         alt: "Autoclave Baumer",
         title: "Autoclave | Baumer HI VAC II 542L",
         link: null
       },
+    
     };
 
     const sectorNames = {
