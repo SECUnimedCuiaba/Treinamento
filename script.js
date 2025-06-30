@@ -296,7 +296,7 @@ const equipmentData = {
         "ecgAlfamed"
       ],
       "cme": [
-        "autoclaveBaumer","termodesinfectoraBaumer"," lavadoraUltrassonicaBaumer","esterilizadorPeroxidoBaumer",
+        "autoclaveBaumer","termodesinfectoraBaumer","lavadoraUltrassonicaBaumer","esterilizadorPeroxidoBaumer",
         "secadoraBaumer"
       ]
     };
