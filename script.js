@@ -296,7 +296,8 @@ const equipmentData = {
         "ecgAlfamed"
       ],
       "cme": [
-        "autoclaveBaumer"
+        "autoclaveBaumer","termodesinfectoraBaumer"," lavadoraUltrassonicaBaumer","esterilizadorPeroxidoBaumer",
+        "secadoraBaumer"
       ]
     };
 
@@ -407,6 +408,33 @@ const equipmentData = {
         img: "imagens/autoclave_baumer.jpeg",
         alt: "Autoclave Baumer",
         title: "Autoclave | Baumer - HI VAC  II 542L",
+        link: null
+      },
+
+     termodesinfectoraBaumer: {
+        img: "imagens/termodesinfectora_baumer.jpeg",
+        alt: "Lavadora Termodesinfectora Baumer",
+        title: "Lavadora Termodesinfectora | Baumer - TW-E2000-400P",
+        link: null
+      },
+
+     lavadoraUltrassonicaBaumer: {
+        img: "imagens/lavadora_ultrassonica_baumer.jpeg",
+        alt: "Lavadora Ultrassônica Baumer",
+        title: "Lavadora Ultrassonica | Baumer E0201-042",
+        link: null
+      },
+
+     esterilizadorPeroxidoBaumer: {
+        img: "imagens/esterilizador_peroxido_baumer.png",
+        alt: "Esterilizador por Peróxido de Hidrogênio Baumer",
+        title: "Esterilizador por Peróxido de Hidrogênio | Baumer B0201-105-V02",
+        link: null
+      },
+      secadoraBaumer: {
+        img: "imagens/secadora_baumer.jpeg",
+        alt: "Gabinete de Secagem Baumer",
+        title: "Secadora | Baumer EA-34-03",
         link: null
       },
      };
