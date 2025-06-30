@@ -284,7 +284,7 @@ const equipmentData = {
         "ecgAlfamed", "cardioversorInstramed8", "cardioversorApolus", "ventiladorTecme", "ventiladorResmed"
       ],
       "farmacia": [
-        "estufaFanem", "termohigrometro"
+        "estufaFanem", "termohigrometro", "camaraFanem","camaraIndrel","camaraBiotecno"
       ],
       "imagem": [
         "termohigrometro", "cardioversorApolus"
@@ -435,6 +435,27 @@ const equipmentData = {
         img: "imagens/secadora_baumer.jpeg",
         alt: "Gabinete de Secagem Baumer",
         title: "Secadora | Baumer EA-34-03",
+        link: null
+      },
+
+      camaraFanem: {
+        img: "imagens/camara_fanem_3347.jpeg",
+        alt: "Câmara de Conservação Fanem 3347/1",
+        title: "Câmara de Conservação | Fanem 3347/1",
+        link: null
+      },
+
+      camaraIndrel: {
+        img: "imagens/camara_indrel_220.jpeg",
+        alt: "Câmara de Conservação Indrel RC220",
+        title: "Câmara de Conservação | Indrel - RC220",
+        link: null
+      },
+
+      camaraBiotecno: {
+        img: "imagens/camara_biotecno_1100.jpeg",
+        alt: "Câmara de Conservação Biotecno BT1100",
+        title: "Câmara de Conservação | Biotecno - BT1100",
         link: null
       },
      };
