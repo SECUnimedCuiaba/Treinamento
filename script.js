@@ -274,11 +274,11 @@ const equipmentData = {
         "termohigrometro", "anestesiaDrager", "ventiladorMagnamed", "torniqueteStryker", "bisturiWem"
       ],
       "uti": [
-        "monitorPhilips", "ventiladorTecme", "ventiladorMagnamed", "ecgAlfamed", 
+        "monitorPhilips", "ecgAlfamed",  "ventiladorTecme", "ventiladorMagnamed",
         "cardioversorPhilips", "cardioversorInstramed8", "camaArjo", "termohigrometro"
       ],
       "internacao": [
-        "monitorPhilips", "cardioversorPhilips", "ventiladorResmed", "ecgAlfamed", "camaArjo", "termohigrometro","camaraFanem"
+        "monitorPhilips", "ecgAlfamed", "cardioversorPhilips", "ventiladorResmed",  "camaArjo", "termohigrometro","camaraFanem"
       ],
       "pa": [
         "ecgAlfamed", "cardioversorInstramed8", "cardioversorApolus", "ventiladorTecme", "ventiladorResmed"
@@ -372,7 +372,7 @@ const equipmentData = {
         img: "imagens/EcgAlfamed.png",
         alt: "Eletrocardiógrafo Alfamed Ritmus1200",
         title: "Eletrocardiógrafo | Alfamed Ritmus1200",
-        link: null
+        link: "https://forms.gle/mwoUfSL1SEW59zgJ7"
       },
       cardioversorInstramed8: {
         img: "imagens/cardioversor_instramed_cardiomax8.png",
