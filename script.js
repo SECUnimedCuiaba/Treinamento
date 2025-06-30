@@ -278,7 +278,7 @@ const equipmentData = {
         "cardioversorPhilips", "cardioversorInstramed8", "camaArjo", "termohigrometro"
       ],
       "internacao": [
-        "monitorPhilips", "cardioversorPhilips", "ventiladorResmed", "ecgAlfamed", "camaArjo", "termohigrometro"
+        "monitorPhilips", "cardioversorPhilips", "ventiladorResmed", "ecgAlfamed", "camaArjo", "termohigrometro","camaraFanem"
       ],
       "pa": [
         "ecgAlfamed", "cardioversorInstramed8", "cardioversorApolus", "ventiladorTecme", "ventiladorResmed"
