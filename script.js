@@ -305,7 +305,7 @@ const equipmentData = {
       monitorPhilips: {
         img: "imagens/monitor-philips.png",
         alt: "Monitor Philips Efficia",
-        title: "Monitor Multiparâmetros | Philips Efficia",
+        title: "Monitor Multiparâmetros | Philips Efficia CM1xx",
         link: "https://forms.gle/xgdswhyromyNBCbQ7"
       },
       aspiradorFanem: {
@@ -317,7 +317,7 @@ const equipmentData = {
       cardioversorPhilips: {
         img: "imagens/dfm_100.jpg",
         alt: "Cardioversor Philips DFM-100",
-        title: "Cardioversor | Philips - DFM-100",
+        title: "Cardioversor | Philips - DFM100",
         link: "https://forms.gle/ZzQR1BPdxYgvcUft5"
       },
       mesaBarrfab: {
