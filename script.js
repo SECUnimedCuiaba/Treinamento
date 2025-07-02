@@ -270,18 +270,18 @@ function clearSearch() {
 
 const equipmentData = {
       "centro-cirurgico": [
-        "monitorPhilips", "aspiradorFanem", "cardioversorPhilips", "mesaBarrfab", "hipoHipertermia",
+        "monitorPhilips", "cardioversorPhilips", "aspiradorFanem", "mesaBarrfab", "hipoHipertermia",
         "termohigrometro", "anestesiaDrager", "ventiladorMagnamed", "torniqueteStryker", "bisturiWem"
       ],
       "uti": [
-        "monitorPhilips", "ecgAlfamed",  "ventiladorTecme", "ventiladorMagnamed",
-        "cardioversorPhilips", "cardioversorInstramed8", "camaArjo", "termohigrometro"
+        "cardioversorPhilips", "monitorPhilips", "ecgAlfamed",  "ventiladorTecme", "ventiladorMagnamed",
+         "cardioversorInstramed8", "camaArjo", "termohigrometro"
       ],
       "internacao": [
-        "monitorPhilips", "ecgAlfamed", "cardioversorPhilips", "ventiladorResmed",  "camaArjo", "termohigrometro","camaraFanem"
+       "cardioversorPhilips", "monitorPhilips", "ecgAlfamed",  "ventiladorResmed",  "camaArjo", "termohigrometro","camaraFanem"
       ],
       "pa": [
-        "ecgAlfamed", "cardioversorInstramed8", "cardioversorApolus", "ventiladorTecme", "ventiladorResmed"
+        "ecgAlfamed", "cardioversorPhilips", "cardioversorInstramed8", "cardioversorApolus", "ventiladorTecme", "ventiladorResmed"
       ],
       "farmacia": [
         "estufaFanem", "termohigrometro", "camaraFanem","camaraIndrel","camaraBiotecno"
@@ -290,7 +290,7 @@ const equipmentData = {
         "termohigrometro", "cardioversorApolus"
       ],
       "infusao": [
-        "cardioversorApolus", "cardioversorPhilips"
+        "cardioversorPhilips", "cardioversorApolus" 
       ],
       "ambulatorio": [
         "ecgAlfamed"
@@ -318,7 +318,7 @@ const equipmentData = {
         img: "imagens/dfm_100.jpg",
         alt: "Cardioversor Philips DFM-100",
         title: "Cardioversor | Philips - DFM-100",
-        link: null
+        link: "https://forms.gle/ZzQR1BPdxYgvcUft5"
       },
       mesaBarrfab: {
         img: "imagens/mesa_cirurgica_barrfab.png",
