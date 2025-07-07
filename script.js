@@ -311,7 +311,7 @@ const equipmentData = {
       aspiradorFanem: {
         img: "imagens/aspirador-fanem.png",
         alt: "Aspirador Fanem Colibri",
-        title: "Aspirador Elétrico | Fanem DPM-60 - 10min",
+        title: "Aspirador Elétrico | Fanem DPM-60 | duração: 10min",
         link: "https://forms.gle/K1vzW2ruwrX4ygSw6"
       },
       cardioversorPhilips: {
