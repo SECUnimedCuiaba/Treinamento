@@ -305,19 +305,19 @@ const equipmentData = {
       monitorPhilips: {
         img: "imagens/monitor-philips.png",
         alt: "Monitor Philips Efficia",
-        title: "Monitor Multiparâmetros | Philips Efficia CM1xx",
+        title: "Monitor Multiparâmetros | Philips Efficia CM1xx - 13min",
         link: "https://forms.gle/xgdswhyromyNBCbQ7"
       },
       aspiradorFanem: {
         img: "imagens/aspirador-fanem.png",
         alt: "Aspirador Fanem Colibri",
-        title: "Aspirador Elétrico | Fanem DPM-60",
+        title: "Aspirador Elétrico | Fanem DPM-60 - 10min",
         link: "https://forms.gle/K1vzW2ruwrX4ygSw6"
       },
       cardioversorPhilips: {
         img: "imagens/dfm_100.jpg",
         alt: "Cardioversor Philips DFM-100",
-        title: "Cardioversor | Philips - DFM100",
+        title: "Cardioversor | Philips - DFM100 - 25min",
         link: "https://forms.gle/ZzQR1BPdxYgvcUft5"
       },
       mesaBarrfab: {
@@ -371,7 +371,7 @@ const equipmentData = {
       ecgAlfamed: {
         img: "imagens/EcgAlfamed.png",
         alt: "Eletrocardiógrafo Alfamed Ritmus1200",
-        title: "Eletrocardiógrafo | Alfamed Ritmus1200",
+        title: "Eletrocardiógrafo | Alfamed Ritmus1200 - 13min",
         link: "https://forms.gle/mwoUfSL1SEW59zgJ7"
       },
       cardioversorInstramed8: {
@@ -389,7 +389,7 @@ const equipmentData = {
       estufaFanem: {
         img: "imagens/estufa-fanem.jpg",
         alt: "Estufa para aquecimento de soro Fanem",
-        title: "Estufa para Aquecimento de Soro | Fanem 2503/1",
+        title: "Estufa para Aquecimento de Soro | Fanem 2503/1 - 5min",
         link: "https://forms.gle/e3GST5oeCh3WVLZP9"
       },
       cardioversorApolus: {
