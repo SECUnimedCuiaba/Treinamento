@@ -9,7 +9,7 @@
 
     // Iniciar todos abertos
     document.querySelectorAll('.equipment-cards').forEach(el => {
-      el.classList.add('collapsed');
+      el.classList.add('open');
     });
 
     document.addEventListener("DOMContentLoaded", function () {
