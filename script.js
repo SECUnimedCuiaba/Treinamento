@@ -20,7 +20,7 @@
         const cards = section.querySelector('.equipment-cards');
 
         // Adiciona as classes corretas
-        header.classList.add('open');
+        header.classList.add('collapsed');
         cards.style.display = 'grid'; // Força o display grid
       });
 
@@ -185,8 +185,6 @@
           // Se não houver parâmetro, mostra todos os setores
           document.querySelectorAll(".sector-category").forEach(section => {
             section.style.display = "block";
-            header.classList.toggle('collapsed');
-
           });
         }
 
