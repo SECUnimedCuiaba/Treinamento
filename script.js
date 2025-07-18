@@ -466,7 +466,7 @@ const equipmentData = {
         link: null
       },
       bombaDeInfusaoLifemed: {
-        img: "imagens/bombaDeInfusao_lifemed.jpg",
+        img: "imagens/bombaDeInfusao_Lifemed.png",
         alt: "Bomba de Infusão Lifemed LF2001",
         title: "Bomba de Infusão | Lifemed LF2001",
         link: null
