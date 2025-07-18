@@ -185,6 +185,8 @@
           // Se não houver parâmetro, mostra todos os setores
           document.querySelectorAll(".sector-category").forEach(section => {
             section.style.display = "block";
+            header.classList.toggle('collapsed');
+
           });
         }
 
