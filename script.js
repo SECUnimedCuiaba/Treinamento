@@ -281,7 +281,7 @@ const equipmentData = {
        "cardioversorPhilips", "monitorPhilips", "ecgAlfamed",  "ventiladorResmed",  "camaArjo", "termohigrometro","camaraFanem"
       ],
       "pa": [
-        "ecgAlfamed", "cardioversorPhilips", "cardioversorInstramed8", "cardioversorApolus", monitorDragerVista120S, "ventiladorTecme", "ventiladorResmed"
+        "ecgAlfamed", "cardioversorPhilips", "cardioversorInstramed8", "cardioversorApolus","ventiladorTecme", "ventiladorResmed"
       ],
       "farmacia": [
         "estufaFanem", "termohigrometro", "camaraFanem","camaraIndrel","camaraBiotecno"
