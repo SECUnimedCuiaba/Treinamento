@@ -459,7 +459,7 @@ const equipmentData = {
         link: null
       },
       monitorDragerVista120S: {
-        img: "imagens/monitor_drager_vista120S.jpg",
+        img: "imagens/monitor_drager_vista120S_.jpg",
         alt: "Monitor Multiparâmetros Drager Vista 120S",
         title: "Monitor Multiparâmetros | Drager Vista 120S",
         link: null
