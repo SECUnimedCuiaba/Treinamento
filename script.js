@@ -20,7 +20,7 @@
         const cards = section.querySelector('.equipment-cards');
 
         // Adiciona as classes corretas
-        header.classList.add('collapsed');
+        header.classList.add('open');
         cards.style.display = 'grid'; // Força o display grid
       });
 
