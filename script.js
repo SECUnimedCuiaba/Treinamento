@@ -281,7 +281,7 @@ const equipmentData = {
        "cardioversorPhilips", "monitorPhilips", "ecgAlfamed",  "ventiladorResmed",  "camaArjo", "termohigrometro","camaraFanem"
       ],
       "pa": [
-        "ecgAlfamed", "cardioversorPhilips", "cardioversorInstramed8", "cardioversorApolus", "ventiladorTecme", "ventiladorResmed"
+        "ecgAlfamed", "cardioversorPhilips", "cardioversorInstramed8", "cardioversorApolus", monitorDragerVista120S, "ventiladorTecme", "ventiladorResmed"
       ],
       "farmacia": [
         "estufaFanem", "termohigrometro", "camaraFanem","camaraIndrel","camaraBiotecno"
@@ -456,6 +456,12 @@ const equipmentData = {
         img: "imagens/camara_biotecno_1100.jpeg",
         alt: "Câmara de Conservação Biotecno BT1100",
         title: "Câmara de Conservação | Biotecno - BT1100",
+        link: null
+      },
+      monitorDragerVista120S: {
+        img: "imagens/monitor_drager_vista120S.jpg",
+        alt: "Monitor Multiparâmetros Drager Vista 120S",
+        title: "Monitor Multiparâmetros | Drager Vista 120S",
         link: null
       },
      };
