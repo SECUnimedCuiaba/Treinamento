@@ -271,17 +271,18 @@ function clearSearch() {
 const equipmentData = {
       "centro-cirurgico": [
         "monitorPhilips", "cardioversorPhilips", "aspiradorFanem", "mesaBarrfab", "hipoHipertermia",
-        "termohigrometro", "anestesiaDrager", "ventiladorMagnamed", "torniqueteStryker", "bisturiWem"
+        "termohigrometro", "anestesiaDrager", "ventiladorMagnamed", "torniqueteStryker", "bisturiWem", "bombaDeInfusaoLifemed"
       ],
       "uti": [
         "cardioversorPhilips", "monitorPhilips", "ecgAlfamed",  "ventiladorTecme", "ventiladorMagnamed",
-         "cardioversorInstramed8", "camaArjo", "termohigrometro"
+         "cardioversorInstramed8", "camaArjo", "termohigrometro", "bombaDeInfusaoLifemed"
       ],
       "internacao": [
-       "cardioversorPhilips", "monitorPhilips", "ecgAlfamed",  "ventiladorResmed",  "camaArjo", "termohigrometro","camaraFanem"
+       "cardioversorPhilips", "monitorPhilips", "ecgAlfamed",  "ventiladorResmed",  "camaArjo", "termohigrometro","camaraFanem", "bombaDeInfusaoLifemed"
       ],
       "pa": [
-        "ecgAlfamed", "cardioversorPhilips", "cardioversorInstramed8", "monitorDragerVista120S", "cardioversorApolus","ventiladorTecme", "ventiladorResmed"
+        "ecgAlfamed", "cardioversorPhilips", "cardioversorInstramed8", "monitorDragerVista120S", "cardioversorApolus","ventiladorTecme", "ventiladorResmed",
+       "bombaDeInfusaoLifemed"
       ],
       "farmacia": [
         "estufaFanem", "termohigrometro", "camaraFanem","camaraIndrel","camaraBiotecno"
@@ -290,7 +291,7 @@ const equipmentData = {
         "termohigrometro", "cardioversorApolus"
       ],
       "infusao": [
-        "cardioversorPhilips", "cardioversorApolus" 
+        "cardioversorPhilips", "cardioversorApolus", "bombaDeInfusaoLifemed"
       ],
       "ambulatorio": [
         "ecgAlfamed"
@@ -462,6 +463,12 @@ const equipmentData = {
         img: "imagens/monitor_drager_vista120S_.jpg",
         alt: "Monitor Multiparâmetros Drager Vista 120S",
         title: "Monitor Multiparâmetros | Drager Vista 120S",
+        link: null
+      },
+      bombaDeInfusaoLifemed: {
+        img: "imagens/bombaDeInfusao_lifemed.jpg",
+        alt: "Bomba de Infusão Lifemed LF2001",
+        title: "Bomba de Infusão | Lifemed LF2001",
         link: null
       },
      };
