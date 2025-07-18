@@ -282,7 +282,7 @@ const equipmentData = {
       ],
       "pa": [
         "ecgAlfamed", "cardioversorPhilips", "cardioversorInstramed8", "monitorDragerVista120S", "cardioversorApolus","ventiladorTecme", "ventiladorResmed",
-       "bombaDeInfusaoLifemed"
+       "bombaDeInfusaoLifemed", "monitorInstramedInmax12"
       ],
       "farmacia": [
         "estufaFanem", "termohigrometro", "camaraFanem","camaraIndrel","camaraBiotecno"
@@ -469,6 +469,12 @@ const equipmentData = {
         img: "imagens/bombaDeInfusao_Lifemed.png",
         alt: "Bomba de Infusão Lifemed LF2001",
         title: "Bomba de Infusão | Lifemed LF2001",
+        link: null
+      },
+     monitorInstramedInmax12: {
+        img: "imagens/monitor_instramed_inMax12.jpg",
+        alt: "Monitor Multiparâmetros Instramed InMax12",
+        title: "Monitor Multiparâmetros | Instramed InMax12",
         link: null
       },
      };
