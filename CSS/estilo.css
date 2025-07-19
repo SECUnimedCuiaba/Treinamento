@@ -337,8 +337,11 @@ a.disabled {
 }
 
 
-@media (max-width: 768px) {
+
+@media (max-width: 900px) {
   .header {
+     flex-wrap: wrap;
+    row-gap: 10px; 
     height: auto;
     min-height: 120px; /* Altura mínima para evitar esmagamento */
     padding: 10px 10px;
@@ -367,19 +370,21 @@ a.disabled {
   .logo, .logo_cba {
     position: relative;
     top: auto;
-    width: 200px;
-    height: 90px;
-    margin: 0 35px;
+    margin: 0 15px;
   }
 
   .logo {
     order: 1; /* Logo esquerdo primeiro */
     left: auto;
+     width: 240px;
+    height: 90px;
   }
 
   .logo_cba {
     order: 3; /* Logo direito por último */
     right: auto;
+    width: 200px;
+    height: 90px;
   }
 
   /* Ajuste para telas muito pequenas */
