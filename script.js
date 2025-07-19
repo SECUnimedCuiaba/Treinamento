@@ -605,7 +605,7 @@ const createSection = (sectorKey, items) => {
   
   // Texto diferente para o treinamento do mês
   const sectionTitle = sectorKey === "treinamento-mes" 
-    ? `⭐ ${sectorNames[sectorKey]} ⭐` 
+    ? `⭐ ${sectorNames[sectorKey]}` 
     : `Setor: ${sectorNames[sectorKey]}`;
     
   h2.innerHTML = `${sectionTitle} <span class="arrow">&#9654;</span>`;
