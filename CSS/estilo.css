@@ -336,8 +336,6 @@ a.disabled {
   }
 }
 
-
-
 @media (max-width: 900px) {
   .header {
      flex-wrap: wrap;
@@ -386,5 +384,40 @@ a.disabled {
     width: 200px;
     height: 90px;
   }
- 
+
+
+  
+@media (max-width: 600px) {
+  .title-container h1 {
+    font-size: 28px; /* Reduz o tamanho para celulares */
+  }
+
+  .logo {
+    width: 180px;
+    height: 70px;
+  }
+
+  .logo_cba {
+    width: 150px;
+    height: 70px;
+  }
+}
+
+/* Ajuste extra para celulares muito pequenos */
+@media (max-width: 480px) {
+  .title-container h1 {
+    font-size: 24px;
+  }
+
+  .logo {
+    width: 140px;
+    height: 60px;
+  }
+
+  .logo_cba {
+    width: 120px;
+    height: 60px;
+  }
+}
+
 }
