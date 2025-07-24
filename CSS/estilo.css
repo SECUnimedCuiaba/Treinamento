@@ -478,7 +478,15 @@ a.disabled {
  
 .featured-month .sector-header {
   color: #d4a017;
-  font-size: 1.6em;
+  font-size: 1.4em;
+}
+
+
+.featured-title .star {
+  animation: pulse-star 1.8s infinite;
+  font-size: 0.8em;
+  margin-bottom: 10px;
+  text-shadow: 0 0 4px #ffd54f;
 }
 
 
