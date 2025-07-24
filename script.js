@@ -27,73 +27,82 @@ document.addEventListener("DOMContentLoaded", function () {
   const params = new URLSearchParams(window.location.search);
   const setorParam = params.get("setor");
 
-if (setorParam) {
-  // Reordena os setores
-  const sectorsContainer = document.getElementById("sectors-container");
-  const allSections = Array.from(document.querySelectorAll(".sector-category"));
-  
-  // Encontra o setor selecionado e o treinamento do mês
-  const selectedSection = allSections.find(s => s.getAttribute("data-setor") === setorParam);
-  const trainingSection = allSections.find(s => s.getAttribute("data-setor") === "treinamento-mes");
-  
-  // Remove todas as seções do container
-  allSections.forEach(section => section.remove());
-  
-  // Adiciona primeiro o treinamento do mês (se existir e não for o setor selecionado)
-  if (trainingSection && setorParam !== "treinamento-mes") {
-    sectorsContainer.appendChild(trainingSection);
-    
-    // Filtra os equipamentos do treinamento do mês conforme necessário
-    const setorEquipments = equipmentData[setorParam] || [];
-    const monthlyEquipments = equipmentData["treinamento-mes"];
-    const filteredEquipments = monthlyEquipments.filter((equip) =>
-      setorEquipments.includes(equip)
+  if (setorParam) {
+    // Reordena os setores
+    const sectorsContainer = document.getElementById("sectors-container");
+    const allSections = Array.from(
+      document.querySelectorAll(".sector-category")
     );
 
-    if (filteredEquipments.length > 0) {
-      const cardsContainer = trainingSection.querySelector(".equipment-cards");
-      cardsContainer.innerHTML = "";
+    // Encontra o setor selecionado e o treinamento do mês
+    const selectedSection = allSections.find(
+      (s) => s.getAttribute("data-setor") === setorParam
+    );
+    const trainingSection = allSections.find(
+      (s) => s.getAttribute("data-setor") === "treinamento-mes"
+    );
 
-      filteredEquipments.forEach((item) => {
-        const equip = equipmentTemplates[item];
-        if (equip) {
-          const card = document.createElement("div");
-          card.className = "card";
+    // Remove todas as seções do container
+    allSections.forEach((section) => section.remove());
+
+    // Adiciona primeiro o treinamento do mês (se existir e não for o setor selecionado)
+    if (trainingSection && setorParam !== "treinamento-mes") {
+      sectorsContainer.appendChild(trainingSection);
+
+      // Filtra os equipamentos do treinamento do mês conforme necessário
+      const setorEquipments = equipmentData[setorParam] || [];
+      const monthlyEquipments = equipmentData["treinamento-mes"];
+      const filteredEquipments = monthlyEquipments.filter((equip) =>
+        setorEquipments.includes(equip)
+      );
+
+      if (filteredEquipments.length > 0) {
+        const cardsContainer =
+          trainingSection.querySelector(".equipment-cards");
+        cardsContainer.innerHTML = "";
+
+        filteredEquipments.forEach((item) => {
+          const equip = equipmentTemplates[item];
+          if (equip) {
+            const card = document.createElement("div");
+            card.className = "card";
             card.innerHTML = `
   <img src="${equip.img}" alt="${equip.alt}">
   <h3>${equip.equipamento}</h3>
   <p class="fabricante">${equip.fabricanteModelo}</p>
   <p class="duration">duração: ${equip.duracao}</p>
-  ${equip.link 
-    ? `<a href="${equip.link}" target="_blank">Acessar Treinamento</a>`
-    : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`}
+  ${
+    equip.link
+      ? `<a href="${equip.link}" target="_blank">Acessar Treinamento</a>`
+      : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`
+  }
 `;
 
-          cardsContainer.appendChild(card);
-        }
-      });
-    } else {
-      trainingSection.remove();
+            cardsContainer.appendChild(card);
+          }
+        });
+      } else {
+        trainingSection.remove();
+      }
     }
-  }
-  
-  // Adiciona o setor selecionado
-  if (selectedSection) {
-    sectorsContainer.appendChild(selectedSection);
-    const cards = selectedSection.querySelector(".equipment-cards");
-    const header = selectedSection.querySelector(".sector-header");
-    cards.style.display = "grid";
-    header.classList.add("open");
-  }
-  
-  // Adiciona os demais setores (excluindo o selecionado e o treinamento do mês)
-  allSections.forEach(section => {
-    const setor = section.getAttribute("data-setor");
-    if (setor !== setorParam && setor !== "treinamento-mes") {
-      sectorsContainer.appendChild(section);
+
+    // Adiciona o setor selecionado
+    if (selectedSection) {
+      sectorsContainer.appendChild(selectedSection);
+      const cards = selectedSection.querySelector(".equipment-cards");
+      const header = selectedSection.querySelector(".sector-header");
+      cards.style.display = "grid";
+      header.classList.add("open");
     }
-  });
-}
+
+    // Adiciona os demais setores (excluindo o selecionado e o treinamento do mês)
+    allSections.forEach((section) => {
+      const setor = section.getAttribute("data-setor");
+      if (setor !== setorParam && setor !== "treinamento-mes") {
+        sectorsContainer.appendChild(section);
+      }
+    });
+  }
   // Código do buscador de equipamentos
   const searchInput = document.getElementById("equipmentSearchInput");
   const equipmentList = document.getElementById("equipmentList");
@@ -117,9 +126,7 @@ if (setorParam) {
   function extractUniqueEquipmentNames() {
     const equipmentNames = new Set();
     document.querySelectorAll(".card h3").forEach((card) => {
-      const fullText = card.textContent;
-      const equipmentName = fullText.split("|")[0].trim();
-      equipmentNames.add(equipmentName);
+      equipmentNames.add(card.textContent.trim());
     });
     return Array.from(equipmentNames).sort();
   }
@@ -192,64 +199,82 @@ if (setorParam) {
     // Limpa resultados anteriores
     filteredCardsContainer.innerHTML = "";
 
-    // Obtém cards únicos que correspondem à busca
-    const uniqueCards = getUniqueEquipmentCards();
-    const matchingCards = uniqueCards.filter((card) => {
-      const cardText = card.querySelector("h3").textContent;
-      return cardText.includes(equipmentName);
+    // Usa um Map para evitar duplicatas (chave: equipamento + fabricanteModelo)
+    const uniqueCardsMap = new Map();
+
+    // Percorre todos os cards
+    document.querySelectorAll(".card").forEach((card) => {
+      const cardName = card.querySelector("h3").textContent.trim();
+
+      // Verifica se é o equipamento buscado
+      if (cardName === equipmentName) {
+        const fabricante = card.querySelector(".fabricante").textContent.trim();
+        const key = `${cardName}|${fabricante}`; // Chave única
+
+        // Se não existir no mapa, adiciona
+        if (!uniqueCardsMap.has(key)) {
+          uniqueCardsMap.set(key, card.cloneNode(true));
+        }
+      }
     });
 
-    if (matchingCards.length > 0) {
-      matchingCards.forEach((card) => {
-        filteredCardsContainer.appendChild(card);
-      });
-      filteredResultsSection.style.display = "block";
-    } else {
-      filteredResultsSection.style.display = "none";
-    }
+    // Adiciona os cards únicos ao container
+    uniqueCardsMap.forEach((card) => {
+      filteredCardsContainer.appendChild(card);
+    });
+
+    // Mostra ou esconde a seção de resultados
+    filteredResultsSection.style.display =
+      uniqueCardsMap.size > 0 ? "block" : "none";
   }
 
   // Reseta para mostrar todos os setores
- function resetSearch() {
-  searchInput.value = "";
-  equipmentList.style.display = "none";
+  function resetSearch() {
+    searchInput.value = "";
+    equipmentList.style.display = "none";
 
-  const params = new URLSearchParams(window.location.search);
-  const setorParam = params.get("setor");
+    const params = new URLSearchParams(window.location.search);
+    const setorParam = params.get("setor");
 
-  if (setorParam) {
-    // Reaplica a mesma lógica de reordenação
-    const sectorsContainer = document.getElementById("sectors-container");
-    const allSections = Array.from(document.querySelectorAll(".sector-category"));
-    const selectedSection = allSections.find(s => s.getAttribute("data-setor") === setorParam);
-    const trainingSection = allSections.find(s => s.getAttribute("data-setor") === "treinamento-mes");
+    if (setorParam) {
+      // Reaplica a mesma lógica de reordenação
+      const sectorsContainer = document.getElementById("sectors-container");
+      const allSections = Array.from(
+        document.querySelectorAll(".sector-category")
+      );
+      const selectedSection = allSections.find(
+        (s) => s.getAttribute("data-setor") === setorParam
+      );
+      const trainingSection = allSections.find(
+        (s) => s.getAttribute("data-setor") === "treinamento-mes"
+      );
 
-    allSections.forEach(section => section.remove());
+      allSections.forEach((section) => section.remove());
 
-    if (trainingSection && setorParam !== "treinamento-mes") {
-      sectorsContainer.appendChild(trainingSection);
-      // ... (filtro dos equipamentos, se necessário)
-    }
-
-    if (selectedSection) {
-      sectorsContainer.appendChild(selectedSection);
-    }
-
-    allSections.forEach(section => {
-      const setor = section.getAttribute("data-setor");
-      if (setor !== setorParam && setor !== "treinamento-mes") {
-        sectorsContainer.appendChild(section);
+      if (trainingSection && setorParam !== "treinamento-mes") {
+        sectorsContainer.appendChild(trainingSection);
+        // ... (filtro dos equipamentos, se necessário)
       }
-    });
-  } else {
-    // Se não houver parâmetro, mostra todos os setores na ordem padrão
-    document.querySelectorAll(".sector-category").forEach((section) => {
-      section.style.display = "block";
-    });
-  }
 
-  filteredResultsSection.style.display = "none";
-}
+      if (selectedSection) {
+        sectorsContainer.appendChild(selectedSection);
+      }
+
+      allSections.forEach((section) => {
+        const setor = section.getAttribute("data-setor");
+        if (setor !== setorParam && setor !== "treinamento-mes") {
+          sectorsContainer.appendChild(section);
+        }
+      });
+    } else {
+      // Se não houver parâmetro, mostra todos os setores na ordem padrão
+      document.querySelectorAll(".sector-category").forEach((section) => {
+        section.style.display = "block";
+      });
+    }
+
+    filteredResultsSection.style.display = "none";
+  }
 
   // Event listeners
   searchInput.addEventListener("click", () => {
@@ -328,23 +353,22 @@ function clearSearch() {
   window.location.href = newUrl;
 }
 
-  const monthlyTrainings = {
-     1: [],// Janeiro
-    2: [],     // Fevereiro
-    3: [],     // Março
-    4: [],     // Abril
-    5: [],     // Maio
-    6: [],     // Junho
-    7: ["monitorPhilips"],     // Julho
-    8: [],     // Agosto
-    9: [],     // Setembro
-    10: [],     // Outubro
-    11: [],     // Novembro
-    12: []    // Dezembro
-  };
+const monthlyTrainings = {
+  1: [], // Janeiro
+  2: [], // Fevereiro
+  3: [], // Março
+  4: [], // Abril
+  5: [], // Maio
+  6: [], // Junho
+  7: ["monitorPhilips"], // Julho
+  8: [], // Agosto
+  9: [], // Setembro
+  10: [], // Outubro
+  11: [], // Novembro
+  12: [], // Dezembro
+};
 
 const equipmentData = {
-  
   "treinamento-mes": getMonthlyTraining(),
 
   "centro-cirurgico": [
@@ -418,16 +442,13 @@ const equipmentData = {
 };
 
 const equipmentTemplates = {
-  
- 
-
   monitorPhilips: {
     img: "imagens/monitor-philips.png",
     alt: "Monitor Philips Efficia",
     title: "Monitor Multiparâmetros | Philips Efficia CM1xx | duração: 13min",
     equipamento: "Monitor Multiparâmetros",
-  fabricanteModelo: "Philips Efficia CM1xx",
-  duracao: "13min",
+    fabricanteModelo: "Philips Efficia CM1xx",
+    duracao: "13min",
     link: "https://forms.gle/xgdswhyromyNBCbQ7",
   },
   aspiradorFanem: {
@@ -435,8 +456,8 @@ const equipmentTemplates = {
     alt: "Aspirador Fanem Colibri",
     title: "Aspirador Elétrico | Fanem DPM-60 | duração: 10min",
     equipamento: "Aspirador Elétrico",
-  fabricanteModelo: "Fanem DPM-60",
-  duracao: "10min",
+    fabricanteModelo: "Fanem DPM-60",
+    duracao: "10min",
     link: "https://forms.gle/K1vzW2ruwrX4ygSw6",
   },
   cardioversorPhilips: {
@@ -444,8 +465,8 @@ const equipmentTemplates = {
     alt: "Cardioversor Philips DFM-100",
     title: "Cardioversor | Philips - DFM100 | duração: 25min",
     equipamento: "Cardioversor",
-  fabricanteModelo: "Philips DFM100",
-  duracao: "25min",
+    fabricanteModelo: "Philips DFM100",
+    duracao: "25min",
     link: "https://forms.gle/ZzQR1BPdxYgvcUft5",
   },
   mesaBarrfab: {
@@ -453,18 +474,18 @@ const equipmentTemplates = {
     alt: "Mesa Cirúrgica Barrfab",
     title: "Mesa Cirúrgica | Barrfab BF683 TDP",
     equipamento: "Mesa Cirúrgica",
-  fabricanteModelo: "Barrfab BF683 TDP",
-  duracao: "--",
+    fabricanteModelo: "Barrfab BF683 TDP",
+    duracao: "--",
     link: null,
   },
- 
+
   termohigrometro: {
     img: "imagens/termohigrometro.png",
     alt: "Termohigrômetro",
     title: "Termômetro Digital - Higrômetro",
     equipamento: "Termômetro Digital",
-  fabricanteModelo: "Termohigrômetro",
-  duracao: "--",
+    fabricanteModelo: "Termohigrômetro",
+    duracao: "--",
     link: null,
   },
 
@@ -473,8 +494,8 @@ const equipmentTemplates = {
     alt: "Aparelho de anestesia Drager Atlan A3xx",
     title: "Aparelho de Anestesia | Drager Atlan A300/350",
     equipamento: "Aparelho de Anestesia",
-  fabricanteModelo: "Drager Atlan A300/350",
-  duracao: "--",
+    fabricanteModelo: "Drager Atlan A300/350",
+    duracao: "--",
     link: null,
   },
   ventiladorMagnamed: {
@@ -482,8 +503,8 @@ const equipmentTemplates = {
     alt: "Ventilador de transporte Magnamed Oxymag",
     title: "Ventilador Pulmonar | Magnamed Oxymag",
     equipamento: "Ventilador Pulmonar",
-  fabricanteModelo: "Magnamed Oxymag",
-  duracao: "--",
+    fabricanteModelo: "Magnamed Oxymag",
+    duracao: "--",
     link: null,
   },
   torniqueteStryker: {
@@ -491,8 +512,8 @@ const equipmentTemplates = {
     alt: "Sistema de Torniquete Stryker Smartpump",
     title: "Sistema de Torniquete | Stryker SmartPump",
     equipamento: "Sistema de Torniquete",
-  fabricanteModelo: "Stryker SmartPump",
-  duracao: "--",
+    fabricanteModelo: "Stryker SmartPump",
+    duracao: "--",
     link: null,
   },
   bisturiWem: {
@@ -500,8 +521,8 @@ const equipmentTemplates = {
     alt: "Bisturi Elétrico WEM SS 501SX",
     title: "Bisturi Elétrico | WEM SS-501sx",
     equipamento: "Bisturi Elétrico",
-  fabricanteModelo: "WEM SS-501sx",
-  duracao: "--",
+    fabricanteModelo: "WEM SS-501sx",
+    duracao: "--",
     link: null,
   },
   ventiladorTecme: {
@@ -509,8 +530,8 @@ const equipmentTemplates = {
     alt: "Ventilador Pulmonar Tecme Graphnet TS+",
     title: "Ventilador Pulmonar | Tecme GraphNet TS+",
     equipamento: "Ventilador Pulmonar",
-  fabricanteModelo: "Tecme GraphNet TS+",
-  duracao: "--",
+    fabricanteModelo: "Tecme GraphNet TS+",
+    duracao: "--",
     link: null,
   },
   ecgAlfamed: {
@@ -518,8 +539,8 @@ const equipmentTemplates = {
     alt: "Eletrocardiógrafo Alfamed Ritmus1200",
     title: "Eletrocardiógrafo | Alfamed Ritmus1200 | duração: 13min",
     equipamento: "Eletrocardiógrafo",
-  fabricanteModelo: "Alfamed Ritmus1200",
-  duracao: "13min",
+    fabricanteModelo: "Alfamed Ritmus1200",
+    duracao: "13min",
     link: "https://forms.gle/mwoUfSL1SEW59zgJ7",
   },
   cardioversorInstramed8: {
@@ -527,8 +548,8 @@ const equipmentTemplates = {
     alt: "Cardioversor Instramed Cardiomax 8",
     title: "Cardioversor | Instramed Cardiomax 8 Series",
     equipamento: "Cardioversor",
-  fabricanteModelo: "Instramed Cardiomax 8 Series",
-  duracao: "--",
+    fabricanteModelo: "Instramed Cardiomax 8 Series",
+    duracao: "--",
     link: null,
   },
   camaArjo: {
@@ -536,8 +557,8 @@ const equipmentTemplates = {
     alt: "Cama Hospitalar ARJO Prioma",
     title: "Cama Hospitalar | Arjo Prioma 600",
     equipamento: "Cama Hospitalar",
-  fabricanteModelo: "Arjo Prioma 600",
-  duracao: "--",
+    fabricanteModelo: "Arjo Prioma 600",
+    duracao: "--",
     link: null,
   },
   estufaFanem: {
@@ -545,8 +566,8 @@ const equipmentTemplates = {
     alt: "Estufa para aquecimento de soro Fanem",
     title: "Estufa para Aquecimento de Soro | Fanem 2503/1 | duração: 5min",
     equipamento: "Estufa para Aquecimento de Soro",
-  fabricanteModelo: "Fanem 2503/1",
-  duracao: "5min",
+    fabricanteModelo: "Fanem 2503/1",
+    duracao: "5min",
     link: "https://forms.gle/e3GST5oeCh3WVLZP9",
   },
   cardioversorApolus: {
@@ -554,8 +575,8 @@ const equipmentTemplates = {
     alt: "Desfibrilador Instramed Apolus",
     title: "Cardioversor | Instramed Apolus",
     equipamento: "Cardioversor",
-  fabricanteModelo: "Instramed Apolus",
-  duracao: "--",
+    fabricanteModelo: "Instramed Apolus",
+    duracao: "--",
     link: null,
   },
   ventiladorResmed: {
@@ -563,8 +584,8 @@ const equipmentTemplates = {
     alt: "Ventilador Resmed Astral 150",
     title: "Ventilador Pulmonar | Resmed - Astral 150",
     equipamento: "Ventilador Pulmonar",
-  fabricanteModelo: "Resmed - Astral 150",
-  duracao: "--",
+    fabricanteModelo: "Resmed - Astral 150",
+    duracao: "--",
     link: null,
   },
   autoclaveBaumer: {
@@ -572,8 +593,8 @@ const equipmentTemplates = {
     alt: "Autoclave Baumer",
     title: "Autoclave | Baumer - HI VAC  II 542L",
     equipamento: "Autoclave",
-  fabricanteModelo: "Baumer - HI VAC  II 542L",
-  duracao: "--",
+    fabricanteModelo: "Baumer - HI VAC  II 542L",
+    duracao: "--",
     link: null,
   },
 
@@ -582,8 +603,8 @@ const equipmentTemplates = {
     alt: "Lavadora Termodesinfectora Baumer",
     title: "Lavadora Termodesinfectora | Baumer - TW-E2000-400P",
     equipamento: "Lavadora Termodesinfectora",
-  fabricanteModelo: "Baumer - TW-E2000-400P",
-  duracao: "--",
+    fabricanteModelo: "Baumer - TW-E2000-400P",
+    duracao: "--",
     link: null,
   },
 
@@ -592,8 +613,8 @@ const equipmentTemplates = {
     alt: "Lavadora Ultrassônica Baumer",
     title: "Lavadora Ultrassonica | Baumer E0201-042",
     equipamento: "Lavadora Ultrassonica",
-  fabricanteModelo: "Baumer E0201-042",
-  duracao: "--",
+    fabricanteModelo: "Baumer E0201-042",
+    duracao: "--",
     link: null,
   },
 
@@ -602,8 +623,8 @@ const equipmentTemplates = {
     alt: "Esterilizador por Peróxido de Hidrogênio Baumer",
     title: "Esterilizador por Peróxido de Hidrogênio | Baumer B0201-105-V02",
     equipamento: "Esterilizador por Peróxido de Hidrogênio",
-  fabricanteModelo: "Baumer B0201-105-V02",
-  duracao: "--",
+    fabricanteModelo: "Baumer B0201-105-V02",
+    duracao: "--",
     link: null,
   },
   secadoraBaumer: {
@@ -611,8 +632,8 @@ const equipmentTemplates = {
     alt: "Gabinete de Secagem Baumer",
     title: "Secadora | Baumer EA-34-03",
     equipamento: "Secadora",
-  fabricanteModelo: "Baumer EA-34-03",
-  duracao: "--",
+    fabricanteModelo: "Baumer EA-34-03",
+    duracao: "--",
     link: null,
   },
 
@@ -621,8 +642,8 @@ const equipmentTemplates = {
     alt: "Câmara de Conservação Fanem 3347/1",
     title: "Câmara de Conservação | Fanem 3347/1",
     equipamento: "Câmara de Conservação",
-  fabricanteModelo: "Fanem 3347/1",
-  duracao: "--",
+    fabricanteModelo: "Fanem 3347/1",
+    duracao: "--",
     link: null,
   },
 
@@ -631,8 +652,8 @@ const equipmentTemplates = {
     alt: "Câmara de Conservação Indrel RC220",
     title: "Câmara de Conservação | Indrel - RC220",
     equipamento: "Câmara de Conservação",
-  fabricanteModelo: "Indrel - RC220",
-  duracao: "--",
+    fabricanteModelo: "Indrel - RC220",
+    duracao: "--",
     link: null,
   },
 
@@ -641,8 +662,8 @@ const equipmentTemplates = {
     alt: "Câmara de Conservação Biotecno BT1100",
     title: "Câmara de Conservação | Biotecno - BT1100",
     equipamento: "Câmara de Conservação",
-  fabricanteModelo: "Biotecno - BT1100",
-  duracao: "--",
+    fabricanteModelo: "Biotecno - BT1100",
+    duracao: "--",
     link: null,
   },
   monitorDragerVista120S: {
@@ -650,8 +671,8 @@ const equipmentTemplates = {
     alt: "Monitor Multiparâmetros Drager Vista 120S",
     title: "Monitor Multiparâmetros | Drager Vista 120S",
     equipamento: "Monitor Multiparâmetros",
-  fabricanteModelo: "Drager Vista 120S",
-  duracao: "--",
+    fabricanteModelo: "Drager Vista 120S",
+    duracao: "--",
     link: null,
   },
   bombaDeInfusaoLifemed: {
@@ -659,8 +680,8 @@ const equipmentTemplates = {
     alt: "Bomba de Infusão Lifemed LF2001",
     title: "Bomba de Infusão | Lifemed LF2001",
     equipamento: "Bomba de Infusão",
-  fabricanteModelo: "Lifemed LF2001",
-  duracao: "--",
+    fabricanteModelo: "Lifemed LF2001",
+    duracao: "--",
     link: null,
   },
   monitorInstramedInmax12: {
@@ -668,8 +689,8 @@ const equipmentTemplates = {
     alt: "Monitor Multiparâmetros Instramed InMax12",
     title: "Monitor Multiparâmetros | Instramed InMax12",
     equipamento: "Monitor Multiparâmetros",
-  fabricanteModelo: "Instramed InMax12",
-  duracao: "--",
+    fabricanteModelo: "Instramed InMax12",
+    duracao: "--",
     link: null,
   },
 };
@@ -693,33 +714,33 @@ const createSection = (sectorKey, items) => {
   const section = document.createElement("section");
   section.className = "sector-category";
   section.dataset.setor = sectorKey;
-  
+
   // Adiciona classe especial apenas para o treinamento do mês
-  if(sectorKey === "treinamento-mes") {
+  if (sectorKey === "treinamento-mes") {
     section.classList.add("featured-month");
   }
 
   const h2 = document.createElement("h2");
   h2.className = "sector-header";
   h2.onclick = () => toggleSector(h2);
-  
-  // Texto diferente para o treinamento do mês
-  const sectionTitle = sectorKey === "treinamento-mes" 
-    ? `⭐ ${sectorNames[sectorKey]} ` 
-    : `Setor: ${sectorNames[sectorKey]}`;
-    
-  
-h2.innerHTML = sectorKey === "treinamento-mes"
-  ? `<span class="featured-title"><span class="star">⭐</span>${sectorNames[sectorKey]}</span><span class="arrow">&#9654;</span>`
-  : `Setor: ${sectorNames[sectorKey]} <span class="arrow">&#9654;</span>`;
 
+  // Texto diferente para o treinamento do mês
+  const sectionTitle =
+    sectorKey === "treinamento-mes"
+      ? `⭐ ${sectorNames[sectorKey]} `
+      : `Setor: ${sectorNames[sectorKey]}`;
+
+  h2.innerHTML =
+    sectorKey === "treinamento-mes"
+      ? `<span class="featured-title"><span class="star">⭐</span>${sectorNames[sectorKey]}</span><span class="arrow">&#9654;</span>`
+      : `Setor: ${sectorNames[sectorKey]} <span class="arrow">&#9654;</span>`;
 
   section.appendChild(h2);
 
   const cardsContainer = document.createElement("div");
   cardsContainer.className = "equipment-cards";
 
-  items.forEach(item => {
+  items.forEach((item) => {
     const equip = equipmentTemplates[item];
     if (equip) {
       const card = document.createElement("div");
@@ -729,9 +750,11 @@ h2.innerHTML = sectorKey === "treinamento-mes"
   <h3>${equip.equipamento}</h3>
   <p class="fabricante">${equip.fabricanteModelo}</p>
   <p class="duration">duração: ${equip.duracao}</p>
-  ${equip.link 
-    ? `<a href="${equip.link}" target="_blank">Acessar Treinamento</a>`
-    : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`}
+  ${
+    equip.link
+      ? `<a href="${equip.link}" target="_blank">Acessar Treinamento</a>`
+      : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`
+  }
 `;
 
       cardsContainer.appendChild(card);
@@ -745,12 +768,14 @@ h2.innerHTML = sectorKey === "treinamento-mes"
 // 1. Adiciona primeiro o treinamento do mês
 const monthlyTrainingItems = equipmentData["treinamento-mes"];
 if (monthlyTrainingItems.length > 0) {
-  sectorsContainer.appendChild(createSection("treinamento-mes", monthlyTrainingItems));
+  sectorsContainer.appendChild(
+    createSection("treinamento-mes", monthlyTrainingItems)
+  );
 }
 
 // 2. Depois adiciona os outros setores (excluindo o treinamento do mês)
 for (const [sectorKey, items] of Object.entries(equipmentData)) {
-  if(sectorKey !== "treinamento-mes") {
+  if (sectorKey !== "treinamento-mes") {
     sectorsContainer.appendChild(createSection(sectorKey, items));
   }
 }
@@ -758,9 +783,7 @@ for (const [sectorKey, items] of Object.entries(equipmentData)) {
 // Função para obter treinamentos mensais
 function getMonthlyTraining() {
   const month = new Date().getMonth() + 1;
-  
 
-  
   return monthlyTrainings[month] || [];
 }
 
