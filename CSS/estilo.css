@@ -485,7 +485,7 @@ a.disabled {
 .featured-title .star {
   animation: pulse-star 1.8s infinite;
   font-size: 0.8em;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
   text-shadow: 0 0 4px #ffd54f;
 }
 
