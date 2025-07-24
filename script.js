@@ -27,57 +27,70 @@ document.addEventListener("DOMContentLoaded", function () {
   const params = new URLSearchParams(window.location.search);
   const setorParam = params.get("setor");
 
- if (setorParam) {
-  document.querySelectorAll(".sector-category").forEach((section) => {
-    const setor = section.getAttribute("data-setor");
+if (setorParam) {
+  // Reordena os setores
+  const sectorsContainer = document.getElementById("sectors-container");
+  const allSections = Array.from(document.querySelectorAll(".sector-category"));
+  
+  // Encontra o setor selecionado e o treinamento do mês
+  const selectedSection = allSections.find(s => s.getAttribute("data-setor") === setorParam);
+  const trainingSection = allSections.find(s => s.getAttribute("data-setor") === "treinamento-mes");
+  
+  // Remove todas as seções do container
+  allSections.forEach(section => section.remove());
+  
+  // Adiciona primeiro o treinamento do mês (se existir e não for o setor selecionado)
+  if (trainingSection && setorParam !== "treinamento-mes") {
+    sectorsContainer.appendChild(trainingSection);
     
-    // Lógica para o setor normal
-    if (setor !== setorParam && setor !== "treinamento-mes") {
-      section.style.display = "none";
-    } else {
-      // Garante que o setor correto está visível e expandido
-      section.style.display = "block";
-      const cards = section.querySelector(".equipment-cards");
-      const header = section.querySelector(".sector-header");
-      cards.style.display = "grid";
-      header.classList.add("open");
+    // Filtra os equipamentos do treinamento do mês conforme necessário
+    const setorEquipments = equipmentData[setorParam] || [];
+    const monthlyEquipments = equipmentData["treinamento-mes"];
+    const filteredEquipments = monthlyEquipments.filter((equip) =>
+      setorEquipments.includes(equip)
+    );
 
-      // Lógica específica para o treinamento do mês
-      if (setor === "treinamento-mes" && setorParam !== "treinamento-mes") {
-        // Obtém os equipamentos do setor especificado na URL
-        const setorEquipments = equipmentData[setorParam] || [];
-        // Obtém os equipamentos do treinamento do mês
-        const monthlyEquipments = equipmentData["treinamento-mes"];
-        // Filtra apenas os equipamentos que estão no setor e no treinamento do mês
-        const filteredEquipments = monthlyEquipments.filter((equip) =>
-          setorEquipments.includes(equip)
-        );
+    if (filteredEquipments.length > 0) {
+      const cardsContainer = trainingSection.querySelector(".equipment-cards");
+      cardsContainer.innerHTML = "";
 
-        // Atualiza os cards do treinamento do mês
-        const cardsContainer = section.querySelector(".equipment-cards");
-        cardsContainer.innerHTML = ""; // Limpa os cards existentes
+      filteredEquipments.forEach((item) => {
+        const equip = equipmentTemplates[item];
+        if (equip) {
+          const card = document.createElement("div");
+          card.className = "card";
+            card.innerHTML = `
+  <img src="${equip.img}" alt="${equip.alt}">
+  <h3>${equip.equipamento}</h3>
+  <p class="fabricante">${equip.fabricanteModelo}</p>
+  <p class="duration">duração: ${equip.duracao}</p>
+  ${equip.link 
+    ? `<a href="${equip.link}" target="_blank">Acessar Treinamento</a>`
+    : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`}
+`;
 
-        if (filteredEquipments.length > 0) {
-          filteredEquipments.forEach((item) => {
-            const equip = equipmentTemplates[item];
-            if (equip) {
-              const card = document.createElement("div");
-              card.className = "card";
-              card.innerHTML = `
-                <img src="${equip.img}" alt="${equip.alt}">
-                <h3>${equip.title}</h3>
-                ${equip.link 
-                  ? `<a href="${equip.link}" target="_blank">Acessar Treinamento</a>`
-                  : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`}
-              `;
-              cardsContainer.appendChild(card);
-            }
-          });
-        } else {
-          // Se não houver equipamentos em comum, oculta a seção de treinamento do mês
-          section.style.display = "none";
+          cardsContainer.appendChild(card);
         }
-      }
+      });
+    } else {
+      trainingSection.remove();
+    }
+  }
+  
+  // Adiciona o setor selecionado
+  if (selectedSection) {
+    sectorsContainer.appendChild(selectedSection);
+    const cards = selectedSection.querySelector(".equipment-cards");
+    const header = selectedSection.querySelector(".sector-header");
+    cards.style.display = "grid";
+    header.classList.add("open");
+  }
+  
+  // Adiciona os demais setores (excluindo o selecionado e o treinamento do mês)
+  allSections.forEach(section => {
+    const setor = section.getAttribute("data-setor");
+    if (setor !== setorParam && setor !== "treinamento-mes") {
+      sectorsContainer.appendChild(section);
     }
   });
 }
@@ -197,36 +210,46 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Reseta para mostrar todos os setores
-  function resetSearch() {
-    searchInput.value = "";
-    equipmentList.style.display = "none";
+ function resetSearch() {
+  searchInput.value = "";
+  equipmentList.style.display = "none";
 
-    // Verifica se há parâmetro de setor na URL
-    const params = new URLSearchParams(window.location.search);
-    const setorParam = params.get("setor");
+  const params = new URLSearchParams(window.location.search);
+  const setorParam = params.get("setor");
 
-    if (setorParam) {
-      // Mostra apenas o setor correspondente ao parâmetro
-      document.querySelectorAll(".sector-category").forEach((section) => {
-        const setor = section.getAttribute("data-setor");
-        section.style.display = setor === setorParam ? "block" : "none";
+  if (setorParam) {
+    // Reaplica a mesma lógica de reordenação
+    const sectorsContainer = document.getElementById("sectors-container");
+    const allSections = Array.from(document.querySelectorAll(".sector-category"));
+    const selectedSection = allSections.find(s => s.getAttribute("data-setor") === setorParam);
+    const trainingSection = allSections.find(s => s.getAttribute("data-setor") === "treinamento-mes");
 
-        if (setor === setorParam) {
-          const cards = section.querySelector(".equipment-cards");
-          const header = section.querySelector(".sector-header");
-          cards.style.display = "grid";
-          header.classList.add("open");
-        }
-      });
-    } else {
-      // Se não houver parâmetro, mostra todos os setores
-      document.querySelectorAll(".sector-category").forEach((section) => {
-        section.style.display = "block";
-      });
+    allSections.forEach(section => section.remove());
+
+    if (trainingSection && setorParam !== "treinamento-mes") {
+      sectorsContainer.appendChild(trainingSection);
+      // ... (filtro dos equipamentos, se necessário)
     }
 
-    filteredResultsSection.style.display = "none";
+    if (selectedSection) {
+      sectorsContainer.appendChild(selectedSection);
+    }
+
+    allSections.forEach(section => {
+      const setor = section.getAttribute("data-setor");
+      if (setor !== setorParam && setor !== "treinamento-mes") {
+        sectorsContainer.appendChild(section);
+      }
+    });
+  } else {
+    // Se não houver parâmetro, mostra todos os setores na ordem padrão
+    document.querySelectorAll(".sector-category").forEach((section) => {
+      section.style.display = "block";
+    });
   }
+
+  filteredResultsSection.style.display = "none";
+}
 
   // Event listeners
   searchInput.addEventListener("click", () => {
@@ -402,108 +425,155 @@ const equipmentTemplates = {
     img: "imagens/monitor-philips.png",
     alt: "Monitor Philips Efficia",
     title: "Monitor Multiparâmetros | Philips Efficia CM1xx | duração: 13min",
+    equipamento: "Monitor Multiparâmetros",
+  fabricanteModelo: "Philips Efficia CM1xx",
+  duracao: "13min",
     link: "https://forms.gle/xgdswhyromyNBCbQ7",
   },
   aspiradorFanem: {
     img: "imagens/aspirador-fanem.png",
     alt: "Aspirador Fanem Colibri",
     title: "Aspirador Elétrico | Fanem DPM-60 | duração: 10min",
+    equipamento: "Aspirador Elétrico",
+  fabricanteModelo: "Fanem DPM-60",
+  duracao: "10min",
     link: "https://forms.gle/K1vzW2ruwrX4ygSw6",
   },
   cardioversorPhilips: {
     img: "imagens/dfm_100.jpg",
     alt: "Cardioversor Philips DFM-100",
     title: "Cardioversor | Philips - DFM100 | duração: 25min",
+    equipamento: "Cardioversor",
+  fabricanteModelo: "Philips DFM100",
+  duracao: "25min",
     link: "https://forms.gle/ZzQR1BPdxYgvcUft5",
   },
   mesaBarrfab: {
     img: "imagens/mesa_cirurgica_barrfab.png",
     alt: "Mesa Cirúrgica Barrfab",
     title: "Mesa Cirúrgica | Barrfab BF683 TDP",
+    equipamento: "Mesa Cirúrgica",
+  fabricanteModelo: "Barrfab BF683 TDP",
+  duracao: "--",
     link: null,
   },
-  hipoHipertermia: {
-    img: "imagens/hipohipertermia.jpg",
-    alt: "Sistema de Hipo-hipertermia",
-    title: "Sistema de Hipo-hipertermia | Hico Variotherm 550",
-    link: null,
-  },
+ 
   termohigrometro: {
     img: "imagens/termohigrometro.png",
     alt: "Termohigrômetro",
     title: "Termômetro Digital - Higrômetro",
+    equipamento: "Termômetro Digital",
+  fabricanteModelo: "Termohigrômetro",
+  duracao: "--",
     link: null,
   },
+
   anestesiaDrager: {
     img: "imagens/aparelho_anestesia_drager.jpg",
     alt: "Aparelho de anestesia Drager Atlan A3xx",
     title: "Aparelho de Anestesia | Drager Atlan A300/350",
+    equipamento: "Aparelho de Anestesia",
+  fabricanteModelo: "Drager Atlan A300/350",
+  duracao: "--",
     link: null,
   },
   ventiladorMagnamed: {
     img: "imagens/ventilador_magnamed.png",
     alt: "Ventilador de transporte Magnamed Oxymag",
     title: "Ventilador Pulmonar | Magnamed Oxymag",
+    equipamento: "Ventilador Pulmonar",
+  fabricanteModelo: "Magnamed Oxymag",
+  duracao: "--",
     link: null,
   },
   torniqueteStryker: {
     img: "imagens/torniquete_stryker.png",
     alt: "Sistema de Torniquete Stryker Smartpump",
     title: "Sistema de Torniquete | Stryker SmartPump",
+    equipamento: "Sistema de Torniquete",
+  fabricanteModelo: "Stryker SmartPump",
+  duracao: "--",
     link: null,
   },
   bisturiWem: {
     img: "imagens/WEM SS501sx.png",
     alt: "Bisturi Elétrico WEM SS 501SX",
     title: "Bisturi Elétrico | WEM SS-501sx",
+    equipamento: "Bisturi Elétrico",
+  fabricanteModelo: "WEM SS-501sx",
+  duracao: "--",
     link: null,
   },
   ventiladorTecme: {
     img: "imagens/ventilador_tecme.png",
     alt: "Ventilador Pulmonar Tecme Graphnet TS+",
     title: "Ventilador Pulmonar | Tecme GraphNet TS+",
+    equipamento: "Ventilador Pulmonar",
+  fabricanteModelo: "Tecme GraphNet TS+",
+  duracao: "--",
     link: null,
   },
   ecgAlfamed: {
     img: "imagens/EcgAlfamed.png",
     alt: "Eletrocardiógrafo Alfamed Ritmus1200",
     title: "Eletrocardiógrafo | Alfamed Ritmus1200 | duração: 13min",
+    equipamento: "Eletrocardiógrafo",
+  fabricanteModelo: "Alfamed Ritmus1200",
+  duracao: "13min",
     link: "https://forms.gle/mwoUfSL1SEW59zgJ7",
   },
   cardioversorInstramed8: {
     img: "imagens/cardioversor_instramed_cardiomax8.png",
     alt: "Cardioversor Instramed Cardiomax 8",
     title: "Cardioversor | Instramed Cardiomax 8 Series",
+    equipamento: "Cardioversor",
+  fabricanteModelo: "Instramed Cardiomax 8 Series",
+  duracao: "--",
     link: null,
   },
   camaArjo: {
     img: "imagens/Cama_Arjo.jpg",
     alt: "Cama Hospitalar ARJO Prioma",
     title: "Cama Hospitalar | Arjo Prioma 600",
+    equipamento: "Cama Hospitalar",
+  fabricanteModelo: "Arjo Prioma 600",
+  duracao: "--",
     link: null,
   },
   estufaFanem: {
     img: "imagens/estufa-fanem.jpg",
     alt: "Estufa para aquecimento de soro Fanem",
     title: "Estufa para Aquecimento de Soro | Fanem 2503/1 | duração: 5min",
+    equipamento: "Estufa para Aquecimento de Soro",
+  fabricanteModelo: "Fanem 2503/1",
+  duracao: "5min",
     link: "https://forms.gle/e3GST5oeCh3WVLZP9",
   },
   cardioversorApolus: {
     img: "imagens/Desfibrilador_Instramed_Apolus.png",
     alt: "Desfibrilador Instramed Apolus",
     title: "Cardioversor | Instramed Apolus",
+    equipamento: "Cardioversor",
+  fabricanteModelo: "Instramed Apolus",
+  duracao: "--",
     link: null,
   },
   ventiladorResmed: {
     img: "imagens/ventilador_resmed.png",
     alt: "Ventilador Resmed Astral 150",
     title: "Ventilador Pulmonar | Resmed - Astral 150",
+    equipamento: "Ventilador Pulmonar",
+  fabricanteModelo: "Resmed - Astral 150",
+  duracao: "--",
     link: null,
   },
   autoclaveBaumer: {
     img: "imagens/autoclave_baumer.jpeg",
     alt: "Autoclave Baumer",
     title: "Autoclave | Baumer - HI VAC  II 542L",
+    equipamento: "Autoclave",
+  fabricanteModelo: "Baumer - HI VAC  II 542L",
+  duracao: "--",
     link: null,
   },
 
@@ -511,6 +581,9 @@ const equipmentTemplates = {
     img: "imagens/termodesinfectora_baumer.jpeg",
     alt: "Lavadora Termodesinfectora Baumer",
     title: "Lavadora Termodesinfectora | Baumer - TW-E2000-400P",
+    equipamento: "Lavadora Termodesinfectora",
+  fabricanteModelo: "Baumer - TW-E2000-400P",
+  duracao: "--",
     link: null,
   },
 
@@ -518,6 +591,9 @@ const equipmentTemplates = {
     img: "imagens/lavadora_ultrassonica_baumer.jpeg",
     alt: "Lavadora Ultrassônica Baumer",
     title: "Lavadora Ultrassonica | Baumer E0201-042",
+    equipamento: "Lavadora Ultrassonica",
+  fabricanteModelo: "Baumer E0201-042",
+  duracao: "--",
     link: null,
   },
 
@@ -525,12 +601,18 @@ const equipmentTemplates = {
     img: "imagens/esterilizador_peroxido_baumer.png",
     alt: "Esterilizador por Peróxido de Hidrogênio Baumer",
     title: "Esterilizador por Peróxido de Hidrogênio | Baumer B0201-105-V02",
+    equipamento: "Esterilizador por Peróxido de Hidrogênio",
+  fabricanteModelo: "Baumer B0201-105-V02",
+  duracao: "--",
     link: null,
   },
   secadoraBaumer: {
     img: "imagens/secadora_baumer.jpeg",
     alt: "Gabinete de Secagem Baumer",
     title: "Secadora | Baumer EA-34-03",
+    equipamento: "Secadora",
+  fabricanteModelo: "Baumer EA-34-03",
+  duracao: "--",
     link: null,
   },
 
@@ -538,6 +620,9 @@ const equipmentTemplates = {
     img: "imagens/camara_fanem_3347.jpeg",
     alt: "Câmara de Conservação Fanem 3347/1",
     title: "Câmara de Conservação | Fanem 3347/1",
+    equipamento: "Câmara de Conservação",
+  fabricanteModelo: "Fanem 3347/1",
+  duracao: "--",
     link: null,
   },
 
@@ -545,6 +630,9 @@ const equipmentTemplates = {
     img: "imagens/camara_indrel_220.jpeg",
     alt: "Câmara de Conservação Indrel RC220",
     title: "Câmara de Conservação | Indrel - RC220",
+    equipamento: "Câmara de Conservação",
+  fabricanteModelo: "Indrel - RC220",
+  duracao: "--",
     link: null,
   },
 
@@ -552,30 +640,42 @@ const equipmentTemplates = {
     img: "imagens/camara_biotecno_1100.jpeg",
     alt: "Câmara de Conservação Biotecno BT1100",
     title: "Câmara de Conservação | Biotecno - BT1100",
+    equipamento: "Câmara de Conservação",
+  fabricanteModelo: "Biotecno - BT1100",
+  duracao: "--",
     link: null,
   },
   monitorDragerVista120S: {
     img: "imagens/monitor_drager_vista120S_.jpg",
     alt: "Monitor Multiparâmetros Drager Vista 120S",
     title: "Monitor Multiparâmetros | Drager Vista 120S",
+    equipamento: "Monitor Multiparâmetros",
+  fabricanteModelo: "Drager Vista 120S",
+  duracao: "--",
     link: null,
   },
   bombaDeInfusaoLifemed: {
     img: "imagens/bombaDeInfusao_Lifemed.png",
     alt: "Bomba de Infusão Lifemed LF2001",
     title: "Bomba de Infusão | Lifemed LF2001",
+    equipamento: "Bomba de Infusão",
+  fabricanteModelo: "Lifemed LF2001",
+  duracao: "--",
     link: null,
   },
   monitorInstramedInmax12: {
     img: "imagens/monitor_instramed_inMax12.jpg",
     alt: "Monitor Multiparâmetros Instramed InMax12",
     title: "Monitor Multiparâmetros | Instramed InMax12",
+    equipamento: "Monitor Multiparâmetros",
+  fabricanteModelo: "Instramed InMax12",
+  duracao: "--",
     link: null,
   },
 };
 
 const sectorNames = {
-  "treinamento-mes": "Treinamento do Mês",
+  "treinamento-mes": "Treinamento do mês",
   "centro-cirurgico": "Centro Cirúrgico",
   uti: "UTI",
   internacao: "Internação",
@@ -605,10 +705,15 @@ const createSection = (sectorKey, items) => {
   
   // Texto diferente para o treinamento do mês
   const sectionTitle = sectorKey === "treinamento-mes" 
-    ? `⭐ ${sectorNames[sectorKey]}` 
+    ? `⭐ ${sectorNames[sectorKey]} ` 
     : `Setor: ${sectorNames[sectorKey]}`;
     
-  h2.innerHTML = `${sectionTitle} <span class="arrow">&#9654;</span>`;
+  
+h2.innerHTML = sectorKey === "treinamento-mes"
+  ? `<span class="featured-title"><span class="star">⭐</span>${sectorNames[sectorKey]}</span><span class="arrow">&#9654;</span>`
+  : `Setor: ${sectorNames[sectorKey]} <span class="arrow">&#9654;</span>`;
+
+
   section.appendChild(h2);
 
   const cardsContainer = document.createElement("div");
@@ -620,12 +725,15 @@ const createSection = (sectorKey, items) => {
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
-        <img src="${equip.img}" alt="${equip.alt}">
-        <h3>${equip.title}</h3>
-        ${equip.link 
-          ? `<a href="${equip.link}" target="_blank">Acessar Treinamento</a>`
-          : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`}
-      `;
+  <img src="${equip.img}" alt="${equip.alt}">
+  <h3>${equip.equipamento}</h3>
+  <p class="fabricante">${equip.fabricanteModelo}</p>
+  <p class="duration">duração: ${equip.duracao}</p>
+  ${equip.link 
+    ? `<a href="${equip.link}" target="_blank">Acessar Treinamento</a>`
+    : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`}
+`;
+
       cardsContainer.appendChild(card);
     }
   });
