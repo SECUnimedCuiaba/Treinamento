@@ -361,7 +361,7 @@ const monthlyTrainings = {
   5: [], // Maio
   6: [], // Junho
   7: ["monitorPhilips"], // Julho
-  8: [], // Agosto
+  8: ["cardioversorPhilips"], // Agosto
   9: [], // Setembro
   10: [], // Outubro
   11: [], // Novembro
@@ -424,14 +424,17 @@ const equipmentData = {
     "camaraIndrel",
     "camaraBiotecno",
   ],
-  imagem: ["termohigrometro", "cardioversorApolus"],
+  imagem: ["termohigrometro",
+          "cardioversorApolus"
+  ],
   infusao: [
     "cardioversorPhilips",
     "cardioversorApolus",
     "bombaDeInfusaoLifemed",
     "monitorInstramedInmax12",
   ],
-  ambulatorio: ["ecgAlfamed"],
+  ambulatorio: ["ecgAlfamed"
+  ],
   cme: [
     "autoclaveBaumer",
     "termodesinfectoraBaumer",
