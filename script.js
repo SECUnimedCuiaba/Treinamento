@@ -362,7 +362,7 @@ const monthlyTrainings = {
   6: [], // Junho
   7: ["monitorPhilips"], // Julho
   8: ["cardioversorPhilips"], // Agosto
-  9: [], // Setembro
+  9: ["aspiradorFanem"], // Setembro
   10: [], // Outubro
   11: [], // Novembro
   12: [], // Dezembro
