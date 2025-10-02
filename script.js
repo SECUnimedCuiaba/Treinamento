@@ -16,7 +16,7 @@ function openTrainingModal(equipamento, formLink, driveId) {
 
   modalTitle.textContent = equipamento;
   // Embed do vídeo no Drive
-  videoIframe.src = `https://drive.google.com/file/d/${driveId}/preview?autoplay=0`;
+  videoIframe.src = `https://drive.google.com/file/d/${driveId}/preview?autoplay=1`;
   // Embed do Google Form
   formIframe.src = `${formLink}?embedded=true`;
 
