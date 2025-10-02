@@ -7,6 +7,40 @@ function toggleSector(header) {
   header.classList.toggle("open");
 }
 
+// Função para abrir o modal com vídeo e form
+function openTrainingModal(equipamento, formLink, driveId) {
+  const modal = document.getElementById('trainingModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const videoIframe = document.getElementById('videoIframe');
+  const formIframe = document.getElementById('formIframe');
+
+  modalTitle.textContent = equipamento;
+  // Embed do vídeo no Drive
+  videoIframe.src = `https://drive.google.com/file/d/${driveId}/preview?autoplay=0`;
+  // Embed do Google Form
+  formIframe.src = `${formLink}?embedded=true`;
+
+  modal.style.display = 'block';
+}
+
+// Fechar modal (adicione isso dentro do DOMContentLoaded, após os outros event listeners)
+const modal = document.getElementById('trainingModal');
+const closeBtn = document.querySelector('.close');
+closeBtn.onclick = function() {
+  modal.style.display = 'none';
+  // Reset iframes para evitar cache
+  document.getElementById('videoIframe').src = '';
+  document.getElementById('formIframe').src = '';
+};
+
+window.onclick = function(event) {
+  if (event.target === modal) {
+    modal.style.display = 'none';
+    document.getElementById('videoIframe').src = '';
+    document.getElementById('formIframe').src = '';
+  }
+};
+
 // Iniciar todos abertos
 document.querySelectorAll(".equipment-cards").forEach((el) => {
   el.classList.add("open");
@@ -71,12 +105,18 @@ document.addEventListener("DOMContentLoaded", function () {
   <h3>${equip.equipamento}</h3>
   <p class="fabricante">${equip.fabricanteModelo}</p>
   <p class="duration">duração: ${equip.duracao}</p>
-  ${
-    equip.link
-      ? `<a href="${equip.link}" target="_blank">Acessar Treinamento</a>`
-      : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`
+ ${
+   equip.link
+     ? `<a href="#" class="training-link" data-equipamento="${
+         equip.equipamento
+       }" data-form-link="${equip.link}" data-drive-id="${
+         equip.driveId || ""
+       }">Acessar Treinamento</a>`
+     : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`
   }
-`;
+  `;
+
+
 
             cardsContainer.appendChild(card);
           }
@@ -333,6 +373,24 @@ document.addEventListener("DOMContentLoaded", function () {
       equipmentList.style.display = "none";
     }
   });
+
+// Event listener para links de treinamento (abrir modal)
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('training-link')) {
+    e.preventDefault();
+    const equipamento = e.target.getAttribute('data-equipamento');
+    const formLink = e.target.getAttribute('data-form-link');
+    const driveId = e.target.getAttribute('data-drive-id');
+    if (driveId && driveId !== '') { // Só abre modal se tiver vídeo
+      openTrainingModal(equipamento, formLink, driveId);
+    } else {
+      // Fallback: abre em nova aba se sem vídeo
+      window.open(formLink, '_blank');
+    }
+  }
+});
+
+  
 });
 
 function clearSearch() {
@@ -362,8 +420,8 @@ const monthlyTrainings = {
   6: [], // Junho
   7: ["monitorPhilips"], // Julho
   8: ["cardioversorPhilips"], // Agosto
-  9: ["aspiradorFanem"], // Setembro
-  10: ["ecgAlfamed"], // Outubro
+  9: ["ecgAlfamed"], // Setembro
+  10: ["aspiradorFanem"], // Outubro
   11: [], // Novembro
   12: [], // Dezembro
 };
@@ -424,17 +482,14 @@ const equipmentData = {
     "camaraIndrel",
     "camaraBiotecno",
   ],
-  imagem: ["termohigrometro",
-          "cardioversorApolus"
-  ],
+  imagem: ["termohigrometro", "cardioversorApolus"],
   infusao: [
     "cardioversorPhilips",
     "cardioversorApolus",
     "bombaDeInfusaoLifemed",
     "monitorInstramedInmax12",
   ],
-  ambulatorio: ["ecgAlfamed"
-  ],
+  ambulatorio: ["ecgAlfamed"],
   cme: [
     "autoclaveBaumer",
     "termodesinfectoraBaumer",
@@ -453,6 +508,7 @@ const equipmentTemplates = {
     fabricanteModelo: "Philips Efficia CM1xx",
     duracao: "13min",
     link: "https://forms.gle/xgdswhyromyNBCbQ7",
+     driveId: "1tc_DpEWAoxVyri6DqsbNCjvuMXyRshHD",
   },
   aspiradorFanem: {
     img: "imagens/aspirador-fanem.png",
@@ -461,7 +517,8 @@ const equipmentTemplates = {
     equipamento: "Aspirador Elétrico",
     fabricanteModelo: "Fanem DPM-60",
     duracao: "10min",
-    link: "https://forms.gle/K1vzW2ruwrX4ygSw6",
+    link: "https://forms.gle/9dGdURLF8Hh2d3jf7",
+    driveId: "1Vbzvw4VrRYkEhGldHWtSoU1xRxVTn28C",
   },
   cardioversorPhilips: {
     img: "imagens/dfm_100.jpg",
@@ -470,7 +527,8 @@ const equipmentTemplates = {
     equipamento: "Cardioversor",
     fabricanteModelo: "Philips DFM100",
     duracao: "25min",
-    link: "https://forms.gle/ZzQR1BPdxYgvcUft5",
+    link: "https://forms.gle/GTAjx5d86nDwAkkc8",
+     driveId: "1kPUZ_zfMXWgXMiJRPbov8p7TSondQkpd",
   },
   mesaBarrfab: {
     img: "imagens/mesa_cirurgica_barrfab.png",
@@ -544,7 +602,8 @@ const equipmentTemplates = {
     equipamento: "Eletrocardiógrafo",
     fabricanteModelo: "Alfamed Ritmus1200",
     duracao: "13min",
-    link: "https://forms.gle/mwoUfSL1SEW59zgJ7",
+    link: "https://forms.gle/7U8PX667SK7qFyzD9",
+     driveId: "1wi2o-00KDwtkt7_NQ6TbvyT8_NBDJJGb",
   },
   cardioversorInstramed8: {
     img: "imagens/cardioversor_instramed_cardiomax8.png",
@@ -571,7 +630,8 @@ const equipmentTemplates = {
     equipamento: "Estufa para Aquecimento de Soro",
     fabricanteModelo: "Fanem 2503/1",
     duracao: "5min",
-    link: "https://forms.gle/e3GST5oeCh3WVLZP9",
+    link: "https://forms.gle/LxK7htH8SEVkxVv16",
+     driveId: "1NiGoZNp_cxEr9W7vEX-FRkkcgmarFbHi",
   },
   cardioversorApolus: {
     img: "imagens/Desfibrilador_Instramed_Apolus.png",
@@ -755,7 +815,11 @@ const createSection = (sectorKey, items) => {
   <p class="duration">duração: ${equip.duracao}</p>
   ${
     equip.link
-      ? `<a href="${equip.link}" target="_blank">Acessar Treinamento</a>`
+      ? `<a href="#" class="training-link" data-equipamento="${
+          equip.equipamento
+        }" data-form-link="${equip.link}" data-drive-id="${
+          equip.driveId || ""
+        }">Acessar Treinamento</a>`
       : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`
   }
 `;
