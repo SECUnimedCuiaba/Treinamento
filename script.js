@@ -23,7 +23,7 @@ function openTrainingModal(equipamento, formLink, driveId) {
   modal.style.display = 'block';
 }
 
-// Fechar modal (adicione isso dentro do DOMContentLoaded, após os outros event listeners)
+// Fechar modal 
 const modal = document.getElementById('trainingModal');
 const closeBtn = document.querySelector('.close');
 closeBtn.onclick = function() {
@@ -293,7 +293,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (trainingSection && setorParam !== "treinamento-mes") {
         sectorsContainer.appendChild(trainingSection);
-        // ... (filtro dos equipamentos, se necessário)
+        
       }
 
       if (selectedSection) {
