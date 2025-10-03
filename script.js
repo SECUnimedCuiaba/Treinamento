@@ -530,7 +530,7 @@ const equipmentTemplates = {
     duracao: "10min",
     link: "https://forms.gle/9dGdURLF8Hh2d3jf7",
    // driveId: "1Vbzvw4VrRYkEhGldHWtSoU1xRxVTn28C",
-     driveId: "resid=FB3C0779CEAD57DA!123&authkey=!ABCDEF12345"
+     driveId: "resid=FB3C0779CEAD57DA!s81651ed83af24477a835ed98ee5e0625"
   },
   cardioversorPhilips: {
     img: "imagens/dfm_100.jpg",
