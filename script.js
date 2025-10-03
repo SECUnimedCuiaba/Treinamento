@@ -15,8 +15,19 @@ function openTrainingModal(equipamento, formLink, driveId) {
   const formIframe = document.getElementById('formIframe');
 
   modalTitle.textContent = equipamento;
-  // Embed do vídeo no Drive
+  
+
+  // Embed do vídeo (Drive ou OneDrive)
+if (driveId.startsWith("resid=")) {
+  // OneDrive
+  videoIframe.src = `https://onedrive.live.com/embed?${driveId}&em=2`;
+} else {
+  // Google Drive
   videoIframe.src = `https://drive.google.com/file/d/${driveId}/preview`;
+}
+  // Embed do vídeo no Drive
+  //videoIframe.src = `h  ttps://drive.google.com/file/d/${driveId}/preview`;
+
   // Embed do Google Form
   formIframe.src = `${formLink}?embedded=true`;
 
@@ -518,7 +529,8 @@ const equipmentTemplates = {
     fabricanteModelo: "Fanem DPM-60",
     duracao: "10min",
     link: "https://forms.gle/9dGdURLF8Hh2d3jf7",
-    driveId: "1Vbzvw4VrRYkEhGldHWtSoU1xRxVTn28C",
+   // driveId: "1Vbzvw4VrRYkEhGldHWtSoU1xRxVTn28C",
+     driveId: "resid=FB3C0779CEAD57DA!123&authkey=!ABCDEF12345"
   },
   cardioversorPhilips: {
     img: "imagens/dfm_100.jpg",
