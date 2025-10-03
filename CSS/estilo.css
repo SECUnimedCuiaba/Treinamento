@@ -612,7 +612,7 @@ a.disabled {
 
 @media (min-width: 1200px) {
   .modal-content {
-    width: 100%; /* Modal mais largo para caber iframes maiores */
+    width: 90%; /* Modal mais largo para caber iframes maiores */
     max-width: 1400px; /* Limite para não extrapolar telas ultra-wide */
   }
   
@@ -624,3 +624,4 @@ a.disabled {
     height: 600px; /* Form mais alto para rolagem fácil nas seções */
   }
 }
+
