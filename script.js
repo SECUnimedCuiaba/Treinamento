@@ -516,7 +516,7 @@ const equipmentTemplates = {
     fabricanteModelo: "Fanem DPM-60",
     duracao: "10min",
     link: "https://forms.gle/9dGdURLF8Hh2d3jf7",
-    driveId:"cid=fb3c0779cead57da&id=FB3C0779CEAD57DA!sedba08dfe2e24bc5b8629b28b46ba207&resid=FB3C0779CEAD57DA!s81651ed83af24477a835ed98ee5e0625&ithint=video,mp4&embed=1&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3YvYy9mYjNjMDc3OWNlYWQ1N2RhL0lRVFlIbVdCOGpwM1JLZzE3Wmp1WGdZbEFYcnk1MGhnVlhSRjRxcmd6dGl4NEtvP3dpZHRoPTEyODAmaGVpZ2h0PTcyMA",
+    driveId:"cid=fb3c0779cead57da&id=FB3C0779CEAD57DA!sedba08dfe2e24bc5b8629b28b46ba207&resid=FB3C0779CEAD57DA!sedba08dfe2e24bc5b8629b28b46ba207&ithint=video,mp4&embed=1&migratedtospo=true&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3YvYy9mYjNjMDc3OWNlYWQ1N2RhL0lRVGZDTHJ0NHVMRlM3aGlteWkwYTZJSEFTTHdLcG1yWWlQWk1wdnprN2JrV0FV",
     
   },
   cardioversorPhilips: {
@@ -630,7 +630,7 @@ const equipmentTemplates = {
     fabricanteModelo: "Fanem 2503/1",
     duracao: "5min",
     link: "https://forms.gle/LxK7htH8SEVkxVv16",
-    driveId: "cid=fb3c0779cead57da&id=FB3C0779CEAD57DA!sedba08dfe2e24bc5b8629b28b46ba207&resid=FB3C0779CEAD57DA!sedba08dfe2e24bc5b8629b28b46ba207&ithint=video,mp4&embed=1&migratedtospo=true&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3YvYy9mYjNjMDc3OWNlYWQ1N2RhL0lRVGZDTHJ0NHVMRlM3aGlteWkwYTZJSEFTTHdLcG1yWWlQWk1wdnprN2JrV0FV",
+    driveId: "cid=fb3c0779cead57da&id=FB3C0779CEAD57DA!sedba08dfe2e24bc5b8629b28b46ba207&resid=FB3C0779CEAD57DA!s81651ed83af24477a835ed98ee5e0625&ithint=video,mp4&embed=1&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3YvYy9mYjNjMDc3OWNlYWQ1N2RhL0lRVFlIbVdCOGpwM1JLZzE3Wmp1WGdZbEFYcnk1MGhnVlhSRjRxcmd6dGl4NEtvP3dpZHRoPTEyODAmaGVpZ2h0PTcyMA",
   },
   cardioversorApolus: {
     img: "imagens/Desfibrilador_Instramed_Apolus.png",
