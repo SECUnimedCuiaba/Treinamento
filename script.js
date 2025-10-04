@@ -9,46 +9,35 @@ function toggleSector(header) {
 
 // Função para abrir o modal com vídeo e form
 function openTrainingModal(equipamento, formLink, driveId) {
-  const modal = document.getElementById('trainingModal');
-  const modalTitle = document.getElementById('modalTitle');
-  const videoIframe = document.getElementById('videoIframe');
-  const formIframe = document.getElementById('formIframe');
+  const modal = document.getElementById("trainingModal");
+  const modalTitle = document.getElementById("modalTitle");
+  const videoIframe = document.getElementById("videoIframe");
+  const formIframe = document.getElementById("formIframe");
 
   modalTitle.textContent = equipamento;
-  
-
-  // Embed do vídeo (Drive ou OneDrive)
-if (driveId.startsWith("resid=")) {
-  // OneDrive
-  videoIframe.src = `https://onedrive.live.com/embed?${driveId}&em=2`;
-} else {
-  // Google Drive
-  videoIframe.src = `https://drive.google.com/file/d/${driveId}/preview`;
-}
-  // Embed do vídeo no Drive
-  //videoIframe.src = `h  ttps://drive.google.com/file/d/${driveId}/preview`;
-
+  // Embed OneDrive
+    videoIframe.src = `https://onedrive.live.com/embed?${driveId}`;
   // Embed do Google Form
   formIframe.src = `${formLink}?embedded=true`;
 
-  modal.style.display = 'block';
+  modal.style.display = "block";
 }
 
 // Fechar modal 
-const modal = document.getElementById('trainingModal');
-const closeBtn = document.querySelector('.close');
-closeBtn.onclick = function() {
-  modal.style.display = 'none';
+const modal = document.getElementById("trainingModal");
+const closeBtn = document.querySelector(".close");
+closeBtn.onclick = function () {
+  modal.style.display = "none";
   // Reset iframes para evitar cache
-  document.getElementById('videoIframe').src = '';
-  document.getElementById('formIframe').src = '';
+  document.getElementById("videoIframe").src = "";
+  document.getElementById("formIframe").src = "";
 };
 
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (event.target === modal) {
-    modal.style.display = 'none';
-    document.getElementById('videoIframe').src = '';
-    document.getElementById('formIframe').src = '';
+    modal.style.display = "none";
+    document.getElementById("videoIframe").src = "";
+    document.getElementById("formIframe").src = "";
   }
 };
 
@@ -124,10 +113,8 @@ document.addEventListener("DOMContentLoaded", function () {
          equip.driveId || ""
        }">Acessar Treinamento</a>`
      : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`
-  }
+ }
   `;
-
-
 
             cardsContainer.appendChild(card);
           }
@@ -304,7 +291,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (trainingSection && setorParam !== "treinamento-mes") {
         sectorsContainer.appendChild(trainingSection);
-        
+        // ... (filtro dos equipamentos, se necessário)
       }
 
       if (selectedSection) {
@@ -385,23 +372,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-// Event listener para links de treinamento (abrir modal)
-document.addEventListener('click', function(e) {
-  if (e.target.classList.contains('training-link')) {
-    e.preventDefault();
-    const equipamento = e.target.getAttribute('data-equipamento');
-    const formLink = e.target.getAttribute('data-form-link');
-    const driveId = e.target.getAttribute('data-drive-id');
-    if (driveId && driveId !== '') { // Só abre modal se tiver vídeo
-      openTrainingModal(equipamento, formLink, driveId);
-    } else {
-      // Fallback: abre em nova aba se sem vídeo
-      window.open(formLink, '_blank');
+  // Event listener para links de treinamento (abrir modal)
+  document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("training-link")) {
+      e.preventDefault();
+      const equipamento = e.target.getAttribute("data-equipamento");
+      const formLink = e.target.getAttribute("data-form-link");
+      const driveId = e.target.getAttribute("data-drive-id");
+      if (driveId && driveId !== "") {
+        // Só abre modal se tiver vídeo
+        openTrainingModal(equipamento, formLink, driveId);
+      } else {
+        // Fallback: abre em nova aba se sem vídeo
+        window.open(formLink, "_blank");
+      }
     }
-  }
-});
-
-  
+  });
 });
 
 function clearSearch() {
@@ -519,7 +505,8 @@ const equipmentTemplates = {
     fabricanteModelo: "Philips Efficia CM1xx",
     duracao: "13min",
     link: "https://forms.gle/xgdswhyromyNBCbQ7",
-     driveId: "1tc_DpEWAoxVyri6DqsbNCjvuMXyRshHD",
+    driveId: "cid=fb3c0779cead57da&id=FB3C0779CEAD57DA!sefade4ad6ac3491a970bdd3bdcf062db&resid=FB3C0779CEAD57DA!sefade4ad6ac3491a970bdd3bdcf062db&ithint=video,mp4&embed=1&width=1276&height=720&migratedtospo=true&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3YvYy9mYjNjMDc3OWNlYWQ1N2RhL0lRU3Q1SzN2dzJvYVNaY0wzVHZjOEdMYkFXcmtOVWxJbldRS20weHBFVnI0Y0JjP3dpZHRoPTEyNzYmaGVpZ2h0PTcyMA",
+    
   },
   aspiradorFanem: {
     img: "imagens/aspirador-fanem.png",
@@ -529,8 +516,8 @@ const equipmentTemplates = {
     fabricanteModelo: "Fanem DPM-60",
     duracao: "10min",
     link: "https://forms.gle/9dGdURLF8Hh2d3jf7",
-   // driveId: "1Vbzvw4VrRYkEhGldHWtSoU1xRxVTn28C",
-     driveId: "resid=FB3C0779CEAD57DA!s81651ed83af24477a835ed98ee5e0625"
+    driveId:"cid=fb3c0779cead57da&id=FB3C0779CEAD57DA!sedba08dfe2e24bc5b8629b28b46ba207&resid=FB3C0779CEAD57DA!s81651ed83af24477a835ed98ee5e0625&ithint=video,mp4&embed=1&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3YvYy9mYjNjMDc3OWNlYWQ1N2RhL0lRVFlIbVdCOGpwM1JLZzE3Wmp1WGdZbEFYcnk1MGhnVlhSRjRxcmd6dGl4NEtvP3dpZHRoPTEyODAmaGVpZ2h0PTcyMA",
+    
   },
   cardioversorPhilips: {
     img: "imagens/dfm_100.jpg",
@@ -540,7 +527,7 @@ const equipmentTemplates = {
     fabricanteModelo: "Philips DFM100",
     duracao: "25min",
     link: "https://forms.gle/GTAjx5d86nDwAkkc8",
-     driveId: "1kPUZ_zfMXWgXMiJRPbov8p7TSondQkpd",
+    driveId: "cid=fb3c0779cead57da&id=FB3C0779CEAD57DA!s3664c787c4634c02979a597c62ffc5a6&resid=FB3C0779CEAD57DA!s3664c787c4634c02979a597c62ffc5a6&ithint=video,mp4&embed=1&width=1280&height=720&migratedtospo=true&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3YvYy9mYjNjMDc3OWNlYWQ1N2RhL0lRU0h4MlEyWThRQ1RKZWFXWHhpXzhXbUFTcWMySFUtbmZHT1FxY3FPTVhTbHVjP3dpZHRoPTEyODAmaGVpZ2h0PTcyMA",
   },
   mesaBarrfab: {
     img: "imagens/mesa_cirurgica_barrfab.png",
@@ -615,7 +602,7 @@ const equipmentTemplates = {
     fabricanteModelo: "Alfamed Ritmus1200",
     duracao: "13min",
     link: "https://forms.gle/7U8PX667SK7qFyzD9",
-     driveId: "1wi2o-00KDwtkt7_NQ6TbvyT8_NBDJJGb",
+    driveId: "cid=fb3c0779cead57da&id=FB3C0779CEAD57DA!s6e69a5530cf34b1382c2561450649337&resid=FB3C0779CEAD57DA!s6e69a5530cf34b1382c2561450649337&ithint=video,mp4&embed=1&width=1280&height=720&migratedtospo=true&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3YvYy9mYjNjMDc3OWNlYWQ1N2RhL0lRUlRwV2x1OHd3VFM0TENWaFJRWkpNM0FmUDlCLWFYd3dpX2dfNWhLaDFpTEhZP3dpZHRoPTEyODAmaGVpZ2h0PTcyMA",
   },
   cardioversorInstramed8: {
     img: "imagens/cardioversor_instramed_cardiomax8.png",
@@ -643,7 +630,7 @@ const equipmentTemplates = {
     fabricanteModelo: "Fanem 2503/1",
     duracao: "5min",
     link: "https://forms.gle/LxK7htH8SEVkxVv16",
-     driveId: "1NiGoZNp_cxEr9W7vEX-FRkkcgmarFbHi",
+    driveId: "cid=fb3c0779cead57da&id=FB3C0779CEAD57DA!sedba08dfe2e24bc5b8629b28b46ba207&resid=FB3C0779CEAD57DA!sedba08dfe2e24bc5b8629b28b46ba207&ithint=video,mp4&embed=1&migratedtospo=true&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3YvYy9mYjNjMDc3OWNlYWQ1N2RhL0lRVGZDTHJ0NHVMRlM3aGlteWkwYTZJSEFTTHdLcG1yWWlQWk1wdnprN2JrV0FV",
   },
   cardioversorApolus: {
     img: "imagens/Desfibrilador_Instramed_Apolus.png",
