@@ -74,25 +74,24 @@ function validateAccess() {
     return;
   }
 
-  fetch(FLOW_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "validar", matricula, email })
-  })
+  const url = `${FLOW_URL}?action=validar&matricula=${encodeURIComponent(matricula)}&email=${encodeURIComponent(email)}`;
+
+  fetch(url)
   .then(response => response.json())
   .then(data => {
+    console.log("Resposta:", data); // Debug
     if (data.authorized) {
       document.getElementById("loginForm").style.display = "none";
       document.getElementById("contentArea").style.display = "block";
-      loadContent(); // Função que set a src dos iframes (veja abaixo)
+      loadContent();
       message.textContent = "";
     } else {
       message.textContent = data.message || "Acesso negado. Solicite aprovação.";
     }
   })
   .catch(error => {
-    message.textContent = "Erro de conexão. Tente novamente.";
     console.error("Erro:", error);
+    message.textContent = "Erro de conexão. Tente novamente.";
   });
 }
 
@@ -106,15 +105,13 @@ function requestAccess() {
     return;
   }
 
-  fetch(FLOW_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "solicitar", matricula, email })
-  })
+  const url = `${FLOW_URL}?action=solicitar&matricula=${encodeURIComponent(matricula)}&email=${encodeURIComponent(email)}`;
+
+  fetch(url)
   .then(response => response.json())
   .then(data => {
+    console.log("Resposta:", data); // Debug
     message.textContent = data.message || "Solicitação enviada com sucesso! Aguarde aprovação.";
-    // Opcional: limpa campos ou fecha modal após 3s
     setTimeout(() => {
       document.getElementById("matriculaInput").value = "";
       document.getElementById("emailInput").value = "";
@@ -122,8 +119,8 @@ function requestAccess() {
     }, 3000);
   })
   .catch(error => {
-    message.textContent = "Erro ao enviar solicitação.";
     console.error("Erro:", error);
+    message.textContent = "Erro ao enviar solicitação.";
   });
 }
 
