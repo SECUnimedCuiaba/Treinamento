@@ -1,7 +1,7 @@
 function toggleSector(header) {
   const section = header.parentElement;
-  const cards = section.querySelector(.equipment-cards);
-  const arrow = header.querySelector(.arrow);
+  const cards = section.querySelector('.equipment-cards');
+  const arrow = header.querySelector('.arrow');
 
   cards.classList.toggle(collapsed);
   header.classList.toggle(open);
