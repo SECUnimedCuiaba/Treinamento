@@ -1,217 +1,120 @@
 function toggleSector(header) {
   const section = header.parentElement;
-  const cards = section.querySelector(".equipment-cards");
-  const arrow = header.querySelector(".arrow");
+  const cards = section.querySelector(.equipment-cards);
+  const arrow = header.querySelector(.arrow);
 
-  cards.classList.toggle("collapsed");
-  header.classList.toggle("open");
+  cards.classList.toggle(collapsed);
+  header.classList.toggle(open);
 }
 
-// Função para abrir o modal com vídeo e form (ajustada para autenticação)
+ Função para abrir o modal com vídeo e form
 function openTrainingModal(equipamento, formLink, driveId) {
-  const modal = document.getElementById("trainingModal");
-  const modalTitle = document.getElementById("modalTitle");
+  const modal = document.getElementById(trainingModal);
+  const modalTitle = document.getElementById(modalTitle);
+  const videoIframe = document.getElementById(videoIframe);
+  const formIframe = document.getElementById(formIframe);
 
   modalTitle.textContent = equipamento;
-  
-  // Armazena dados para carregar depois da validação
-  window.currentEquipamento = equipamento;
-  window.currentFormLink = formLink;
-  window.currentDriveId = driveId;
+   Embed OneDrive
+    videoIframe.src = `httpsonedrive.live.comembed${driveId}`;
+   Embed do Google Form
+  formIframe.src = `${formLink}embedded=true`;
 
-  // Inicialmente, esconde conteúdo e mostra form de login
-  document.getElementById("loginForm").style.display = "block";
-  document.getElementById("contentArea").style.display = "none";
-  document.getElementById("videoIframe").src = "";
-  document.getElementById("formIframe").src = "";
-
-  modal.style.display = "block";
+  modal.style.display = block;
 }
 
-// Fechar modal 
-document.addEventListener("DOMContentLoaded", function() {
-  const modal = document.getElementById("trainingModal");
-  const closeBtn = document.querySelector(".close");
+ Fechar modal 
+const modal = document.getElementById(trainingModal);
+const closeBtn = document.querySelector(.close);
+closeBtn.onclick = function () {
+  modal.style.display = none;
+   Reset iframes para evitar cache
+  document.getElementById(videoIframe).src = ;
+  document.getElementById(formIframe).src = ;
+};
 
-  closeBtn.onclick = function () {
-    modal.style.display = "none";
-    // Reset iframes para evitar cache
-    document.getElementById("videoIframe").src = "";
-    document.getElementById("formIframe").src = "";
-    // Limpa campos de login
-    document.getElementById("matriculaInput").value = "";
-    document.getElementById("emailInput").value = "";
-    document.getElementById("loginMessage").textContent = "";
-  };
+window.onclick = function (event) {
+  if (event.target === modal) {
+    modal.style.display = none;
+    document.getElementById(videoIframe).src = ;
+    document.getElementById(formIframe).src = ;
+  }
+};
 
-  window.onclick = function (event) {
-    if (event.target === modal) {
-      modal.style.display = "none";
-      document.getElementById("videoIframe").src = "";
-      document.getElementById("formIframe").src = "";
-      // Limpa campos de login
-      document.getElementById("matriculaInput").value = "";
-      document.getElementById("emailInput").value = "";
-      document.getElementById("loginMessage").textContent = "";
-    }
-  };
+ Iniciar todos abertos
+document.querySelectorAll(.equipment-cards).forEach((el) = {
+  el.classList.add(open);
 });
 
-// Iniciar todos abertos
-document.querySelectorAll(".equipment-cards").forEach((el) => {
-  el.classList.add("open");
-});
+document.addEventListener(DOMContentLoaded, function () {
+   1. Primeiro inicializa todos os setores como abertos
+  document.querySelectorAll(.sector-category).forEach((section) = {
+    const header = section.querySelector(.sector-header);
+    const cards = section.querySelector(.equipment-cards);
 
-const FLOW_URL = "https://script.google.com/macros/s/AKfycbz3gqQa1gluvwfkAB9patFAeLJ3Ogc_jAZuHAj3K2GpU85RZWEeEv_sJ62TnL468Icr/exec"; // Cole a URL gerada no Power Automate
-
-function validateAccess() {
-  const matricula = document.getElementById("matriculaInput").value.trim();
-  const email = document.getElementById("emailInput").value.trim();
-  const message = document.getElementById("loginMessage");
-
-  if (!matricula || !email) {
-    message.textContent = "Preencha todos os campos.";
-    return;
-  }
-
-  const url = `${FLOW_URL}?action=validar&matricula=${encodeURIComponent(matricula)}&email=${encodeURIComponent(email)}`;
-
-  fetch(url)
-  .then(response => response.json())
-  .then(data => {
-    console.log("Resposta:", data); // Debug
-    if (data.authorized) {
-      document.getElementById("loginForm").style.display = "none";
-      document.getElementById("contentArea").style.display = "block";
-      loadContent();
-      message.textContent = "";
-    } else {
-      message.textContent = data.message || "Acesso negado. Solicite aprovação.";
-    }
-  })
-  .catch(error => {
-    console.error("Erro:", error);
-    message.textContent = "Erro de conexão. Tente novamente.";
-  });
-}
-
-function requestAccess() {
-  const matricula = document.getElementById("matriculaInput").value.trim();
-  const email = document.getElementById("emailInput").value.trim();
-  const message = document.getElementById("loginMessage");
-
-  if (!matricula || !email) {
-    message.textContent = "Preencha todos os campos.";
-    return;
-  }
-
-  const url = `${FLOW_URL}?action=solicitar&matricula=${encodeURIComponent(matricula)}&email=${encodeURIComponent(email)}`;
-
-  fetch(url)
-  .then(response => response.json())
-  .then(data => {
-    console.log("Resposta:", data); // Debug
-    message.textContent = data.message || "Solicitação enviada com sucesso! Aguarde aprovação.";
-    setTimeout(() => {
-      document.getElementById("matriculaInput").value = "";
-      document.getElementById("emailInput").value = "";
-      document.getElementById("trainingModal").style.display = "none";
-    }, 3000);
-  })
-  .catch(error => {
-    console.error("Erro:", error);
-    message.textContent = "Erro ao enviar solicitação.";
-  });
-}
-
-function loadContent() {
-  const videoIframe = document.getElementById("videoIframe");
-  const formIframe = document.getElementById("formIframe");
-  const driveId = window.currentDriveId;
-  const formLink = window.currentFormLink;
-
-  // Embed do vídeo no Drive ou OneDrive
-  if (driveId && driveId.includes("resid=")) {
-    // OneDrive
-    videoIframe.src = `https://onedrive.live.com/embed?${driveId}`;
-  } else if (driveId) {
-    // Google Drive (fallback)
-    videoIframe.src = `https://drive.google.com/file/d/${driveId}/preview`;
-  }
-  
-  // Embed do Google Form
-  formIframe.src = `${formLink}?embedded=true`;
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  // 1. Primeiro inicializa todos os setores como abertos
-  document.querySelectorAll(".sector-category").forEach((section) => {
-    const header = section.querySelector(".sector-header");
-    const cards = section.querySelector(".equipment-cards");
-
-    // Adiciona as classes corretas
-    header.classList.add("open");
-    cards.style.display = "grid"; // Força o display grid
+     Adiciona as classes corretas
+    header.classList.add(open);
+    cards.style.display = grid;  Força o display grid
   });
 
-  // 2. Depois verifica os parâmetros da URL
+   2. Depois verifica os parâmetros da URL
   const params = new URLSearchParams(window.location.search);
-  const setorParam = params.get("setor");
+  const setorParam = params.get(setor);
 
   if (setorParam) {
-    // Reordena os setores
-    const sectorsContainer = document.getElementById("sectors-container");
+     Reordena os setores
+    const sectorsContainer = document.getElementById(sectors-container);
     const allSections = Array.from(
-      document.querySelectorAll(".sector-category")
+      document.querySelectorAll(.sector-category)
     );
 
-    // Encontra o setor selecionado e o treinamento do mês
+     Encontra o setor selecionado e o treinamento do mês
     const selectedSection = allSections.find(
-      (s) => s.getAttribute("data-setor") === setorParam
+      (s) = s.getAttribute(data-setor) === setorParam
     );
     const trainingSection = allSections.find(
-      (s) => s.getAttribute("data-setor") === "treinamento-mes"
+      (s) = s.getAttribute(data-setor) === treinamento-mes
     );
 
-    // Remove todas as seções do container
-    allSections.forEach((section) => section.remove());
+     Remove todas as seções do container
+    allSections.forEach((section) = section.remove());
 
-    // Adiciona primeiro o treinamento do mês (se existir e não for o setor selecionado)
-    if (trainingSection && setorParam !== "treinamento-mes") {
+     Adiciona primeiro o treinamento do mês (se existir e não for o setor selecionado)
+    if (trainingSection && setorParam !== treinamento-mes) {
       sectorsContainer.appendChild(trainingSection);
 
-      // Filtra os equipamentos do treinamento do mês conforme necessário
-      const setorEquipments = equipmentData[setorParam] || [];
-      const monthlyEquipments = equipmentData["treinamento-mes"];
-      const filteredEquipments = monthlyEquipments.filter((equip) =>
+       Filtra os equipamentos do treinamento do mês conforme necessário
+      const setorEquipments = equipmentData[setorParam]  [];
+      const monthlyEquipments = equipmentData[treinamento-mes];
+      const filteredEquipments = monthlyEquipments.filter((equip) =
         setorEquipments.includes(equip)
       );
 
-      if (filteredEquipments.length > 0) {
+      if (filteredEquipments.length  0) {
         const cardsContainer =
-          trainingSection.querySelector(".equipment-cards");
-        cardsContainer.innerHTML = "";
+          trainingSection.querySelector(.equipment-cards);
+        cardsContainer.innerHTML = ;
 
-        filteredEquipments.forEach((item) => {
+        filteredEquipments.forEach((item) = {
           const equip = equipmentTemplates[item];
           if (equip) {
-            const card = document.createElement("div");
-            card.className = "card";
+            const card = document.createElement(div);
+            card.className = card;
             card.innerHTML = `
-  <img src="${equip.img}" alt="${equip.alt}">
-  <h3>${equip.equipamento}</h3>
-  <p class="fabricante">${equip.fabricanteModelo}</p>
-  <p class="duration">duração: ${equip.duracao}</p>
-  ${
-    equip.link
-      ? `<a href="#" class="training-link" data-equipamento="${
-          equip.equipamento
-        }" data-form-link="${equip.link}" data-drive-id="${
-          equip.driveId || ""
-        }">Acessar Treinamento</a>`
-      : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`
-  }
-`;
+  img src=${equip.img} alt=${equip.alt}
+  h3${equip.equipamento}h3
+  p class=fabricante${equip.fabricanteModelo}p
+  p class=durationduração ${equip.duracao}p
+ ${
+   equip.link
+      `a href=# class=training-link data-equipamento=${
+         equip.equipamento
+       } data-form-link=${equip.link} data-drive-id=${
+         equip.driveId  
+       }Acessar Treinamentoa`
+      `a class=disabled href=# onclick=return false;Disponível em brevea`
+ }
+  `;
 
             cardsContainer.appendChild(card);
           }
@@ -221,56 +124,56 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-    // Adiciona o setor selecionado
+     Adiciona o setor selecionado
     if (selectedSection) {
       sectorsContainer.appendChild(selectedSection);
-      const cards = selectedSection.querySelector(".equipment-cards");
-      const header = selectedSection.querySelector(".sector-header");
-      cards.style.display = "grid";
-      header.classList.add("open");
+      const cards = selectedSection.querySelector(.equipment-cards);
+      const header = selectedSection.querySelector(.sector-header);
+      cards.style.display = grid;
+      header.classList.add(open);
     }
 
-    // Adiciona os demais setores (excluindo o selecionado e o treinamento do mês)
-    allSections.forEach((section) => {
-      const setor = section.getAttribute("data-setor");
-      if (setor !== setorParam && setor !== "treinamento-mes") {
+     Adiciona os demais setores (excluindo o selecionado e o treinamento do mês)
+    allSections.forEach((section) = {
+      const setor = section.getAttribute(data-setor);
+      if (setor !== setorParam && setor !== treinamento-mes) {
         sectorsContainer.appendChild(section);
       }
     });
   }
-  // Código do buscador de equipamentos
-  const searchInput = document.getElementById("equipmentSearchInput");
-  const equipmentList = document.getElementById("equipmentList");
-  const filteredResultsSection = document.getElementById("filtered-results");
-  const filteredCardsContainer = document.querySelector(".filtered-cards");
-  const allSections = document.querySelectorAll(".sector-category");
+   Código do buscador de equipamentos
+  const searchInput = document.getElementById(equipmentSearchInput);
+  const equipmentList = document.getElementById(equipmentList);
+  const filteredResultsSection = document.getElementById(filtered-results);
+  const filteredCardsContainer = document.querySelector(.filtered-cards);
+  const allSections = document.querySelectorAll(.sector-category);
   let currentSelectedIndex = -1;
 
-  // Botão para limpar busca
-  const clearSearchBtn = document.createElement("button");
-  clearSearchBtn.innerHTML = "×";
-  clearSearchBtn.className = "clear-search-btn";
-  clearSearchBtn.addEventListener("click", () => {
-    searchInput.value = "";
+   Botão para limpar busca
+  const clearSearchBtn = document.createElement(button);
+  clearSearchBtn.innerHTML = ×;
+  clearSearchBtn.className = clear-search-btn;
+  clearSearchBtn.addEventListener(click, () = {
+    searchInput.value = ;
     resetSearch();
     searchInput.focus();
   });
   searchInput.parentNode.insertBefore(clearSearchBtn, searchInput.nextSibling);
 
-  // Extrai todos os nomes de equipamentos únicos
+   Extrai todos os nomes de equipamentos únicos
   function extractUniqueEquipmentNames() {
     const equipmentNames = new Set();
-    document.querySelectorAll(".card h3").forEach((card) => {
+    document.querySelectorAll(.card h3).forEach((card) = {
       equipmentNames.add(card.textContent.trim());
     });
     return Array.from(equipmentNames).sort();
   }
 
-  // Extrai cards únicos por equipamento+fabricante+modelo
+   Extrai cards únicos por equipamento+fabricante+modelo
   function getUniqueEquipmentCards() {
     const cardsMap = new Map();
-    document.querySelectorAll(".card").forEach((card) => {
-      const key = card.querySelector("h3").textContent.trim();
+    document.querySelectorAll(.card).forEach((card) = {
+      const key = card.querySelector(h3).textContent.trim();
       if (!cardsMap.has(key)) {
         cardsMap.set(key, card.cloneNode(true));
       }
@@ -280,231 +183,230 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const uniqueEquipmentNames = extractUniqueEquipmentNames();
 
-  // Mostra a lista de equipamentos (completa ou filtrada)
-  function showEquipmentList(filter = "", showAll = false) {
-    equipmentList.innerHTML = "";
+   Mostra a lista de equipamentos (completa ou filtrada)
+  function showEquipmentList(filter = , showAll = false) {
+    equipmentList.innerHTML = ;
     let filtered = uniqueEquipmentNames;
 
-    if (!showAll && filter.length > 0) {
-      filtered = uniqueEquipmentNames.filter((name) =>
+    if (!showAll && filter.length  0) {
+      filtered = uniqueEquipmentNames.filter((name) =
         name.toLowerCase().includes(filter.toLowerCase())
       );
     }
 
     if (filtered.length === 0) {
-      equipmentList.style.display = "none";
+      equipmentList.style.display = none;
       return;
     }
 
-    filtered.forEach((name, index) => {
-      const div = document.createElement("div");
+    filtered.forEach((name, index) = {
+      const div = document.createElement(div);
       div.textContent = name;
-      div.addEventListener("click", () => {
+      div.addEventListener(click, () = {
         searchInput.value = name;
-        equipmentList.style.display = "none";
+        equipmentList.style.display = none;
         showFilteredResults(name);
       });
-      div.addEventListener("mouseover", () => {
+      div.addEventListener(mouseover, () = {
         currentSelectedIndex = index;
         updateSelectedItem();
       });
       equipmentList.appendChild(div);
     });
 
-    equipmentList.style.display = "block";
+    equipmentList.style.display = block;
     currentSelectedIndex = -1;
     updateSelectedItem();
   }
 
-  // Atualiza o item selecionado na lista
+   Atualiza o item selecionado na lista
   function updateSelectedItem() {
-    const items = equipmentList.querySelectorAll("div");
-    items.forEach((item, index) => {
-      item.classList.toggle("selected", index === currentSelectedIndex);
+    const items = equipmentList.querySelectorAll(div);
+    items.forEach((item, index) = {
+      item.classList.toggle(selected, index === currentSelectedIndex);
     });
   }
 
-  // Mostra os resultados filtrados
+   Mostra os resultados filtrados
   function showFilteredResults(equipmentName) {
-    // Oculta todas as seções de setores
-    allSections.forEach((section) => {
-      section.style.display = "none";
+     Oculta todas as seções de setores
+    allSections.forEach((section) = {
+      section.style.display = none;
     });
 
-    // Limpa resultados anteriores
-    filteredCardsContainer.innerHTML = "";
+     Limpa resultados anteriores
+    filteredCardsContainer.innerHTML = ;
 
-    // Usa um Map para evitar duplicatas (chave: equipamento + fabricanteModelo)
+     Usa um Map para evitar duplicatas (chave equipamento + fabricanteModelo)
     const uniqueCardsMap = new Map();
 
-    // Percorre todos os cards
-    document.querySelectorAll(".card").forEach((card) => {
-      const cardName = card.querySelector("h3").textContent.trim();
+     Percorre todos os cards
+    document.querySelectorAll(.card).forEach((card) = {
+      const cardName = card.querySelector(h3).textContent.trim();
 
-      // Verifica se é o equipamento buscado
+       Verifica se é o equipamento buscado
       if (cardName === equipmentName) {
-        const fabricante = card.querySelector(".fabricante").textContent.trim();
-        const key = `${cardName}|${fabricante}`; // Chave única
+        const fabricante = card.querySelector(.fabricante).textContent.trim();
+        const key = `${cardName}${fabricante}`;  Chave única
 
-        // Se não existir no mapa, adiciona
+         Se não existir no mapa, adiciona
         if (!uniqueCardsMap.has(key)) {
           uniqueCardsMap.set(key, card.cloneNode(true));
         }
       }
     });
 
-    // Adiciona os cards únicos ao container
-    uniqueCardsMap.forEach((card) => {
+     Adiciona os cards únicos ao container
+    uniqueCardsMap.forEach((card) = {
       filteredCardsContainer.appendChild(card);
     });
 
-    // Mostra ou esconde a seção de resultados
+     Mostra ou esconde a seção de resultados
     filteredResultsSection.style.display =
-      uniqueCardsMap.size > 0 ? "block" : "none";
+      uniqueCardsMap.size  0  block  none;
   }
 
-  // Reseta para mostrar todos os setores
+   Reseta para mostrar todos os setores
   function resetSearch() {
-    searchInput.value = "";
-    equipmentList.style.display = "none";
+    searchInput.value = ;
+    equipmentList.style.display = none;
 
     const params = new URLSearchParams(window.location.search);
-    const setorParam = params.get("setor");
+    const setorParam = params.get(setor);
 
     if (setorParam) {
-      // Reaplica a mesma lógica de reordenação
-      const sectorsContainer = document.getElementById("sectors-container");
+       Reaplica a mesma lógica de reordenação
+      const sectorsContainer = document.getElementById(sectors-container);
       const allSections = Array.from(
-        document.querySelectorAll(".sector-category")
+        document.querySelectorAll(.sector-category)
       );
       const selectedSection = allSections.find(
-        (s) => s.getAttribute("data-setor") === setorParam
+        (s) = s.getAttribute(data-setor) === setorParam
       );
       const trainingSection = allSections.find(
-        (s) => s.getAttribute("data-setor") === "treinamento-mes"
+        (s) = s.getAttribute(data-setor) === treinamento-mes
       );
 
-      allSections.forEach((section) => section.remove());
+      allSections.forEach((section) = section.remove());
 
-      if (trainingSection && setorParam !== "treinamento-mes") {
+      if (trainingSection && setorParam !== treinamento-mes) {
         sectorsContainer.appendChild(trainingSection);
-        // ... (filtro dos equipamentos, se necessário)
+         ... (filtro dos equipamentos, se necessário)
       }
 
       if (selectedSection) {
         sectorsContainer.appendChild(selectedSection);
       }
 
-      allSections.forEach((section) => {
-        const setor = section.getAttribute("data-setor");
-        if (setor !== setorParam && setor !== "treinamento-mes") {
+      allSections.forEach((section) = {
+        const setor = section.getAttribute(data-setor);
+        if (setor !== setorParam && setor !== treinamento-mes) {
           sectorsContainer.appendChild(section);
         }
       });
     } else {
-      // Se não houver parâmetro, mostra todos os setores na ordem padrão
-      document.querySelectorAll(".sector-category").forEach((section) => {
-        section.style.display = "block";
+       Se não houver parâmetro, mostra todos os setores na ordem padrão
+      document.querySelectorAll(.sector-category).forEach((section) = {
+        section.style.display = block;
       });
     }
 
-    filteredResultsSection.style.display = "none";
+    filteredResultsSection.style.display = none;
   }
 
-  // Event listeners
-  searchInput.addEventListener("click", () => {
+   Event listeners
+  searchInput.addEventListener(click, () = {
     if (searchInput.value.length === 0) {
-      showEquipmentList("", true);
+      showEquipmentList(, true);
     } else {
       showEquipmentList(searchInput.value);
     }
   });
 
-  searchInput.addEventListener("input", (e) => {
+  searchInput.addEventListener(input, (e) = {
     const searchTerm = e.target.value;
-    if (searchTerm.length > 0) {
+    if (searchTerm.length  0) {
       showEquipmentList(searchTerm);
     } else {
       resetSearch();
     }
   });
 
-  searchInput.addEventListener("focus", () => {
-    searchInput.value = "";
-    showEquipmentList("", true);
+  searchInput.addEventListener(focus, () = {
+    searchInput.value = ;
+    showEquipmentList(, true);
   });
 
-  // Navegação com teclado
-  searchInput.addEventListener("keydown", (e) => {
-    const items = equipmentList.querySelectorAll("div");
+   Navegação com teclado
+  searchInput.addEventListener(keydown, (e) = {
+    const items = equipmentList.querySelectorAll(div);
     if (items.length === 0) return;
 
-    if (e.key === "ArrowDown") {
+    if (e.key === ArrowDown) {
       e.preventDefault();
       currentSelectedIndex = Math.min(
         currentSelectedIndex + 1,
         items.length - 1
       );
       updateSelectedItem();
-      items[currentSelectedIndex].scrollIntoView({ block: "nearest" });
-    } else if (e.key === "ArrowUp") {
+      items[currentSelectedIndex].scrollIntoView({ block nearest });
+    } else if (e.key === ArrowUp) {
       e.preventDefault();
       currentSelectedIndex = Math.max(currentSelectedIndex - 1, -1);
       updateSelectedItem();
-      if (currentSelectedIndex >= 0) {
-        items[currentSelectedIndex].scrollIntoView({ block: "nearest" });
+      if (currentSelectedIndex = 0) {
+        items[currentSelectedIndex].scrollIntoView({ block nearest });
       }
-    } else if (e.key === "Enter" && currentSelectedIndex >= 0) {
+    } else if (e.key === Enter && currentSelectedIndex = 0) {
       e.preventDefault();
       const selectedItem = items[currentSelectedIndex];
       searchInput.value = selectedItem.textContent;
-      equipmentList.style.display = "none";
+      equipmentList.style.display = none;
       showFilteredResults(selectedItem.textContent);
     }
   });
 
-  document.addEventListener("click", (e) => {
+  document.addEventListener(click, (e) = {
     if (!searchInput.contains(e.target) && !equipmentList.contains(e.target)) {
-      equipmentList.style.display = "none";
+      equipmentList.style.display = none;
     }
   });
 
-  // Event listener para links de treinamento (abrir modal)
-  document.addEventListener("click", function (e) {
-    if (e.target.classList.contains("training-link")) {
+   Event listener para links de treinamento (abrir modal)
+  document.addEventListener(click, function (e) {
+    if (e.target.classList.contains(training-link)) {
       e.preventDefault();
-      const equipamento = e.target.getAttribute("data-equipamento");
-      const formLink = e.target.getAttribute("data-form-link");
-      const driveId = e.target.getAttribute("data-drive-id");
-      if (driveId && driveId !== "") {
-        // Só abre modal se tiver vídeo
+      const equipamento = e.target.getAttribute(data-equipamento);
+      const formLink = e.target.getAttribute(data-form-link);
+      const driveId = e.target.getAttribute(data-drive-id);
+      if (driveId && driveId !== ) {
+         Só abre modal se tiver vídeo
         openTrainingModal(equipamento, formLink, driveId);
       } else {
-        // Fallback: abre em nova aba se sem vídeo
-        window.open(formLink, "_blank");
+         Fallback abre em nova aba se sem vídeo
+        window.open(formLink, _blank);
       }
     }
   });
 });
 
 function clearSearch() {
-  // Limpa o campo de busca
-  document.getElementById("equipmentSearchInput").value = "";
+   Limpa o campo de busca
+  document.getElementById(equipmentSearchInput).value = ;
 
-  // Pega a URL atual e seus parâmetros
+   Pega a URL atual e seus parâmetros
   const url = new URL(window.location.href);
-  const setor = url.searchParams.get("setor");
+  const setor = url.searchParams.get(setor);
 
-  // Monta a nova URL base com ?setor=... se existir
+   Monta a nova URL base com setor=... se existir
   let newUrl = window.location.origin + window.location.pathname;
   if (setor) {
-    newUrl += "?setor=" + encodeURIComponent(setor);
+    newUrl += setor= + encodeURIComponent(setor);
   }
 
-  // Redireciona para a nova URL
+   Redireciona para a nova URL
   window.location.href = newUrl;
 }
-
 
 const monthlyTrainings = {
   1 [],  Janeiro
@@ -855,71 +757,69 @@ const equipmentTemplates = {
   },
 };
 
-
-
 const sectorNames = {
-  "treinamento-mes": "Treinamento do mês",
-  "centro-cirurgico": "Centro Cirúrgico",
-  uti: "UTI",
-  internacao: "Internação",
-  pa: "Pronto Atendimento",
-  farmacia: "Farmácia",
-  imagem: "Diagnóstico por Imagem",
-  infusao: "Centro de Infusão",
-  ambulatorio: "Ambulatório",
-  cme: "CME",
+  treinamento-mes Treinamento do mês,
+  centro-cirurgico Centro Cirúrgico,
+  uti UTI,
+  internacao Internação,
+  pa Pronto Atendimento,
+  farmacia Farmácia,
+  imagem Diagnóstico por Imagem,
+  infusao Centro de Infusão,
+  ambulatorio Ambulatório,
+  cme CME,
 };
-const sectorsContainer = document.getElementById("sectors-container");
+const sectorsContainer = document.getElementById(sectors-container);
 
-// Função para criar seções
-const createSection = (sectorKey, items) => {
-  const section = document.createElement("section");
-  section.className = "sector-category";
+ Função para criar seções
+const createSection = (sectorKey, items) = {
+  const section = document.createElement(section);
+  section.className = sector-category;
   section.dataset.setor = sectorKey;
 
-  // Adiciona classe especial apenas para o treinamento do mês
-  if (sectorKey === "treinamento-mes") {
-    section.classList.add("featured-month");
+   Adiciona classe especial apenas para o treinamento do mês
+  if (sectorKey === treinamento-mes) {
+    section.classList.add(featured-month);
   }
 
-  const h2 = document.createElement("h2");
-  h2.className = "sector-header";
-  h2.onclick = () => toggleSector(h2);
+  const h2 = document.createElement(h2);
+  h2.className = sector-header;
+  h2.onclick = () = toggleSector(h2);
 
-  // Texto diferente para o treinamento do mês
+   Texto diferente para o treinamento do mês
   const sectionTitle =
-    sectorKey === "treinamento-mes"
-      ? `⭐ ${sectorNames[sectorKey]} `
-      : `Setor: ${sectorNames[sectorKey]}`;
+    sectorKey === treinamento-mes
+       `⭐ ${sectorNames[sectorKey]} `
+       `Setor ${sectorNames[sectorKey]}`;
 
   h2.innerHTML =
-    sectorKey === "treinamento-mes"
-      ? `<span class="featured-title"><span class="star">⭐</span>${sectorNames[sectorKey]}</span><span class="arrow">&#9654;</span>`
-      : `Setor: ${sectorNames[sectorKey]} <span class="arrow">&#9654;</span>`;
+    sectorKey === treinamento-mes
+       `span class=featured-titlespan class=star⭐span${sectorNames[sectorKey]}spanspan class=arrow&#9654;span`
+       `Setor ${sectorNames[sectorKey]} span class=arrow&#9654;span`;
 
   section.appendChild(h2);
 
-  const cardsContainer = document.createElement("div");
-  cardsContainer.className = "equipment-cards";
+  const cardsContainer = document.createElement(div);
+  cardsContainer.className = equipment-cards;
 
-  items.forEach((item) => {
+  items.forEach((item) = {
     const equip = equipmentTemplates[item];
     if (equip) {
-      const card = document.createElement("div");
-      card.className = "card";
+      const card = document.createElement(div);
+      card.className = card;
       card.innerHTML = `
-  <img src="${equip.img}" alt="${equip.alt}">
-  <h3>${equip.equipamento}</h3>
-  <p class="fabricante">${equip.fabricanteModelo}</p>
-  <p class="duration">duração: ${equip.duracao}</p>
+  img src=${equip.img} alt=${equip.alt}
+  h3${equip.equipamento}h3
+  p class=fabricante${equip.fabricanteModelo}p
+  p class=durationduração ${equip.duracao}p
   ${
     equip.link
-      ? `<a href="#" class="training-link" data-equipamento="${
+       `a href=# class=training-link data-equipamento=${
           equip.equipamento
-        }" data-form-link="${equip.link}" data-drive-id="${
-          equip.driveId || ""
-        }">Acessar Treinamento</a>`
-      : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`
+        } data-form-link=${equip.link} data-drive-id=${
+          equip.driveId  
+        }Acessar Treinamentoa`
+       `a class=disabled href=# onclick=return false;Disponível em brevea`
   }
 `;
 
@@ -931,27 +831,27 @@ const createSection = (sectorKey, items) => {
   return section;
 };
 
-// 1. Adiciona primeiro o treinamento do mês
-const monthlyTrainingItems = equipmentData["treinamento-mes"];
-if (monthlyTrainingItems.length > 0) {
+ 1. Adiciona primeiro o treinamento do mês
+const monthlyTrainingItems = equipmentData[treinamento-mes];
+if (monthlyTrainingItems.length  0) {
   sectorsContainer.appendChild(
-    createSection("treinamento-mes", monthlyTrainingItems)
+    createSection(treinamento-mes, monthlyTrainingItems)
   );
 }
 
-// 2. Depois adiciona os outros setores (excluindo o treinamento do mês)
+ 2. Depois adiciona os outros setores (excluindo o treinamento do mês)
 for (const [sectorKey, items] of Object.entries(equipmentData)) {
-  if (sectorKey !== "treinamento-mes") {
+  if (sectorKey !== treinamento-mes) {
     sectorsContainer.appendChild(createSection(sectorKey, items));
   }
 }
 
-// Função para obter treinamentos mensais
+ Função para obter treinamentos mensais
 function getMonthlyTraining() {
   const month = new Date().getMonth() + 1;
 
-  return monthlyTrainings[month] || [];
+  return monthlyTrainings[month]  [];
 }
 
-// Atualiza os equipamentos do mês
-equipmentData["treinamento-mes"] = getMonthlyTraining();
+ Atualiza os equipamentos do mês
+equipmentData[treinamento-mes] = getMonthlyTraining();
