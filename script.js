@@ -73,7 +73,27 @@ function validateAccess() {
     message.textContent = "Preencha todos os campos.";
     return;
   }
-  }
+
+  const url = `${FLOW_URL}?action=validar&matricula=${encodeURIComponent(matricula)}&email=${encodeURIComponent(email)}`;
+
+  fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    console.log("Resposta:", data); // Debug
+    if (data.authorized) {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("contentArea").style.display = "block";
+      loadContent();
+      message.textContent = "";
+    } else {
+      message.textContent = data.message || "Acesso negado. Solicite aprovação.";
+    }
+  })
+  .catch(error => {
+    console.error("Erro:", error);
+    message.textContent = "Erro de conexão. Tente novamente.";
+  });
+}
 
 function requestAccess() {
   const matricula = document.getElementById("matriculaInput").value.trim();
@@ -98,7 +118,10 @@ function requestAccess() {
       document.getElementById("trainingModal").style.display = "none";
     }, 3000);
   })
-
+  .catch(error => {
+    console.error("Erro:", error);
+    message.textContent = "Erro ao enviar solicitação.";
+  });
 }
 
 function loadContent() {
