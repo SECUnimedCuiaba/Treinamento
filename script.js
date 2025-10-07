@@ -482,6 +482,7 @@ const equipmentData = {
   imagem: ["termohigrometro", "cardioversorApolus"],
   infusao: [
     "cardioversorPhilips",
+    "monitorPhilips",
     "cardioversorApolus",
     "bombaDeInfusaoLifemed",
     "monitorInstramedInmax12",
