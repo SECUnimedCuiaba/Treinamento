@@ -62,7 +62,7 @@ document.querySelectorAll(".equipment-cards").forEach((el) => {
   el.classList.add("open");
 });
 
-const FLOW_URL = "https://script.google.com/macros/s/AKfycbxNAYvTeNgTEOHZgE2PcTcbLawq1sObLzNBpw_vJDPO_5cuMxNmXwyys8b45cw1IuEp/exec"; // Cole a URL gerada no Power Automate
+const FLOW_URL = "https://script.google.com/macros/s/AKfycbydaNIonrrWSrYsVKKPCnXYyeLpeaX4tuOoM48ZMoeRfBhaRvPKzvhTIOpA5TLJzFCi/exec"; // Cole a URL gerada no Power Automate
 
 function validateAccess() {
   const matricula = document.getElementById("matriculaInput").value.trim();
