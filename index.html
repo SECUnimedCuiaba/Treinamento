@@ -1,167 +1,86 @@
 <!DOCTYPE html>
 <html lang="pt-BR" dir="ltr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Treinamentos Operacionais - Engenharia Clínica</title>
-    <link rel="stylesheet" href="CSS/estilo.css" />
-  </head>
 
-  <body>
-    <header class="header">
-      <div class="logo"></div>
-      <div class="title-container">
-        <a href="https://equipacare.com.br/" target="_blank">
-          <h1>Engenharia Clínica</h1>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Treinamentos Operacionais - Engenharia Clínica</title>
+  <link rel="stylesheet" href="CSS/estilo.css">
+</head>
+
+<body>
+  <header class="header">
+    <div class="logo"></div>
+    <div class="title-container">
+      <a href="https://equipacare.com.br/" target="_blank">
+        <h1>Engenharia Clínica</h1>
+      </a>
+    </div>
+    <div class="logo_cba"></div>
+  </header>
+
+  <main class="container">
+    <h1 style="margin-bottom: 60px;">Treinamentos Operacionais em Equipamentos Médicos</h1>
+
+    <div id="equipment-search" class="search-wrapper">
+      <input type="text" id="equipmentSearchInput" placeholder="Outros equipamentos...">
+      <button type="button" class="clear-search-btn" onclick="clearSearch()">×</button>
+      <div id="equipmentList" class="equipment-list"></div>
+    </div>
+
+    <section id="sectors-container">
+      <!-- Os setores e equipamentos serão gerados dinamicamente -->
+    </section>
+
+    <section id="filtered-results" class="filter-section" style="display: none;">
+      <h2 class="sector-header">Resultados da Busca</h2>
+      <div class="equipment-cards filtered-cards"></div>
+    </section>
+
+    <div id="filters">
+      <div class="button-group">
+        <a href="https://equipacare-edu.com.br/" class="common-button equipacare-edu-button" target="_blank">
+          EquipacareEdu
         </a>
-      </div>
-      <div class="logo_cba"></div>
-    </header>
-
-    <main class="container">
-      <h1 style="margin-bottom: 60px">
-        Treinamentos Operacionais em Equipamentos Médicos
-      </h1>
-
-      <div id="equipment-search" class="search-wrapper">
-        <input
-          type="text"
-          id="equipmentSearchInput"
-          placeholder="Outros equipamentos..."
-        />
-        <button type="button" class="clear-search-btn" onclick="clearSearch()">
-          ×
-        </button>
-        <div id="equipmentList" class="equipment-list"></div>
-      </div>
-
-      <section id="sectors-container">
-        <!-- Os setores e equipamentos serão gerados dinamicamente -->
-      </section>
-
-      <section
-        id="filtered-results"
-        class="filter-section"
-        style="display: none"
-      >
-        <h2 class="sector-header">Resultados da Busca</h2>
-        <div class="equipment-cards filtered-cards"></div>
-      </section>
-
-      <div id="filters">
-        <div class="button-group">
-          <a
-            href="https://equipacare-edu.com.br/"
-            class="common-button equipacare-edu-button"
-            target="_blank"
-          >
-            EquipacareEdu
-          </a>
-        </div>
-      </div>
-    </main>
-
-    <!-- Modal para Vídeo e Formulário -->
-    <div id="trainingModal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="modal-header">
-          <h2 id="modalTitle">Treinamento</h2>
-        </div>
-        <div class="modal-body">
-          <div
-            id="loginForm"
-            style="display: block; text-align: center; padding: 20px"
-          >
-            <h3>Autenticação Necessária</h3>
-            <input
-              type="text"
-              id="matriculaInput"
-              placeholder="Matrícula"
-              required
-              style="margin: 10px; padding: 10px; width: 200px"
-            />
-            <br />
-            <input
-              type="email"
-              id="emailInput"
-              placeholder="E-mail Corporativo"
-              required
-              style="margin: 10px; padding: 10px; width: 200px"
-            />
-            <br />
-            <button
-              onclick="validateAccess()"
-              style="
-                margin: 10px;
-                padding: 10px;
-                background: #007bff;
-                color: white;
-                border: none;
-              "
-            >
-              Acessar Treinamento
-            </button>
-            <br />
-            <button
-              onclick="requestAccess()"
-              style="
-                margin: 10px;
-                padding: 10px;
-                background: #28a745;
-                color: white;
-                border: none;
-              "
-            >
-              Solicitar Acesso
-            </button>
-            <p id="loginMessage" style="color: red; margin-top: 10px"></p>
-          </div>
-          <div id="contentArea" style="display: none">
-            
-<div class="iframe-container">
-            <!-- Iframe do Vídeo (Drive) -->
-            <div class="video-section">
-              <h3>Assista ao Vídeo</h3>
-              <iframe
-                id="videoIframe"
-                src=""
-                width="100%"
-                height="400"
-                frameborder="0"
-                allow="autoplay; fullscreen"
-                title="Vídeo de Treinamento"
-              ></iframe>
-            </div>
-            <!-- Iframe do Formulário -->
-            <div class="form-section">
-              <h3>Preencha o Formulário</h3>
-              <iframe
-                id="formIframe"
-                src=""
-                width="100%"
-                height="600"
-                frameborder="0"
-                marginheight="0"
-                marginwidth="0"
-                title="Formulário de Feedback"
-              ></iframe>
-            </div>
-
-
-
-          </div>
-
-          
-          </div>
-        </div>
       </div>
     </div>
 
-    <footer>
-      <p>&copy; 2025 Equipacare. Todos os direitos reservados.</p>
-    </footer>
+  </main>
 
-    <script src="script.js" defer></script>
-  </body>
+
+<!-- Modal para Vídeo e Formulário -->
+<div id="trainingModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-header">
+            <h2 id="modalTitle">Treinamento</h2>
+        </div>
+        <div class="modal-body">
+            <div class="iframe-container">
+                <!-- Iframe do Vídeo (Drive) -->
+                <div class="video-section">
+                    <h3>Assista ao Vídeo</h3>
+                    <iframe id="videoIframe" src="" width="100%" height="400" frameborder="0" allow="autoplay; fullscreen" title="Vídeo de Treinamento"></iframe>
+                  
+                </div>
+                <!-- Iframe do Formulário -->
+                <div class="form-section">
+                    <h3>Preencha o Formulário</h3>
+                    <iframe id="formIframe" src="" width="100%" height="600" frameborder="0" marginheight="0" marginwidth="0" title="Formulário de Feedback"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+  <footer>
+    <p>&copy; 2025 Equipacare. Todos os direitos reservados.</p>
+  </footer>
+
+ 
+  <script src="script.js" defer></script>
+</body>
 </html>
+
+
