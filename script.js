@@ -73,35 +73,8 @@ function validateAccess() {
     message.textContent = "Preencha todos os campos.";
     return;
   }
-
-  // Workaround: usar JSONP ou redirecionar para URL com parâmetros
-  const url = `${FLOW_URL}?action=validar&matricula=${encodeURIComponent(matricula)}&email=${encodeURIComponent(email)}`;
-  
-  // Criar script temporário para contornar CORS
-  const scriptId = 'tempJsonpScript';
-  const oldScript = document.getElementById(scriptId);
-  if (oldScript) oldScript.remove();
-  
-  const script = document.createElement('script');
-  script.id = scriptId;
-  script.src = url + '&callback=handleValidationResponse';
-  document.head.appendChild(script);
-}
-
-// Função de callback para o JSONP
-function handleValidationResponse(data) {
-  const message = document.getElementById("loginMessage");
-  
-  if (data.authorized) {
-    document.getElementById("loginForm").style.display = "none";
-    document.getElementById("contentArea").style.display = "block";
-    loadContent();
-    message.textContent = "";
-  } else {
-    message.textContent = data.message || "Acesso negado. Solicite aprovação.";
-    message.style.color = "red";
   }
-}
+
 function requestAccess() {
   const matricula = document.getElementById("matriculaInput").value.trim();
   const email = document.getElementById("emailInput").value.trim();
@@ -125,10 +98,7 @@ function requestAccess() {
       document.getElementById("trainingModal").style.display = "none";
     }, 3000);
   })
-  .catch(error => {
-    console.error("Erro:", error);
-    message.textContent = "Erro ao enviar solicitação.";
-  });
+
 }
 
 function loadContent() {
