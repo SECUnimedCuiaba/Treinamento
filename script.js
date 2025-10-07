@@ -7,44 +7,144 @@ function toggleSector(header) {
   header.classList.toggle("open");
 }
 
-// Função para abrir o modal com vídeo e form
+// Função para abrir o modal com vídeo e form (ajustada para autenticação)
 function openTrainingModal(equipamento, formLink, driveId) {
   const modal = document.getElementById("trainingModal");
   const modalTitle = document.getElementById("modalTitle");
-  const videoIframe = document.getElementById("videoIframe");
-  const formIframe = document.getElementById("formIframe");
 
   modalTitle.textContent = equipamento;
-  // Embed OneDrive
-    videoIframe.src = `https://onedrive.live.com/embed?${driveId}`;
-  // Embed do Google Form
-  formIframe.src = `${formLink}?embedded=true`;
+  
+  // Armazena dados para carregar depois da validação
+  window.currentEquipamento = equipamento;
+  window.currentFormLink = formLink;
+  window.currentDriveId = driveId;
+
+  // Inicialmente, esconde conteúdo e mostra form de login
+  document.getElementById("loginForm").style.display = "block";
+  document.getElementById("contentArea").style.display = "none";
+  document.getElementById("videoIframe").src = "";
+  document.getElementById("formIframe").src = "";
 
   modal.style.display = "block";
 }
 
 // Fechar modal 
-const modal = document.getElementById("trainingModal");
-const closeBtn = document.querySelector(".close");
-closeBtn.onclick = function () {
-  modal.style.display = "none";
-  // Reset iframes para evitar cache
-  document.getElementById("videoIframe").src = "";
-  document.getElementById("formIframe").src = "";
-};
+document.addEventListener("DOMContentLoaded", function() {
+  const modal = document.getElementById("trainingModal");
+  const closeBtn = document.querySelector(".close");
 
-window.onclick = function (event) {
-  if (event.target === modal) {
+  closeBtn.onclick = function () {
     modal.style.display = "none";
+    // Reset iframes para evitar cache
     document.getElementById("videoIframe").src = "";
     document.getElementById("formIframe").src = "";
-  }
-};
+    // Limpa campos de login
+    document.getElementById("matriculaInput").value = "";
+    document.getElementById("emailInput").value = "";
+    document.getElementById("loginMessage").textContent = "";
+  };
+
+  window.onclick = function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+      document.getElementById("videoIframe").src = "";
+      document.getElementById("formIframe").src = "";
+      // Limpa campos de login
+      document.getElementById("matriculaInput").value = "";
+      document.getElementById("emailInput").value = "";
+      document.getElementById("loginMessage").textContent = "";
+    }
+  };
+});
 
 // Iniciar todos abertos
 document.querySelectorAll(".equipment-cards").forEach((el) => {
   el.classList.add("open");
 });
+
+const FLOW_URL = "https://script.google.com/macros/s/AKfycby3wggb3wbH3O-j298yLsGcMx1StO8mHVQ6LkNlke9RGWzIkIEQiAoq_wBKGjm1kJFE/exec"; // Cole a URL gerada no Power Automate
+
+function validateAccess() {
+  const matricula = document.getElementById("matriculaInput").value.trim();
+  const email = document.getElementById("emailInput").value.trim();
+  const message = document.getElementById("loginMessage");
+
+  if (!matricula || !email) {
+    message.textContent = "Preencha todos os campos.";
+    return;
+  }
+
+  fetch(FLOW_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "validar", matricula, email })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.authorized) {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("contentArea").style.display = "block";
+      loadContent(); // Função que set a src dos iframes (veja abaixo)
+      message.textContent = "";
+    } else {
+      message.textContent = data.message || "Acesso negado. Solicite aprovação.";
+    }
+  })
+  .catch(error => {
+    message.textContent = "Erro de conexão. Tente novamente.";
+    console.error("Erro:", error);
+  });
+}
+
+function requestAccess() {
+  const matricula = document.getElementById("matriculaInput").value.trim();
+  const email = document.getElementById("emailInput").value.trim();
+  const message = document.getElementById("loginMessage");
+
+  if (!matricula || !email) {
+    message.textContent = "Preencha todos os campos.";
+    return;
+  }
+
+  fetch(FLOW_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "solicitar", matricula, email })
+  })
+  .then(response => response.json())
+  .then(data => {
+    message.textContent = data.message || "Solicitação enviada com sucesso! Aguarde aprovação.";
+    // Opcional: limpa campos ou fecha modal após 3s
+    setTimeout(() => {
+      document.getElementById("matriculaInput").value = "";
+      document.getElementById("emailInput").value = "";
+      document.getElementById("trainingModal").style.display = "none";
+    }, 3000);
+  })
+  .catch(error => {
+    message.textContent = "Erro ao enviar solicitação.";
+    console.error("Erro:", error);
+  });
+}
+
+function loadContent() {
+  const videoIframe = document.getElementById("videoIframe");
+  const formIframe = document.getElementById("formIframe");
+  const driveId = window.currentDriveId;
+  const formLink = window.currentFormLink;
+
+  // Embed do vídeo no Drive ou OneDrive
+  if (driveId && driveId.includes("resid=")) {
+    // OneDrive
+    videoIframe.src = `https://onedrive.live.com/embed?${driveId}`;
+  } else if (driveId) {
+    // Google Drive (fallback)
+    videoIframe.src = `https://drive.google.com/file/d/${driveId}/preview`;
+  }
+  
+  // Embed do Google Form
+  formIframe.src = `${formLink}?embedded=true`;
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   // 1. Primeiro inicializa todos os setores como abertos
@@ -105,16 +205,16 @@ document.addEventListener("DOMContentLoaded", function () {
   <h3>${equip.equipamento}</h3>
   <p class="fabricante">${equip.fabricanteModelo}</p>
   <p class="duration">duração: ${equip.duracao}</p>
- ${
-   equip.link
-     ? `<a href="#" class="training-link" data-equipamento="${
-         equip.equipamento
-       }" data-form-link="${equip.link}" data-drive-id="${
-         equip.driveId || ""
-       }">Acessar Treinamento</a>`
-     : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`
- }
-  `;
+  ${
+    equip.link
+      ? `<a href="#" class="training-link" data-equipamento="${
+          equip.equipamento
+        }" data-form-link="${equip.link}" data-drive-id="${
+          equip.driveId || ""
+        }">Acessar Treinamento</a>`
+      : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`
+  }
+`;
 
             cardsContainer.appendChild(card);
           }
@@ -506,7 +606,6 @@ const equipmentTemplates = {
     duracao: "13min",
     link: "https://forms.gle/xgdswhyromyNBCbQ7",
     driveId: "cid=fb3c0779cead57da&id=FB3C0779CEAD57DA!sefade4ad6ac3491a970bdd3bdcf062db&resid=FB3C0779CEAD57DA!sefade4ad6ac3491a970bdd3bdcf062db&ithint=video,mp4&embed=1&width=1276&height=720&migratedtospo=true&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3YvYy9mYjNjMDc3OWNlYWQ1N2RhL0lRU3Q1SzN2dzJvYVNaY0wzVHZjOEdMYkFXcmtOVWxJbldRS20weHBFVnI0Y0JjP3dpZHRoPTEyNzYmaGVpZ2h0PTcyMA",
-    
   },
   aspiradorFanem: {
     img: "imagens/aspirador-fanem.png",
@@ -516,8 +615,7 @@ const equipmentTemplates = {
     fabricanteModelo: "Fanem DPM-60",
     duracao: "10min",
     link: "https://forms.gle/9dGdURLF8Hh2d3jf7",
-    driveId:"cid=fb3c0779cead57da&id=FB3C0779CEAD57DA!sedba08dfe2e24bc5b8629b28b46ba207&resid=FB3C0779CEAD57DA!sedba08dfe2e24bc5b8629b28b46ba207&ithint=video,mp4&embed=1&migratedtospo=true&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3YvYy9mYjNjMDc3OWNlYWQ1N2RhL0lRVGZDTHJ0NHVMRlM3aGlteWkwYTZJSEFTTHdLcG1yWWlQWk1wdnprN2JrV0FV",
-    
+    driveId: "cid=fb3c0779cead57da&id=FB3C0779CEAD57DA!sedba08dfe2e24bc5b8629b28b46ba207&resid=FB3C0779CEAD57DA!s81651ed83af24477a835ed98ee5e0625&ithint=video,mp4&embed=1&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3YvYy9mYjNjMDc3OWNlYWQ1N2RhL0lRVFlIbVdCOGpwM1JLZzE3Wmp1WGdZbEFYcnk1MGhnVlhSRjRxcmd6dGl4NEtvP3dpZHRoPTEyODAmaGVpZ2h0PTcyMA",
   },
   cardioversorPhilips: {
     img: "imagens/dfm_100.jpg",
