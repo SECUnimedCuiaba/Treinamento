@@ -1,45 +1,4 @@
-.sector-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  padding-right: 10px;
-}
-
-.arrow {
-  font-size: 18px;
-  transition: transform 0.3s ease;
-}
-
-.equipment-cards {
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  overflow: auto;
-  max-height: 1000px;
-  transition: max-height 0.5s ease;
-  gap: 16px;
-  padding-bottom: 16px;
-  justify-content: center;
-}
-
-.equipment-cards::-webkit-scrollbar {
-  height: 6px;
-}
-
-.equipment-cards::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
-}
-
-.equipment-cards.collapsed {
-  max-height: 0;
-  padding: 0;
-  margin: 0;
-}
-
-.sector-header.open .arrow {
-  transform: rotate(90deg);
-}
-
+/* ========== RESET E CONFIGURAÇÕES GERAIS ========== */
 body {
   font-family: Arial, sans-serif;
   margin: 20px;
@@ -47,13 +6,27 @@ body {
   color: #333;
 }
 
+.container {
+  max-width: 1200px;
+  margin: auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #153664;
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+/* ========== HEADER ========== */
 .header {
   display: flex;
   max-width: 1200px;
   margin: auto;
   margin-bottom: 30px;
-  position: relative;
-  display: flex;
   align-items: center;
   justify-content: center;
   height: 140px;
@@ -63,6 +36,7 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   flex-wrap: wrap;
   text-align: center;
+  position: relative;
 }
 
 .logo {
@@ -87,51 +61,192 @@ body {
   background-position: center;
 }
 
+.title-container {
+  text-align: center;
+}
+
 .title-container h1 {
   margin: 0;
   font-size: 2.5rem;
   color: #153664;
 }
 
-.title-container {
-  text-align: center;
+/* ========== CONTROLES DE BUSCA ========== */
+.search-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 650px;
+  margin: 30px auto 40px auto;
+  justify-content: center;
 }
 
-.container {
-  max-width: 1200px;
-  margin: auto;
-  background: #fff;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.change-sector-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0 16px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-h1 {
-  color: #153664;
-  text-align: center;
-  margin-bottom: 0px;
+.change-sector-btn:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
+.search-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+}
+
+.search-wrapper input[type="text"] {
+  width: 100%;
+  padding: 10px 100px 10px 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  height: 40px;
+  font-family: Arial, sans-serif;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 7px 14px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  height: 30px;
+  white-space: nowrap;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.clear-search-btn:hover {
+  background: #5a6268;
+  transform: translateY(-50%) scale(1.02);
+}
+
+/* ========== LISTA DE EQUIPAMENTOS ========== */
+.equipment-list {
+  position: absolute;
+  width: 100%;
+  max-height: 40vh;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  display: none;
+  top: 100%;
+  left: 0;
+}
+
+.equipment-list div {
+  padding: 12px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.equipment-list div:hover {
+  background-color: #f8f9fa;
+}
+
+.equipment-list div:last-child {
+  border-bottom: none;
+}
+
+.equipment-list div.selected {
+  background-color: #e9ecef;
+  font-weight: bold;
+}
+
+/* ========== SEÇÕES DE SETORES ========== */
 .sector-category {
   margin-bottom: 50px;
 }
 
-.sector-category h2 {
+.sector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding-right: 10px;
   color: #0056b3;
   border-bottom: 2px solid #007bff;
   padding-bottom: 10px;
   margin-bottom: 30px;
 }
 
+.arrow {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.sector-header.open .arrow {
+  transform: rotate(90deg);
+}
+
+.equipment-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  padding-bottom: 16px;
+  justify-content: center;
+  max-height: 1000px;
+  transition: max-height 0.5s ease;
+  overflow: auto;
+}
+
+.equipment-cards::-webkit-scrollbar {
+  height: 6px;
+}
+
+.equipment-cards::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+.equipment-cards.collapsed {
+  max-height: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* ========== CARDS DE EQUIPAMENTOS ========== */
 .card {
   display: flex;
   flex-direction: column;
-  min-width: 200px;
-  flex: 1 1 calc(33.333% - 16px);
-  /* 3 por linha */
-  min-width: 250px;
-  flex: 0 0 auto;
-  scroll-snap-align: start;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -139,6 +254,12 @@ h1 {
   overflow: hidden;
   text-align: center;
   transition: transform 0.2s ease-in-out;
+  min-width: 250px;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .card img {
@@ -180,29 +301,12 @@ h1 {
   text-decoration: none;
   font-weight: bold;
   transition: background-color 0.3s;
+  position: relative;
+  overflow: hidden;
 }
 
 .card a:hover {
   background-color: #218838;
-}
-
-footer {
-  text-align: center;
-  margin-top: 50px;
-  padding-top: 20px;
-  border-top: 1px solid #eee;
-  color: #666;
-  font-size: 0.9em;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.card a {
-  position: relative;
-  overflow: hidden;
 }
 
 .card a:hover::after {
@@ -223,6 +327,66 @@ a.disabled {
   cursor: not-allowed;
 }
 
+/* ========== SEÇÃO DE RESULTADOS FILTRADOS ========== */
+.filter-section {
+  margin-bottom: 50px;
+}
+
+.filter-section h2 {
+  color: #0056b3;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+}
+
+.filtered-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+/* ========== TREINAMENTO DO MÊS ========== */
+.featured-month {
+  background-color: #f8f4e5;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 30px;
+  border-left: 5px solid #ffc107;
+}
+
+.featured-month .sector-header {
+  color: #d4a017;
+  font-size: 1.6em;
+  border-bottom-color: #ffc107;
+}
+
+.featured-month .card {
+  background-color: #fffdf6;
+  border: 1px solid #ffe69c;
+}
+
+.featured-title {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: bold;
+  font-size: 1em;
+  color: #ffc107;
+}
+
+.featured-title .star {
+  animation: pulse-star 1.8s infinite;
+  font-size: 1em;
+  text-shadow: 0 0 4px #ffd54f;
+}
+
+@keyframes pulse-star {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+}
+
+/* ========== BOTÕES GERAIS ========== */
 .button-group {
   margin-top: 15px;
   text-align: center;
@@ -248,245 +412,11 @@ a.disabled {
   background-color: #4a637c;
 }
 
-#equipment-search {
-  margin: 30px 0 20px;
-  position: relative;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.equipment-list {
-  position: relative;
-  width: 100%;
-  max-height: 40vh;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-  display: none;
-}
-
-.equipment-list div {
-  padding: 10px 15px;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-}
-
-.equipment-list div:hover {
-  background-color: #f5f5f5;
-}
-
-.equipment-list div:last-child {
-  border-bottom: none;
-}
-.filter-section {
-  margin-bottom: 50px;
-}
-
-.filter-section h2 {
-  color: #0056b3;
-  border-bottom: 2px solid #007bff;
-  padding-bottom: 10px;
-  margin-bottom: 30px;
-}
-
-.filtered-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 25px;
-}
-
-.equipment-list div.selected {
-  background-color: #e0e0e0;
-}
-
-#equipment-search {
-  position: relative;
-}
-
 .common-button:focus {
   outline: 2px solid #007bff;
 }
 
-.search-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto 40px auto;
-}
-
-.search-wrapper input[type="text"] {
-  width: 100%;
-  padding: 10px 36px 10px 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  box-sizing: border-box;
-}
-
-.clear-search-btn {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: transparent;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.featured-month {
-  background-color: #f8f4e5;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 30px;
-  border-left: 5px solid #ffc107;
-}
-
-.featured-month .sector-header {
-  color: #d4a017;
-  font-size: 1.6em;
-}
-
-.featured-month .card {
-  background-color: #fffdf6;
-  border: 1px solid #ffe69c;
-}
-
-.featured-title {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-weight: bold;
-  font-size: 1em;
-  color: #ffc107;
-}
-
-.featured-title .star {
-  animation: pulse-star 1.8s infinite;
-  font-size: 1em;
-  margin-bottom: 10px;
-  text-shadow: 0 0 4px #ffd54f;
-}
-
-@keyframes pulse-star {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.4);
-  }
-}
-
-@media (min-width: 768px) {
-  .equipment-cards {
-    flex-wrap: wrap;
-    overflow-x: visible;
-    scroll-snap-type: none;
-  }
-}
-
-@media (max-width: 900px) {
-  .header {
-    flex-wrap: wrap;
-    row-gap: 10px;
-    height: auto;
-    min-height: 120px;
-    padding: 10px 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    text-align: center;
-  }
-
-  .title-container {
-    order: 2;
-    width: 100%;
-    padding: 0 10px;
-  }
-
-  .title-container h1 {
-    position: static;
-    font-size: 40px;
-    margin: 10px 0;
-    line-height: 1.3;
-  }
-
-  .logo,
-  .logo_cba {
-    position: relative;
-    top: auto;
-    margin: 0 15px;
-  }
-
-  .logo {
-    order: 1;
-    left: auto;
-    width: 240px;
-    height: 90px;
-  }
-
-  .logo_cba {
-    order: 3;
-    right: auto;
-    width: 200px;
-    height: 90px;
-  }
-
-  @media (max-width: 600px) {
-    .title-container h1 {
-      font-size: 28px;
-    }
-
-    .logo {
-      width: 180px;
-      height: 70px;
-    }
-
-    .logo_cba {
-      width: 150px;
-      height: 70px;
-    }
-  }
-
-  /* Ajuste extra para celulares muito pequenos */
-  @media (max-width: 480px) {
-    .title-container h1 {
-      font-size: 28px;
-    }
-
-    .logo {
-      width: 160px;
-      height: 60px;
-    }
-
-    .logo_cba {
-      width: 130px;
-      height: 60px;
-    }
-  }
-
-  .featured-month .sector-header {
-    color: #d4a017;
-    font-size: 1.4em;
-  }
-
-  .featured-title .star {
-    animation: pulse-star 1.8s infinite;
-    font-size: 0.8em;
-    margin-bottom: 4px;
-    text-shadow: 0 0 4px #ffd54f;
-  }
-}
-
-/* Estilos para o Modal */
+/* ========== MODAIS ========== */
 .modal {
   display: none;
   position: fixed;
@@ -571,13 +501,76 @@ a.disabled {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Modal de Seleção de Setor */
+#sectorModal .sector-modal {
+  max-width: 600px;
+  text-align: center;
+  padding: 30px;
+  font-family: Arial, sans-serif;
+}
+
+.sector-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 25px 0;
+}
+
+.sector-btn {
+  padding: 15px 10px;
+  background: #f8f9fa;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  color: #495057;
+  font-family: Arial, sans-serif;
+}
+
+.sector-btn:hover {
+  background: #e9ecef;
+  border-color: #007bff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.sector-btn.all-sectors {
+  grid-column: 1 / -1;
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.sector-btn.all-sectors:hover {
+  background: #0056b3;
+  border-color: #0056b3;
+}
+
+.modal-note {
+  font-size: 12px;
+  color: #6c757d;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+/* ========== FOOTER ========== */
+footer {
+  text-align: center;
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  color: #666;
+  font-size: 0.9em;
+}
+
+/* ========== ANIMAÇÕES ========== */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideIn {
@@ -588,6 +581,77 @@ a.disabled {
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+/* ========== RESPONSIVIDADE ========== */
+@media (max-width: 900px) {
+  .header {
+    flex-wrap: wrap;
+    row-gap: 10px;
+    height: auto;
+    min-height: 120px;
+    padding: 10px;
+    flex-direction: column;
+  }
+
+  .title-container {
+    order: 2;
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .title-container h1 {
+    position: static;
+    font-size: 40px;
+    margin: 10px 0;
+    line-height: 1.3;
+  }
+
+  .logo,
+  .logo_cba {
+    position: relative;
+    top: auto;
+    margin: 0 15px;
+  }
+
+  .logo {
+    order: 1;
+    left: auto;
+    width: 240px;
+    height: 90px;
+  }
+
+  .logo_cba {
+    order: 3;
+    right: auto;
+    width: 200px;
+    height: 90px;
+  }
+
+  .search-controls {
+    flex-direction: column;
+    gap: 10px;
+    max-width: 500px;
+  }
+  
+  .search-wrapper {
+    min-width: 100%;
+    max-width: 100%;
+  }
+  
+  .change-sector-btn {
+    width: 100%;
+    max-width: 200px;
+    order: -1;
+  }
+
+  .featured-month .sector-header {
+    font-size: 1.4em;
+  }
+
+  .featured-title .star {
+    font-size: 0.8em;
   }
 }
 
@@ -607,7 +671,55 @@ a.disabled {
   .modal-content {
     width: 95%;
     margin: 10% auto;
-  }        
+  }
+
+  .equipment-cards {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .title-container h1 {
+    font-size: 28px;
+  }
+
+  .logo {
+    width: 180px;
+    height: 70px;
+  }
+
+  .logo_cba {
+    width: 150px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title-container h1 {
+    font-size: 28px;
+  }
+
+  .logo {
+    width: 160px;
+    height: 60px;
+  }
+
+  .logo_cba {
+    width: 130px;
+    height: 60px;
+  }
+
+  .search-wrapper input[type="text"] {
+    padding: 10px 85px 10px 12px;
+    font-size: 14px;
+  }
+  
+  .clear-search-btn {
+    padding: 7px 12px;
+    font-size: 11px;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -624,7 +736,3 @@ a.disabled {
     height: 600px; 
   }
 }
-
-
-
-
