@@ -1,3 +1,38 @@
+// Modal de seleção de setor
+function initSectorModal() {
+  const modal = document.getElementById('sectorModal');
+  const changeSectorBtn = document.getElementById('changeSectorBtn');
+  const params = new URLSearchParams(window.location.search);
+  const setorParam = params.get('setor');
+  
+  // Controla visibilidade do botão e modal
+  if (!setorParam) {
+    modal.style.display = 'block';
+    if (changeSectorBtn) changeSectorBtn.style.display = 'none';
+  } else {
+    modal.style.display = 'none';
+    if (changeSectorBtn) {
+      changeSectorBtn.style.display = 'block';
+     }
+  }
+  
+  // Event listeners para os botões de setor
+  document.querySelectorAll('.sector-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const setor = this.getAttribute('data-setor');
+      const newUrl = `${window.location.pathname}?setor=${encodeURIComponent(setor)}`;
+      window.location.href = newUrl;
+    });
+  });
+  
+  // Event listener para o botão "Alterar Setor"
+  if (changeSectorBtn) {
+    changeSectorBtn.addEventListener('click', function() {
+      modal.style.display = 'block';
+    });
+  }
+}
+
 function toggleSector(header) {
   const section = header.parentElement;
   const cards = section.querySelector(".equipment-cards");
@@ -47,7 +82,10 @@ document.querySelectorAll(".equipment-cards").forEach((el) => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  // 1. Primeiro inicializa todos os setores como abertos
+   // Inicializa o modal de seleção de setor
+  initSectorModal();
+
+  // Primeiro inicializa todos os setores como abertos
   document.querySelectorAll(".sector-category").forEach((section) => {
     const header = section.querySelector(".sector-header");
     const cards = section.querySelector(".equipment-cards");
@@ -58,49 +96,48 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // 2. Depois verifica os parâmetros da URL
-  const params = new URLSearchParams(window.location.search);
-  const setorParam = params.get("setor");
+const params = new URLSearchParams(window.location.search);
+const setorParam = params.get("setor");
 
-  if (setorParam) {
-    // Reordena os setores
-    const sectorsContainer = document.getElementById("sectors-container");
-    const allSections = Array.from(
-      document.querySelectorAll(".sector-category")
+//Incluir todos ====//
+if (setorParam && setorParam !== "todos") {
+  const sectorsContainer = document.getElementById("sectors-container");
+  const allSections = Array.from(
+    document.querySelectorAll(".sector-category")
+  );
+
+  // Encontra o setor selecionado e o treinamento do mês
+  const selectedSection = allSections.find(
+    (s) => s.getAttribute("data-setor") === setorParam
+  );
+  const trainingSection = allSections.find(
+    (s) => s.getAttribute("data-setor") === "treinamento-mes"
+  );
+
+  // Remove todas as seções do container
+  allSections.forEach((section) => section.remove());
+
+  // Adiciona primeiro o treinamento do mês (se existir e não for o setor selecionado)
+  if (trainingSection && setorParam !== "treinamento-mes") {
+    sectorsContainer.appendChild(trainingSection);
+
+    // Filtra os equipamentos do treinamento do mês conforme necessário
+    const setorEquipments = equipmentData[setorParam] || [];
+    const monthlyEquipments = equipmentData["treinamento-mes"];
+    const filteredEquipments = monthlyEquipments.filter((equip) =>
+      setorEquipments.includes(equip)
     );
 
-    // Encontra o setor selecionado e o treinamento do mês
-    const selectedSection = allSections.find(
-      (s) => s.getAttribute("data-setor") === setorParam
-    );
-    const trainingSection = allSections.find(
-      (s) => s.getAttribute("data-setor") === "treinamento-mes"
-    );
+    if (filteredEquipments.length > 0) {
+      const cardsContainer = trainingSection.querySelector(".equipment-cards");
+      cardsContainer.innerHTML = "";
 
-    // Remove todas as seções do container
-    allSections.forEach((section) => section.remove());
-
-    // Adiciona primeiro o treinamento do mês (se existir e não for o setor selecionado)
-    if (trainingSection && setorParam !== "treinamento-mes") {
-      sectorsContainer.appendChild(trainingSection);
-
-      // Filtra os equipamentos do treinamento do mês conforme necessário
-      const setorEquipments = equipmentData[setorParam] || [];
-      const monthlyEquipments = equipmentData["treinamento-mes"];
-      const filteredEquipments = monthlyEquipments.filter((equip) =>
-        setorEquipments.includes(equip)
-      );
-
-      if (filteredEquipments.length > 0) {
-        const cardsContainer =
-          trainingSection.querySelector(".equipment-cards");
-        cardsContainer.innerHTML = "";
-
-        filteredEquipments.forEach((item) => {
-          const equip = equipmentTemplates[item];
-          if (equip) {
-            const card = document.createElement("div");
-            card.className = "card";
-            card.innerHTML = `
+      filteredEquipments.forEach((item) => {
+        const equip = equipmentTemplates[item];
+        if (equip) {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
   <img src="${equip.img}" alt="${equip.alt}">
   <h3>${equip.equipamento}</h3>
   <p class="fabricante">${equip.fabricanteModelo}</p>
@@ -115,32 +152,32 @@ document.addEventListener("DOMContentLoaded", function () {
       : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`
   }
 `;
-
-            cardsContainer.appendChild(card);
-          }
-        });
-      } else {
-        trainingSection.remove();
-      }
+          cardsContainer.appendChild(card);
+        }
+      });
+    } else {
+      trainingSection.remove();
     }
-
-    // Adiciona o setor selecionado
-    if (selectedSection) {
-      sectorsContainer.appendChild(selectedSection);
-      const cards = selectedSection.querySelector(".equipment-cards");
-      const header = selectedSection.querySelector(".sector-header");
-      cards.style.display = "grid";
-      header.classList.add("open");
-    }
-
-    // Adiciona os demais setores (excluindo o selecionado e o treinamento do mês)
-    allSections.forEach((section) => {
-      const setor = section.getAttribute("data-setor");
-      if (setor !== setorParam && setor !== "treinamento-mes") {
-        sectorsContainer.appendChild(section);
-      }
-    });
   }
+
+  // Adiciona o setor selecionado
+  if (selectedSection) {
+    sectorsContainer.appendChild(selectedSection);
+    const cards = selectedSection.querySelector(".equipment-cards");
+    const header = selectedSection.querySelector(".sector-header");
+    cards.style.display = "grid";
+    header.classList.add("open");
+  }
+/*
+  // Adiciona os demais setores (excluindo o selecionado e o treinamento do mês)
+  allSections.forEach((section) => {
+    const setor = section.getAttribute("data-setor");
+    if (setor !== setorParam && setor !== "treinamento-mes") {
+      sectorsContainer.appendChild(section);
+    }
+  });
+  */
+}
   // Código do buscador de equipamentos
   const searchInput = document.getElementById("equipmentSearchInput");
   const equipmentList = document.getElementById("equipmentList");
@@ -149,26 +186,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const allSections = document.querySelectorAll(".sector-category");
   let currentSelectedIndex = -1;
 
-  // Botão para limpar busca
-  const clearSearchBtn = document.createElement("button");
-  clearSearchBtn.innerHTML = "×";
-  clearSearchBtn.className = "clear-search-btn";
-  clearSearchBtn.addEventListener("click", () => {
-    searchInput.value = "";
-    resetSearch();
-    searchInput.focus();
-  });
-  searchInput.parentNode.insertBefore(clearSearchBtn, searchInput.nextSibling);
-
+  
   // Extrai todos os nomes de equipamentos únicos
-  function extractUniqueEquipmentNames() {
-    const equipmentNames = new Set();
-    document.querySelectorAll(".card h3").forEach((card) => {
-      equipmentNames.add(card.textContent.trim());
-    });
-    return Array.from(equipmentNames).sort();
+function extractUniqueEquipmentNames() {
+  const equipmentNames = new Set();
+  // Percorre todos os equipamentos em equipmentTemplates
+  for (const key in equipmentTemplates) {
+    equipmentNames.add(equipmentTemplates[key].equipamento);
   }
-
+  return Array.from(equipmentNames).sort();
+}
   // Extrai cards únicos por equipamento+fabricante+modelo
   function getUniqueEquipmentCards() {
     const cardsMap = new Map();
@@ -229,42 +256,57 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Mostra os resultados filtrados
   function showFilteredResults(equipmentName) {
-    // Oculta todas as seções de setores
-    allSections.forEach((section) => {
-      section.style.display = "none";
-    });
+  // Oculta todas as seções de setores
+  allSections.forEach((section) => {
+    section.style.display = "none";
+  });
 
-    // Limpa resultados anteriores
-    filteredCardsContainer.innerHTML = "";
+  // Limpa resultados anteriores
+  filteredCardsContainer.innerHTML = "";
 
-    // Usa um Map para evitar duplicatas (chave: equipamento + fabricanteModelo)
-    const uniqueCardsMap = new Map();
+  // Usa um Map para evitar duplicatas (chave: equipamento + fabricanteModelo)
+  const uniqueCardsMap = new Map();
 
-    // Percorre todos os cards
-    document.querySelectorAll(".card").forEach((card) => {
-      const cardName = card.querySelector("h3").textContent.trim();
+  // PERCORRE TODOS OS EQUIPAMENTOS DO equipmentTemplates EM VEZ DO DOM
+  Object.values(equipmentTemplates).forEach(equip => {
+    // Verifica se é o equipamento buscado
+    if (equip.equipamento === equipmentName) {
+      const fabricante = equip.fabricanteModelo;
+      const key = `${equip.equipamento}|${fabricante}`; // Chave única
 
-      // Verifica se é o equipamento buscado
-      if (cardName === equipmentName) {
-        const fabricante = card.querySelector(".fabricante").textContent.trim();
-        const key = `${cardName}|${fabricante}`; // Chave única
-
-        // Se não existir no mapa, adiciona
-        if (!uniqueCardsMap.has(key)) {
-          uniqueCardsMap.set(key, card.cloneNode(true));
-        }
+      // Se não existir no mapa, cria o card a partir do template
+      if (!uniqueCardsMap.has(key)) {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${equip.img}" alt="${equip.alt}">
+          <h3>${equip.equipamento}</h3>
+          <p class="fabricante">${equip.fabricanteModelo}</p>
+          <p class="duration">duração: ${equip.duracao}</p>
+          ${
+            equip.link
+              ? `<a href="#" class="training-link" data-equipamento="${
+                  equip.equipamento
+                }" data-form-link="${equip.link}" data-drive-id="${
+                  equip.driveId || ""
+                }">Acessar Treinamento</a>`
+              : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`
+          }
+        `;
+        uniqueCardsMap.set(key, card);
       }
-    });
+    }
+  });
 
-    // Adiciona os cards únicos ao container
-    uniqueCardsMap.forEach((card) => {
-      filteredCardsContainer.appendChild(card);
-    });
+  // Adiciona os cards únicos ao container
+  uniqueCardsMap.forEach((card) => {
+    filteredCardsContainer.appendChild(card);
+  });
 
-    // Mostra ou esconde a seção de resultados
-    filteredResultsSection.style.display =
-      uniqueCardsMap.size > 0 ? "block" : "none";
-  }
+  // Mostra ou esconde a seção de resultados
+  filteredResultsSection.style.display =
+    uniqueCardsMap.size > 0 ? "block" : "none";
+}
 
   // Reseta para mostrar todos os setores
   function resetSearch() {
@@ -331,11 +373,16 @@ document.addEventListener("DOMContentLoaded", function () {
       resetSearch();
     }
   });
-
-  searchInput.addEventListener("focus", () => {
-    searchInput.value = "";
+  
+searchInput.addEventListener('focus', () => {
+  // Se o campo estiver vazio, mostra a lista completa
+  if (searchInput.value.length === 0) {
     showEquipmentList("", true);
-  });
+  } else {
+    // Se não, mostra a lista filtrada pelo que já está digitado
+    showEquipmentList(searchInput.value);
+  }
+});
 
   // Navegação com teclado
   searchInput.addEventListener("keydown", (e) => {
@@ -389,24 +436,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
-
 function clearSearch() {
-  // Limpa o campo de busca
-  document.getElementById("equipmentSearchInput").value = "";
-
-  // Pega a URL atual e seus parâmetros
-  const url = new URL(window.location.href);
-  const setor = url.searchParams.get("setor");
-
-  // Monta a nova URL base com ?setor=... se existir
-  let newUrl = window.location.origin + window.location.pathname;
+  const url = new URL(window.location);
+  // Mantém apenas o parâmetro 'setor' se existir
+  const setor = url.searchParams.get('setor');
+  
   if (setor) {
-    newUrl += "?setor=" + encodeURIComponent(setor);
+    window.location.href = `${url.pathname}?setor=${encodeURIComponent(setor)}`;
+  } else {
+    window.location.href = url.pathname;
   }
-
-  // Redireciona para a nova URL
-  window.location.href = newUrl;
 }
+
 
 const monthlyTrainings = {
   1: [], // Janeiro
@@ -480,6 +521,7 @@ const equipmentData = {
     "camaraBiotecno",
   ],
   imagem: ["termohigrometro", "cardioversorApolus"],
+
   infusao: [
     "cardioversorPhilips",
     "monitorPhilips",
