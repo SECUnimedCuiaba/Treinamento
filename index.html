@@ -8,6 +8,32 @@
   <link rel="stylesheet" href="CSS/estilo.css">
 </head>
 
+
+
+<!-- Modal de Seleção de Setor -->
+<div id="sectorModal" class="modal">
+  <div class="modal-content sector-modal">
+    <h2>Selecione seu setor</h2>
+    <p>Escolha abaixo o setor onde você trabalha para visualizar os treinamentos específicos:</p>
+    
+    <div class="sector-buttons">
+      <button class="sector-btn" data-setor="centro-cirurgico">Centro Cirúrgico</button>
+      <button class="sector-btn" data-setor="uti">UTI</button>
+      <button class="sector-btn" data-setor="internacao">Internação</button>
+      <button class="sector-btn" data-setor="pa">Pronto Atendimento</button>
+      <button class="sector-btn" data-setor="farmacia">Farmácia</button>
+      <button class="sector-btn" data-setor="imagem">Diagnóstico por Imagem</button>
+      <button class="sector-btn" data-setor="infusao">Centro de Infusão</button>
+      <button class="sector-btn" data-setor="ambulatorio">Ambulatório</button>
+      <button class="sector-btn" data-setor="cme">CME</button>
+      <button class="sector-btn all-sectors" data-setor="todos">Todos os Setores</button>
+    </div>
+    
+    <p class="modal-note">Você poderá alterar esta seleção posteriormente clicando em Alterar Setor.</p>
+  </div>
+</div>
+
+<!-- Modal de Setores -->
 <body>
   <header class="header">
     <div class="logo"></div>
@@ -22,14 +48,24 @@
   <main class="container">
     <h1 style="margin-bottom: 60px;">Treinamentos Operacionais em Equipamentos Médicos</h1>
 
-    <div id="equipment-search" class="search-wrapper">
-      <input type="text" id="equipmentSearchInput" placeholder="Outros equipamentos...">
-      <button type="button" class="clear-search-btn" onclick="clearSearch()">×</button>
-      <div id="equipmentList" class="equipment-list"></div>
-    </div>
+
+    <!--Filtro de busca de equipamentos -->
+<div class="search-controls">
+  <button type="button" id="changeSectorBtn" class="change-sector-btn" style="display: none;">
+  Alterar Setor
+</button>
+  
+  <div id="equipment-search" class="search-wrapper">
+    <input type="text" id="equipmentSearchInput" placeholder="Outros equipamentos...">
+    <button type="button" class="clear-search-btn" onclick="clearSearch()">Limpar Busca</button>
+    <div id="equipmentList" class="equipment-list"></div>
+  </div>
+</div>
+
 
     <section id="sectors-container">
-      <!-- Os setores e equipamentos serão gerados dinamicamente -->
+
+      <!-- Gera setores e equipamentos dinamicamente -->
     </section>
 
     <section id="filtered-results" class="filter-section" style="display: none;">
