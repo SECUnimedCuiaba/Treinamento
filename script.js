@@ -16,14 +16,6 @@ function initSectorModal() {
      }
   }
   
-  // Event listeners para os botões de setor
-  document.querySelectorAll('.sector-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const setor = this.getAttribute('data-setor');
-      const newUrl = `${window.location.pathname}?setor=${encodeURIComponent(setor)}`;
-      window.location.href = newUrl;
-    });
-  });
   
   // Event listener para o botão "Alterar Setor"
   if (changeSectorBtn) {
@@ -43,17 +35,35 @@ function toggleSector(header) {
 }
 
 // Função para abrir o modal com vídeo e form
-function openTrainingModal(equipamento, formLink, driveId) {
+function openTrainingModal(equipamento, fabricante, formLink, driveId) {  
   const modal = document.getElementById("trainingModal");
   const modalTitle = document.getElementById("modalTitle");
+  const validationSection = document.getElementById("validationSection");
+  const contentSection = document.getElementById("contentSection");
   const videoIframe = document.getElementById("videoIframe");
   const formIframe = document.getElementById("formIframe");
 
-  modalTitle.textContent = equipamento;
-  // Embed OneDrive
-  videoIframe.src = `https://onedrive.live.com/embed?${driveId}`;
-  // Embed do Google Form
-  formIframe.src = `${formLink}?embedded=true`;
+  // Atualiza título com o equipamento
+  modalTitle.textContent = `Verificação para: ${equipamento}`;
+  
+  // Inicializa seções: validação visível, conteúdo oculto
+  validationSection.style.display = "block";
+  contentSection.style.display = "none";
+  
+  // Limpa campos e mensagens
+  document.getElementById("emailInputTraining").value = "";
+  document.getElementById("matriculaInputTraining").value = "";
+  document.getElementById("codeInputTraining").value = "";
+  document.getElementById("codeSectionTraining").style.display = "none";
+  document.getElementById("trainingMsg").textContent = "";
+
+  // Armazena dados do treinamento temporariamente (agora inclui fabricante)
+  sessionStorage.setItem("pendingTraining", JSON.stringify({
+    equipamento,
+    fabricante,  
+    formLink,
+    driveId
+  }));
 
   modal.style.display = "block";
 }
@@ -137,18 +147,14 @@ if (setorParam && setorParam !== "todos") {
         if (equip) {
           const card = document.createElement("div");
           card.className = "card";
-          card.innerHTML = `
+card.innerHTML = `
   <img src="${equip.img}" alt="${equip.alt}">
   <h3>${equip.equipamento}</h3>
   <p class="fabricante">${equip.fabricanteModelo}</p>
   <p class="duration">duração: ${equip.duracao}</p>
   ${
     equip.link
-      ? `<a href="#" class="training-link" data-equipamento="${
-          equip.equipamento
-        }" data-form-link="${equip.link}" data-drive-id="${
-          equip.driveId || ""
-        }">Acessar Treinamento</a>`
+      ? `<a href="#" class="training-link" data-equipamento="${equip.equipamento}" data-fabricante="${equip.fabricanteModelo}" data-form-link="${equip.link}" data-drive-id="${equip.driveId || ""}">Acessar Treinamento</a>`
       : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`
   }
 `;
@@ -419,23 +425,53 @@ searchInput.addEventListener('focus', () => {
     }
   });
 
-  // Event listener para links de treinamento (abrir modal)
-  document.addEventListener("click", function (e) {
-    if (e.target.classList.contains("training-link")) {
-      e.preventDefault();
-      const equipamento = e.target.getAttribute("data-equipamento");
-      const formLink = e.target.getAttribute("data-form-link");
-      const driveId = e.target.getAttribute("data-drive-id");
-      if (driveId && driveId !== "") {
-        // Só abre modal se tiver vídeo
-        openTrainingModal(equipamento, formLink, driveId);
-      } else {
-        // Fallback: abre em nova aba se sem vídeo
-        window.open(formLink, "_blank");
-      }
-    }
-  });
+
+// Event delegation para links de treinamento (captura cliques em cards dinâmicos)
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('training-link')) {
+    e.preventDefault();
+    const link = e.target;
+    const equipamento = link.dataset.equipamento;
+    const fabricante = link.dataset.fabricante || "";  // Captura o modelo (fallback vazio)
+    const formLink = link.dataset.formLink;
+    const driveId = link.dataset.driveId;
+    openTrainingModal(equipamento, fabricante, formLink, driveId);  // Passa fabricante
+  }
 });
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function clearSearch() {
   const url = new URL(window.location);
   // Mantém apenas o parâmetro 'setor' se existir
@@ -855,11 +891,7 @@ const createSection = (sectorKey, items) => {
   <p class="duration">duração: ${equip.duracao}</p>
   ${
     equip.link
-      ? `<a href="#" class="training-link" data-equipamento="${
-          equip.equipamento
-        }" data-form-link="${equip.link}" data-drive-id="${
-          equip.driveId || ""
-        }">Acessar Treinamento</a>`
+      ? `<a href="#" class="training-link" data-equipamento="${equip.equipamento}" data-fabricante="${equip.fabricanteModelo}" data-form-link="${equip.link}" data-drive-id="${equip.driveId || ""}">Acessar Treinamento</a>`
       : `<a class="disabled" href="#" onclick="return false;">Disponível em breve</a>`
   }
 `;
@@ -871,6 +903,16 @@ const createSection = (sectorKey, items) => {
   section.appendChild(cardsContainer);
   return section;
 };
+
+
+  // Event listeners para os botões de setor
+  document.querySelectorAll('.sector-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const setor = this.getAttribute('data-setor');
+      const newUrl = `${window.location.pathname}?setor=${encodeURIComponent(setor)}`;
+      window.location.href = newUrl;
+    });
+  });
 
 // 1. Adiciona primeiro o treinamento do mês
 const monthlyTrainingItems = equipmentData["treinamento-mes"];
@@ -896,3 +938,129 @@ function getMonthlyTraining() {
 
 // Atualiza os equipamentos do mês
 equipmentData["treinamento-mes"] = getMonthlyTraining();
+
+
+// ======== VERIFICAÇÃO PARA TREINAMENTO (NO MODAL) ========
+// Elementos do modal de treinamento
+const sendCodeBtnTraining = document.getElementById("sendCodeBtnTraining");
+const validateBtnTraining = document.getElementById("validateCodeBtnTraining");
+const emailInputTraining = document.getElementById("emailInputTraining");
+const matriculaInputTraining = document.getElementById("matriculaInputTraining");
+const codeInputTraining = document.getElementById("codeInputTraining");
+const codeSectionTraining = document.getElementById("codeSectionTraining");
+const trainingMsg = document.getElementById("trainingMsg");
+
+// Mesma URL e domínios
+const SCRIPT_URL_TRAINING = "https://script.google.com/macros/s/AKfycbwrQ73tK9fMBrAC0APGINTKt-MyDZR4JIf-U3n8oEXzJFxWqnfl59JWjM7bQh3u-zzr/exec";
+                             
+const allowedDomains = ['unimedcuiaba.coop.br', 'equipacare.com.br'];
+
+// Envia código para treinamento
+
+sendCodeBtnTraining.addEventListener("click", () => {
+  const email = emailInputTraining.value.trim();
+  const matricula = matriculaInputTraining.value.trim();
+  const domain = email.split("@")[1];
+
+  // Captura o pending e concatena equipamento + fabricante
+  const pending = JSON.parse(sessionStorage.getItem("pendingTraining") || "{}");
+  const equipamentoCompleto = `${pending.equipamento} ${pending.fabricante || ""}`.trim();
+
+  if (!email || !matricula || !equipamentoCompleto) {
+    trainingMsg.textContent = "Preencha todos os campos e selecione um treinamento válido.";
+    return;
+  }
+
+  if (!allowedDomains.includes(domain)) {
+    trainingMsg.textContent = "Somente e-mails corporativos são aceitos.";
+    return;
+  }
+
+  trainingMsg.textContent = "Enviando código...";
+  sendCodeBtnTraining.disabled = true;  // Evita spam
+
+  
+
+// Backup: Armazena matricula e equipamento no sessionStorage para uso na validação
+sessionStorage.setItem("trainingBackup", JSON.stringify({
+  matricula,
+  equipamento: equipamentoCompleto
+}));
+
+  fetch(SCRIPT_URL_TRAINING, {
+    method: "POST",
+    body: JSON.stringify({ email, matricula, equipamento: equipamentoCompleto, action: "send" })
+  })
+  .then(r => r.text())
+  .then(result => {
+    if (result === "ok") {
+      trainingMsg.textContent = "Código enviado! Verifique seu e-mail.";
+      codeSectionTraining.style.display = "block";
+    } else {
+      trainingMsg.textContent = `Erro: ${result}`;  // Ex: "invalid_matricula" ou "rate_limit"
+    }
+    sendCodeBtnTraining.disabled = false;
+  })
+  .catch(() => {
+    trainingMsg.textContent = "Falha de conexão. Tente novamente.";
+    sendCodeBtnTraining.disabled = false;
+  });
+});
+
+// Valida o código (checa no back-end)
+validateBtnTraining.addEventListener("click", () => {
+  const entered = codeInputTraining.value.trim();
+  const email = emailInputTraining.value.trim();
+  const matricula = matriculaInputTraining.value.trim();  // Captura do input
+
+  // Captura equipamento do pending (declarado ANTES do if)
+  const pending = JSON.parse(sessionStorage.getItem("pendingTraining") || "{}");
+  let equipamentoCompleto = `${pending.equipamento || ""} ${pending.fabricante || ""}`.trim();  // Calcula aqui, como no send
+
+  // Fallback: Se vazio, tenta pegar do backup salvo no send
+  if (!equipamentoCompleto) {
+    const backup = JSON.parse(sessionStorage.getItem("trainingBackup") || "{}");
+    equipamentoCompleto = backup.equipamento || "não informado";
+  }
+
+    if (!entered || !email || !matricula || !equipamentoCompleto || equipamentoCompleto === "não informado") {
+    trainingMsg.textContent = "Preencha e-mail, matrícula, código e selecione um treinamento válido.";
+    return;
+  }
+
+  trainingMsg.textContent = "Validando...";
+  validateBtnTraining.disabled = true;
+
+  fetch(SCRIPT_URL_TRAINING, {
+    method: "POST",
+    body: JSON.stringify({ email, entered, matricula, equipamento: equipamentoCompleto, action: "validate" })
+  })
+  .then(r => r.text())
+  .then(result => {
+    if (result === "ok") {
+      // Validação OK: Esconde validação, mostra conteúdo
+      document.getElementById("validationSection").style.display = "none";
+      const contentSection = document.getElementById("contentSection");
+      contentSection.style.display = "flex";
+
+      // Carrega o conteúdo pendente
+      document.getElementById("modalTitle").textContent = pending.equipamento || equipamentoCompleto;
+      document.getElementById("videoIframe").src = `https://onedrive.live.com/embed?${pending.driveId}`;
+      document.getElementById("formIframe").src = `${pending.formLink}?embedded=true`;
+
+      // Limpa pendente e backup
+      sessionStorage.removeItem("pendingTraining");
+      sessionStorage.removeItem("trainingBackup");
+
+      trainingMsg.textContent = "";  // Limpa mensagem
+    } else {
+      trainingMsg.textContent = `Erro: ${result}`;
+    }
+    validateBtnTraining.disabled = false;
+  })
+  .catch((error) => {
+    console.error("Erro no fetch:", error);  // Log de erro
+    trainingMsg.textContent = "Falha de conexão. Tente novamente.";
+    validateBtnTraining.disabled = false;
+  });
+});
