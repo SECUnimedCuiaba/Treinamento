@@ -82,7 +82,7 @@ h1 {
 }
 
 .change-sector-btn {
-  background: #6c757d;
+  background: #757575;
   color: white;
   border: none;
   border-radius: 6px;
@@ -130,8 +130,8 @@ h1 {
   right: 6px;
   top: 50%;
   transform: translateY(-50%);
-  background: #6c757d;
-  color: white;
+  background: #757575;
+  color: rgb(255, 255, 255);
   border: none;
   border-radius: 4px;
   padding: 7px 14px;
@@ -719,6 +719,7 @@ footer {
   .clear-search-btn {
     padding: 7px 12px;
     font-size: 11px;
+    
   }
 }
 
@@ -735,4 +736,42 @@ footer {
   #formIframe {
     height: 600px; 
   }
+}
+
+
+
+
+.validation-section {
+    text-align: center;
+    padding: 20px;
+}
+
+.validation-section input[type="email"],
+.validation-section input[type="text"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.validation-section button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 14px;
+}
+
+.validation-section button:hover {
+    background: #0056b3;
+}
+
+#trainingMsg {
+    font-size: 14px;
 }
