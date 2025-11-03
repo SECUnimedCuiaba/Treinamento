@@ -496,7 +496,7 @@ const monthlyTrainings = {
   8: ["cardioversorPhilips"], // Agosto
   9: ["ecgAlfamed"], // Setembro
   10: ["aspiradorFanem"], // Outubro
-  11: [], // Novembro
+  11: ["bisturiWem"], // Novembro
   12: [], // Dezembro
 };
 
