@@ -243,7 +243,7 @@ h1 {
   margin: 0;
 }
 
-/* ========== CARDS DE EQUIPAMENTOS ========== */
+/* ========== CARDS DE EQUIPAMENTOS (REVISADO) ========== */
 .card {
   display: flex;
   flex-direction: column;
@@ -267,64 +267,80 @@ h1 {
   height: 180px;
   object-fit: contain;
   border-bottom: 1px solid #eee;
+  background-color: #fff;
 }
 
 .card h3 {
   margin: 10px 0 2px;
   font-size: 1.3rem;
   font-weight: bold;
-  line-height: 1;
+  line-height: 1.2;
   color: #173866;
+  padding: 0 10px;
 }
 
 .card p.fabricante {
   color: #173866;
-  font-size: 1.2em;
-  font-weight: bold;
-  line-height: 1.5;
-  margin: 2px 0 10px;
+  font-size: 1.1em;
+  font-weight: 500;
+  margin: 5px 0;
 }
 
 .card p.duration {
   font-style: italic;
   color: #555;
   font-size: 0.9em;
-  margin: 2px 0 10px;
+  margin: 0 0 15px 0;
 }
 
-.card a {
-  display: block;
-  margin-top: auto;
-  padding: 10px 0;
-  background-color: #28a745;
+/* ========== BOTÕES DO CARD (BIPARTIDO) ========== */
+.card-buttons {
+  display: flex;
+  width: 100%;
+  margin-top: auto; /* Empurra para o final */
+  border-top: 1px solid #eee;
+}
+
+/* Estilo Base para os Links */
+.card-buttons a {
+  flex: 1; /* 50% para cada */
+  padding: 12px 5px;
   color: white;
   text-decoration: none;
   font-weight: bold;
-  transition: background-color 0.3s;
-  position: relative;
-  overflow: hidden;
+  font-size: 0.75em;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
+  border-radius: 0;
 }
 
-.card a:hover {
+/* Botão Instruções (Azul) */
+.card-buttons .instructions-link {
+  background-color: #007bff;
+  border-right: 1px solid rgba(255,255,255,0.2); /* Linha divisória */
+}
+.card-buttons .instructions-link:hover {
+  background-color: #0056b3;
+}
+
+/* Botão Treinamento (Verde) */
+.card-buttons .training-link {
+  background-color: #28a745;
+}
+.card-buttons .training-link:hover {
   background-color: #218838;
 }
 
-.card a:hover::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -60%;
-  width: 200%;
-  height: 200%;
-  background: rgba(255, 255, 255, 0.2);
-  transform: rotate(30deg);
-}
-
-a.disabled {
+/* Estado Desativado (Cinza) */
+.card-buttons a.disabled {
+  background-color: #b4b5b6 !important;
+  color: #fff;
+  cursor: default;
   pointer-events: none;
-  background-color: #ccc;
-  color: #666;
-  cursor: not-allowed;
 }
 
 /* ========== SEÇÃO DE RESULTADOS FILTRADOS ========== */
@@ -584,6 +600,74 @@ footer {
   }
 }
 
+/* ========== VALIDAÇÃO ========== */
+.validation-section {
+    text-align: center;
+    padding: 20px;
+}
+
+.validation-section input[type="email"],
+.validation-section input[type="text"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.validation-section button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 14px;
+}
+
+.validation-section button:hover {
+    background: #0056b3;
+}
+
+#trainingMsg {
+    font-size: 14px;
+}
+
+/* ========== WATERMARK ========== */
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    height: 400px;
+}
+
+.watermark {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    font-size: 14px;
+    font-weight: normal;
+    color: rgba(255, 255, 255, 0.2);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    z-index: 10;
+    animation: fadeWatermark 4s ease-in-out infinite alternate;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 5px 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    max-width: 200px;
+    word-wrap: break-word;
+}
+
+@keyframes floatWatermark {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(4deg); }
+}
+
 /* ========== RESPONSIVIDADE ========== */
 @media (max-width: 900px) {
   .header {
@@ -678,6 +762,13 @@ footer {
     overflow-x: visible;
     scroll-snap-type: none;
   }
+  
+  .watermark {
+      font-size: 12px;
+      bottom: 10px;
+      right: 10px;
+      max-width: 150px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -736,42 +827,4 @@ footer {
   #formIframe {
     height: 600px; 
   }
-}
-
-
-
-
-.validation-section {
-    text-align: center;
-    padding: 20px;
-}
-
-.validation-section input[type="email"],
-.validation-section input[type="text"] {
-    width: 100%;
-    max-width: 300px;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.validation-section button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 5px;
-    font-size: 14px;
-}
-
-.validation-section button:hover {
-    background: #0056b3;
-}
-
-#trainingMsg {
-    font-size: 14px;
 }
