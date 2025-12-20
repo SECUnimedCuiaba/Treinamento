@@ -3,17 +3,17 @@
 // ======================================================
 
 const monthlyTrainings = {
-  1: [],
-  2: [], 
-  3: [], 
-  4: [], 
+  1: ["ecgAlfamed"],
+  2: ["cardioversorPhilips"], 
+  3: ["monitorPhilips"], 
+  4: ["aspiradorFanem"], 
   5: [], 
   6: [], 
-  7: ["monitorPhilips"], 
-  8: ["cardioversorPhilips"], 
-  9: ["ecgAlfamed"], 
-  10: ["aspiradorFanem"], 
-  11: ["bisturiWem"], 
+  7: [], 
+  8: [], 
+  9: [], 
+  10: [], 
+  11: [], 
   12: []
 };
 
