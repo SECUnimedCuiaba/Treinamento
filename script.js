@@ -460,10 +460,6 @@ function closeTrainingModal() {
 }
 
 closeBtn.onclick = closeTrainingModal;
-window.onclick = function (event) {
-  if (event.target === modal) closeTrainingModal();
-};
-
 // ======================================================
 // 4. INICIALIZAÇÃO (DOMContentLoaded)
 // ======================================================
