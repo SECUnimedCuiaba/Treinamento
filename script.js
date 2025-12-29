@@ -332,18 +332,39 @@ const sectorNames = {
 // ======================================================
 
 // Funçãopara criar o card.
+
 function createCardElement(itemKey) {
   const equip = equipmentTemplates[itemKey];
-  
-  // Se o item não existir no template, retorna null
   if (!equip) return null;
 
-  // Lógica Botão Instruções (Azul se tiver link, Cinza se não)
-  const instructionButton = equip.pdfLink
-    ? `<a href="${equip.pdfLink}" target="_blank" class="instructions-link">Instruções Rápidas</a>`
-    : `<a href="#" class="instructions-link disabled" onclick="return false;">Instruções Rápidas</a>`;
+  // VERIFICAÇÃO INTELIGENTE
+  // Se existir 'window.Capacitor', significa que estamos no App.
+  // Se não existir, estamos num navegador comum (PC, Mac, Chrome mobile).
+  const isApp = (window.Capacitor !== undefined);
+  
+  const baseUrl = "https://secunimedcuiaba.github.io/Treinamento/";
+  
+  let instructionButtonHtml = "";
 
-  // Lógica Botão Treinamento (Verde se tiver link, Cinza se não)
+  if (equip.pdfLink) {
+      if (isApp) {
+          // --- MODO APP ANDROID ---
+          // Usa o Google Viewer para contornar a falta de leitor de PDF nativo
+          const fullPdfPath = baseUrl + equip.pdfLink;
+          const googleViewerLink = `https://docs.google.com/viewer?url=${fullPdfPath}&embedded=true`;
+          
+          // target="_self" para abrir na mesma janela e permitir voltar
+          instructionButtonHtml = `<a href="${googleViewerLink}" target="_self" class="instructions-link">Instruções Rápidas</a>`;
+      } else {
+          // --- MODO SITE NORMAL ---
+          // Mantém o comportamento original que já funcionava bem
+          instructionButtonHtml = `<a href="${equip.pdfLink}" target="_blank" class="instructions-link">Instruções Rápidas</a>`;
+      }
+  } else {
+      // Botão desabilitado
+      instructionButtonHtml = `<a href="#" class="instructions-link disabled" onclick="return false;">Instruções Rápidas</a>`;
+  }
+
   const trainingButton = equip.link
     ? `<a href="#" class="training-link" data-equipamento="${equip.equipamento}" data-fabricante="${equip.fabricanteModelo}" data-form-link="${equip.link}" data-drive-id="${equip.driveId || ""}">Acessar Treinamento</a>`
     : `<a class="disabled training-link" href="#" onclick="return false;">Disponível em breve</a>`;
@@ -356,7 +377,7 @@ function createCardElement(itemKey) {
     <p class="fabricante">${equip.fabricanteModelo}</p>
     <p class="duration">duração: ${equip.duracao}</p>
     <div class="card-buttons">
-      ${instructionButton}
+      ${instructionButtonHtml}
       ${trainingButton}
     </div>
   `;
@@ -684,6 +705,7 @@ function clearSearch() {
 // 5. SCRIPT DE VALIDAÇÃO (GOOGLE APPS SCRIPT)
 // ======================================================
 
+
 const sendCodeBtnTraining = document.getElementById("sendCodeBtnTraining");
 const validateBtnTraining = document.getElementById("validateCodeBtnTraining");
 const emailInputTraining = document.getElementById("emailInputTraining");
@@ -694,6 +716,8 @@ const trainingMsg = document.getElementById("trainingMsg");
 
 const SCRIPT_URL_TRAINING = "https://script.google.com/macros/s/AKfycbwrQ73tK9fMBrAC0APGINTKt-MyDZR4JIf-U3n8oEXzJFxWqnfl59JWjM7bQh3u-zzr/exec";
 const allowedDomains = ["unimedcuiaba.coop.br", "equipacare.com.br"];
+const allowedEmails = ["eng.nascimento.renato@gmail.com"];
+
 
 if (sendCodeBtnTraining) {
   sendCodeBtnTraining.addEventListener("click", () => {
@@ -702,12 +726,14 @@ if (sendCodeBtnTraining) {
     const domain = email.split("@")[1];
     const pending = JSON.parse(sessionStorage.getItem("pendingTraining") || "{}");
     const equipamentoCompleto = `${pending.equipamento} ${pending.fabricante || ""}`.trim();
+    const isAllowedDomain = allowedDomains.includes(domain);
+    const isAllowedEmail = allowedEmails.includes(email.toLowerCase());
 
     if (!email || !matricula || !equipamentoCompleto) {
       trainingMsg.textContent = "Preencha todos os campos e selecione um treinamento.";
       return;
     }
-    if (!allowedDomains.includes(domain)) {
+    if (!isAllowedDomain && !isAllowedEmail) {
       trainingMsg.textContent = "Somente e-mails corporativos são aceitos.";
       return;
     }
