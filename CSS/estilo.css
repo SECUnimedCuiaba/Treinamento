@@ -520,18 +520,19 @@ h1 {
 /* Modal de Seleção de Setor */
 #sectorModal .sector-modal {
   max-width: 600px;
+  width: 95%;
   text-align: center;
-  padding: 30px;
+  padding: 20px 15px;
+  box-sizing: border-box;
   font-family: Arial, sans-serif;
 }
 
 .sector-buttons {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 12px;
   margin: 25px 0;
 }
-
 .sector-btn {
   padding: 15px 10px;
   background: #f8f9fa;
@@ -828,3 +829,4 @@ footer {
     height: 600px; 
   }
 }
+
