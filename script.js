@@ -846,7 +846,7 @@ function verificarPromocaoApp() {
         promoDiv.innerHTML = `
             <p style="margin: 0; font-size: 14px; font-weight: bold;">Treinamentos no seu bolso!</p>
             <a href="LINK DO APP" target="_blank" style="display: inline-block; margin-top: 10px; background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">
-                📱 Instalar App MED-TRAIN
+                📱 Instalar App ***
             </a>`;
      */
      return;
