@@ -386,6 +386,8 @@ function createCardElement(itemKey) {
 
 // Modal de seleção de setor
 function initSectorModal() {
+  setTimeout(verificarPromocaoApp, 100); 
+ 
   const modal = document.getElementById("sectorModal");
   const changeSectorBtn = document.getElementById("changeSectorBtn");
   const params = new URLSearchParams(window.location.search);
@@ -820,3 +822,41 @@ if (validateBtnTraining) {
     });
   });
 }
+
+function verificarPromocaoApp() {
+    // Travapara não duplicar o banner
+    if (document.getElementById("app-promo-banner")) return;
+
+    // Verifica se está no App
+    const isApp = (window.Capacitor !== undefined);
+    if (isApp) return;
+
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    
+    // Busca o container do modal
+    const modalContainer = document.querySelector("#sectorModal .modal-content") || document.getElementById("sectorModal");
+    if (!modalContainer) return;
+
+    const promoDiv = document.createElement("div");
+    promoDiv.id = "app-promo-banner";
+    promoDiv.style.cssText = "margin-top: 20px; padding: 15px; background-color: #f0f8ff; border-radius: 8px; text-align: center; border: 1px solid #cce7ff; color: #333;";
+
+    if (isMobile) {
+      /*
+        promoDiv.innerHTML = `
+            <p style="margin: 0; font-size: 14px; font-weight: bold;">Treinamentos no seu bolso!</p>
+            <a href="LINK DO APP" target="_blank" style="display: inline-block; margin-top: 10px; background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                📱 Instalar App MED-TRAIN
+            </a>`;
+     */
+     return;
+    } else {
+        promoDiv.innerHTML = `
+            <p style="margin: 0; font-size: 14px; ">Acessar o site pelo celular:</p>
+            <img src="imagens/qrcodeSite.png" alt="QR Code App" style="margin-top: 10px; width: 100px; height: 100px; border: 5px solid white; border-radius: 5px;">
+            <p style="margin: 5px 0 0 0; font-size: 11px; color: #666;">Aponte a câmera do celular</p>`;
+    }
+
+    modalContainer.appendChild(promoDiv);
+}
+
