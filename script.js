@@ -14,7 +14,7 @@ const monthlyTrainings = {
   9: [], 
   10: [], 
   11: [], 
-  12: []
+  12: ["cardioversorPhilips"]
 };
 
 // Templates de equipamentos completos
