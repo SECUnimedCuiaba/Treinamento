@@ -297,7 +297,7 @@ h1 {
 .card-buttons {
   display: flex;
   width: 100%;
-  margin-top: auto; /* Empurra para o final */
+  margin-top: auto;
   border-top: 1px solid #eee;
 }
 
@@ -389,6 +389,20 @@ h1 {
   font-weight: bold;
   font-size: 1em;
   color: #ffc107;
+}
+.sector-btn.featured-btn {
+  background-color: #f8f4e5;
+  border: 2px solid #ffc107;
+  color: #d4a017;
+  font-weight: bold;
+  font-size: 16px; /* Um pouco maior por ser destaque */
+  justify-content: center;
+}
+
+.sector-btn.featured-btn:hover {
+  background-color: #fffdf6;
+  border-color: #d4a017;
+  transform: translateY(-2px);
 }
 
 .featured-title .star {
@@ -533,6 +547,7 @@ h1 {
   gap: 12px;
   margin: 25px 0;
 }
+
 .sector-btn {
   padding: 15px 10px;
   background: #f8f9fa;
@@ -829,4 +844,3 @@ footer {
     height: 600px; 
   }
 }
-
