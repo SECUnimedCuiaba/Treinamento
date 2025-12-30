@@ -6,7 +6,19 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <title>EquipFlix - Treinamentos Operacionais - Engenharia Clínica</title>
     <link rel="stylesheet" href="CSS/estilo.css" />
-  </head>
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#153664">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker registrado!', reg))
+          .catch(err => console.error('Erro ao registrar Service Worker:', err));
+      });
+    }
+  </script>
+ </head>
 
   <!-- Modal de Seleção de Setor -->
   <div id="sectorModal" class="modal">
@@ -206,6 +218,7 @@
     <script src="script.js" defer></script>
   </body>
 </html>
+
 
 
 
