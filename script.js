@@ -879,10 +879,12 @@ function verificarPromocaoApp() {
 }
 
 
+
 function verificarNotificacaoAgendaGeral() {
   const hoje = new Date();
-  const mesAtual = hoje.getMonth() + 1;
   const diaDoMes = hoje.getDate();
+  const mesAtual = hoje.getMonth() + 1;
+  const anoAtual = hoje.getFullYear();
 
   // 1. Só verifica se houver treinamentos na lista do mês
   const idsTreinamentos = monthlyTrainings[mesAtual] || [];
@@ -892,10 +894,9 @@ function verificarNotificacaoAgendaGeral() {
   const params = new URLSearchParams(window.location.search);
   if (params.get("setor") === "treinamento-mes") return;
 
-  // 3. Trava para notificar apenas uma vez por mês
-  const anoAtual = hoje.getFullYear();
-  const chaveMesRef = `agenda-${mesAtual}-${anoAtual}`;
-  if (localStorage.getItem('last_monthly_push_sent') === chaveMesRef) return;
+  // 3. Chave por dia
+  const chaveDiaRef = `agenda-${diaDoMes}-${mesAtual}-${anoAtual}`;
+  if (localStorage.getItem('last_monthly_push_sent') === chaveDiaRef) return;
 
   // 4. Dispara a partir do dia 05
   if (diaDoMes >= 5 && Notification.permission === 'granted') {
@@ -904,10 +905,12 @@ function verificarNotificacaoAgendaGeral() {
         body: 'Clique para conferir!',
         icon: 'favicon.png',
         badge: 'favicon.png',
-        tag: 'agenda-mensal',
+        tag: 'agenda-mensal', 
         vibrate: [200, 100, 200]
       });
-      localStorage.setItem('last_monthly_push_sent', chaveMesRef);
+      
+      // Salva a chave do dia para não repetir hoje
+      localStorage.setItem('last_monthly_push_sent', chaveDiaRef);
     });
   }
 }
