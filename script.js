@@ -687,12 +687,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Event Listeners para botões de setor (Modal Inicial)
   document.querySelectorAll(".sector-btn").forEach((btn) => {
     btn.addEventListener("click", function () {
       const setor = this.getAttribute("data-setor");
-      const newUrl = `${window.location.pathname}?setor=${encodeURIComponent(setor)}`;
-      window.location.href = newUrl;
+      const newUrl = `${window.location.pathname}?setor=${encodeURIComponent(
+        setor
+      )}`;
+      
+      // Event Listeners para botões de setor (Modal Inicial)
+      if ("Notification" in window && Notification.permission === "default") {
+        Notification.requestPermission().then(() => {
+          // Independentemente da escolha (aceitar ou negar), muda a página
+          window.location.href = newUrl;
+        });
+      } else {
+        // Se já tiver permissão ou não for suportado, muda a página imediatamente
+        window.location.href = newUrl;
+      }
     });
   });
 });
