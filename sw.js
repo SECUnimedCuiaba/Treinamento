@@ -58,3 +58,26 @@ self.addEventListener('push', function(event) {
   };
   event.waitUntil(self.registration.showNotification(data.title, options));
 });
+
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();
+
+  // Define a URL de destino com o filtro
+  const targetUrl = './?setor=treinamento-mes';
+
+  event.waitUntil(
+    clients.matchAll({ type: 'window' }).then(windowClients => {
+      // Se o app já estiver aberto, navega para a URL filtrada e foca
+      for (var i = 0; i < windowClients.length; i++) {
+        var client = windowClients[i];
+        if ('navigate' in client) {
+          return client.navigate(targetUrl).then(client => client.focus());
+        }
+      }
+      // Se estiver fechado, abre uma nova janela
+      if (clients.openWindow) {
+        return clients.openWindow(targetUrl);
+      }
+    })
+  );
+});
