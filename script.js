@@ -878,38 +878,36 @@ function verificarPromocaoApp() {
     modalContainer.appendChild(promoDiv);
 }
 
+
 function verificarNotificacaoAgendaGeral() {
   const hoje = new Date();
   const mesAtual = hoje.getMonth() + 1;
   const diaDoMes = hoje.getDate();
 
-  // 1. Verifica se há treinamentos no mês atual antes de qualquer coisa
+  // 1. Só verifica se houver treinamentos na lista do mês
   const idsTreinamentos = monthlyTrainings[mesAtual] || [];
   if (idsTreinamentos.length === 0) return;
 
-  // 2. Verifica se o usuário já está na página de treinamento do mês
+  // 2. Não notifica se o usuário já estiver na tela de treinamento-mes
   const params = new URLSearchParams(window.location.search);
   if (params.get("setor") === "treinamento-mes") return;
 
-  // 3. Trava de repetição mensal
+  // 3. Trava para notificar apenas uma vez por mês
   const anoAtual = hoje.getFullYear();
   const chaveMesRef = `agenda-${mesAtual}-${anoAtual}`;
   if (localStorage.getItem('last_monthly_push_sent') === chaveMesRef) return;
 
-  // 4. Regra do dia 05
-  if (diaDoMes >= 5) {
-    if (Notification.permission === 'granted') {
-      navigator.serviceWorker.ready.then(registration => {
-        registration.showNotification('⭐ Treinamentos do Mês ⭐', {
-          body: 'Clique para conferir!',
-          icon: 'favicon.png',
-          badge: 'favicon.png',
-          tag: 'agenda-mensal',
-          vibrate: [200, 100, 200]
-        });
-        
-        localStorage.setItem('last_monthly_push_sent', chaveMesRef);
+  // 4. Dispara a partir do dia 05
+  if (diaDoMes >= 5 && Notification.permission === 'granted') {
+    navigator.serviceWorker.ready.then(registration => {
+      registration.showNotification('⭐ Treinamentos do Mês ⭐', {
+        body: 'Clique para conferir!',
+        icon: 'favicon.png',
+        badge: 'favicon.png',
+        tag: 'agenda-mensal',
+        vibrate: [200, 100, 200]
       });
-    }
+      localStorage.setItem('last_monthly_push_sent', chaveMesRef);
+    });
   }
 }
