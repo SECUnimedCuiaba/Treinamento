@@ -14,7 +14,7 @@ const monthlyTrainings = {
   9: [], 
   10: [], 
   11: [], 
-  12: ["cardioversorPhilips"]
+  12: ["cardioversorPhilips", "aspiradorFanem"]
 };
 
 // Templates de equipamentos completos
@@ -494,7 +494,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // A. Renderização Inicial dos Setores
   const monthlyItems = equipmentData["treinamento-mes"];
-  verificarNotificacaoMensal(monthlyItems);
+  
   if (monthlyItems.length > 0) {
     sectorsContainer.appendChild(createSection("treinamento-mes", monthlyItems));
   }
@@ -691,6 +691,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".sector-btn").forEach((btn) => {
     btn.addEventListener("click", function () {
       const setor = this.getAttribute("data-setor");
+      localStorage.setItem("setor_usuario", setor);
       const newUrl = `${window.location.pathname}?setor=${encodeURIComponent(
         setor
       )}`;
@@ -707,7 +708,12 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
+  
+  if (params.get("setor")) {
+    verificarNotificacaoAgendaGeral();
+  }
 });
+
 
 function clearSearch() {
   const url = new URL(window.location);
@@ -872,19 +878,38 @@ function verificarPromocaoApp() {
     modalContainer.appendChild(promoDiv);
 }
 
-function verificarNotificacaoMensal(monthlyItems) {
-  if (monthlyItems?.length > 0 && Notification.permission === 'granted') {
-    const hoje = new Date().toDateString();
-    if (localStorage.getItem('last_training_notify') !== hoje) {
-      if (navigator.serviceWorker.controller) {
-        navigator.serviceWorker.ready.then(registration => {
-          registration.showNotification('Treinamento do Mês ⭐', {
-            body: `Existem ${monthlyItems.length} novos treinamentos em destaque!`,
-            icon: 'favicon.png'
-          });
-          localStorage.setItem('last_training_notify', hoje);
+function verificarNotificacaoAgendaGeral() {
+  const hoje = new Date();
+  const mesAtual = hoje.getMonth() + 1;
+  const diaDoMes = hoje.getDate();
+
+  // 1. Verifica se há treinamentos no mês atual antes de qualquer coisa
+  const idsTreinamentos = monthlyTrainings[mesAtual] || [];
+  if (idsTreinamentos.length === 0) return;
+
+  // 2. Verifica se o usuário já está na página de treinamento do mês
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("setor") === "treinamento-mes") return;
+
+  // 3. Trava de repetição mensal
+  const anoAtual = hoje.getFullYear();
+  const chaveMesRef = `agenda-${mesAtual}-${anoAtual}`;
+  if (localStorage.getItem('last_monthly_push_sent') === chaveMesRef) return;
+
+  // 4. Regra do dia 05
+  if (diaDoMes >= 5) {
+    if (Notification.permission === 'granted') {
+      navigator.serviceWorker.ready.then(registration => {
+        registration.showNotification('⭐ Treinamentos do Mês ⭐', {
+          body: 'Clique para conferir!',
+          icon: 'favicon.png',
+          badge: 'favicon.png',
+          tag: 'agenda-mensal',
+          vibrate: [200, 100, 200]
         });
-      }
+        
+        localStorage.setItem('last_monthly_push_sent', chaveMesRef);
+      });
     }
   }
 }
