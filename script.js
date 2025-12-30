@@ -494,6 +494,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // A. Renderização Inicial dos Setores
   const monthlyItems = equipmentData["treinamento-mes"];
+  verificarNotificacaoMensal(monthlyItems);
   if (monthlyItems.length > 0) {
     sectorsContainer.appendChild(createSection("treinamento-mes", monthlyItems));
   }
@@ -871,3 +872,19 @@ function verificarPromocaoApp() {
     modalContainer.appendChild(promoDiv);
 }
 
+function verificarNotificacaoMensal(monthlyItems) {
+  if (monthlyItems?.length > 0 && Notification.permission === 'granted') {
+    const hoje = new Date().toDateString();
+    if (localStorage.getItem('last_training_notify') !== hoje) {
+      if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.ready.then(registration => {
+          registration.showNotification('Treinamento do Mês ⭐', {
+            body: `Existem ${monthlyItems.length} novos treinamentos em destaque!`,
+            icon: 'favicon.png'
+          });
+          localStorage.setItem('last_training_notify', hoje);
+        });
+      }
+    }
+  }
+}
