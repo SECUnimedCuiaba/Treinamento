@@ -1,0 +1,33 @@
+{
+  "name": "EquipFlix - Treinamentos",
+  "short_name": "EquipFlix",
+  "description": "Plataforma de treinamentos da Engenharia Clínica",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#141414",
+  "theme_color": "#153664",
+  "icons": [
+    {
+      "src": "./favicon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+  {
+    "src": "screenshot-mobile.png",
+    "sizes": "388x823",
+    "type": "image/png",
+    "form_factor": "narrow",
+    "label": "EquipFlix no Celular"
+  },
+  {
+    "src": "screenshot-desktop.png",
+    "sizes": "1902x908",
+    "type": "image/png",
+    "form_factor": "wide",
+    "label": "EquipFlix no Computador"
+  }
+]
+}
