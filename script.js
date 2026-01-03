@@ -337,9 +337,7 @@ function createCardElement(itemKey) {
   const equip = equipmentTemplates[itemKey];
   if (!equip) return null;
 
-  // VERIFICAÇÃO INTELIGENTE
-  // Se existir 'window.Capacitor', significa que estamos no App.
-  // Se não existir, estamos num navegador comum (PC, Mac, Chrome mobile).
+  // Identidica se navegação está no APP ou não
   const isApp = (window.Capacitor !== undefined);
   
   const baseUrl = "https://secunimedcuiaba.github.io/Treinamento/";
@@ -349,7 +347,7 @@ function createCardElement(itemKey) {
   if (equip.pdfLink) {
       if (isApp) {
           // --- MODO APP ANDROID ---
-          // Usa o Google Viewer para contornar a falta de leitor de PDF nativo
+          // Usa o Google Viewer
           const fullPdfPath = baseUrl + equip.pdfLink;
           const googleViewerLink = `https://docs.google.com/viewer?url=${fullPdfPath}&embedded=true`;
           
@@ -357,7 +355,7 @@ function createCardElement(itemKey) {
           instructionButtonHtml = `<a href="${googleViewerLink}" target="_self" class="instructions-link">Instruções Rápidas</a>`;
       } else {
           // --- MODO SITE NORMAL ---
-          // Mantém o comportamento original que já funcionava bem
+          // Mantém o comportamento original para abrir as fichas
           instructionButtonHtml = `<a href="${equip.pdfLink}" target="_blank" class="instructions-link">Instruções Rápidas</a>`;
       }
   } else {
@@ -860,13 +858,6 @@ function verificarPromocaoApp() {
     promoDiv.style.cssText = "margin-top: 20px; padding: 15px; background-color: #f0f8ff; border-radius: 8px; text-align: center; border: 1px solid #cce7ff; color: #333;";
 
     if (isMobile) {
-      /*
-        promoDiv.innerHTML = `
-            <p style="margin: 0; font-size: 14px; font-weight: bold;">Treinamentos no seu bolso!</p>
-            <a href="LINK DO APP" target="_blank" style="display: inline-block; margin-top: 10px; background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">
-                📱 Instalar App ***
-            </a>`;
-     */
      return;
     } else {
         promoDiv.innerHTML = `
@@ -877,8 +868,6 @@ function verificarPromocaoApp() {
 
     modalContainer.appendChild(promoDiv);
 }
-
-
 
 function verificarNotificacaoAgendaGeral() {
   const hoje = new Date();
