@@ -12,7 +12,6 @@ self.addEventListener('install', event => {
   self.skipWaiting(); 
   event.waitUntil(
     caches.open(cacheName).then(cache => {
-      console.log('PWA: Fazendo cache dos arquivos novos');
       return cache.addAll(assets);
     })
   );
@@ -24,7 +23,6 @@ self.addEventListener('activate', event => {
     caches.keys().then(keyList => {
       return Promise.all(keyList.map(key => {
         if (key !== cacheName) {
-          console.log('PWA: Removendo cache antigo', key);
           return caches.delete(key);
         }
       }));
@@ -81,3 +79,4 @@ self.addEventListener('notificationclick', function(event) {
     })
   );
 });
+
