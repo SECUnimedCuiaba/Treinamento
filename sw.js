@@ -17,7 +17,7 @@ self.addEventListener('install', event => {
   );
 });
 
-// Limpeza de caches antigos (Essencial para não ocupar espaço e evitar bugs)
+// Limpeza de caches antigos 
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keyList => {
@@ -79,4 +79,5 @@ self.addEventListener('notificationclick', function(event) {
     })
   );
 });
+
 
