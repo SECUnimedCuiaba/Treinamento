@@ -1,6 +1,6 @@
 {
   "name": "EquipFlix - Treinamentos",
-  "short_name": "Treinamentos",
+  "short_name": "EquipFlix",
   "description": "Plataforma de treinamentos da Engenharia Clínica",
   "start_url": "./index.html",
   "display": "standalone",
@@ -30,6 +30,4 @@
     "label": "EquipFlix no Computador"
   }
 ]
-
 }
-
