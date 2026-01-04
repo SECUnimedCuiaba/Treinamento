@@ -905,7 +905,7 @@ function verificarNotificacaoAgendaGeral() {
 }
 
 // ======================================================
-// 6. INSTALAÇÃO DO PWA - VERSÃO SIMPLIFICADA
+// 6. INSTALAÇÃO DO PWA 
 // ======================================================
 
 let deferredPrompt = null;
