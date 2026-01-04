@@ -3,9 +3,14 @@
   "short_name": "EquipFlix",
   "description": "Plataforma de treinamentos da Engenharia Clínica",
   "start_url": "./index.html",
+  "id": "/Treinamento/index.html",
   "display": "standalone",
   "background_color": "#141414",
   "theme_color": "#153664",
+  "scope": "./",  
+  "orientation": "any", 
+  "lang": "pt-BR",  
+  "categories": ["education", "productivity"],  
   "icons": [
     {
       "src": "./favicon.png",
@@ -31,3 +36,4 @@
   }
 ]
 }
+
