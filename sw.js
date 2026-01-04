@@ -8,11 +8,28 @@ const assets = [
 ];
 
 // Instalação e ativação imediata
+//self.addEventListener('install', event => {
+ // self.skipWaiting(); 
+ // event.waitUntil(
+ //   caches.open(cacheName).then(cache => {
+ //     return cache.addAll(assets);
+ //   })
+ // );
+//});
+
 self.addEventListener('install', event => {
-  self.skipWaiting(); 
+  self.skipWaiting();
   event.waitUntil(
-    caches.open(cacheName).then(cache => {
-      return cache.addAll(assets);
+    caches.open(cacheName).then(async cache => {
+      console.log('--- INICIANDO CACHE INDIVIDUAL ---');
+      for (const asset of assets) {
+        try {
+          await cache.add(asset);
+          console.log(`✅ Sucesso: ${asset}`);
+        } catch (error) {
+          console.error(`❌ FALHA CRÍTICA NO ARQUIVO: ${asset}`, error);
+        }
+      }
     })
   );
 });
@@ -79,5 +96,6 @@ self.addEventListener('notificationclick', function(event) {
     })
   );
 });
+
 
 
