@@ -913,7 +913,6 @@ let installButton = null;
 
 // 1. Captura o evento de instalação
 window.addEventListener('beforeinstallprompt', (e) => {
-  console.log('🎯 beforeinstallprompt disparado');
   
   // Previne o prompt automático
   e.preventDefault();
@@ -1015,7 +1014,6 @@ function showInstallButton() {
 // 3. Função para instalar o PWA
 async function installPWA() {
   if (!deferredPrompt) {
-    console.log('❌ Nenhum prompt de instalação disponível');
     showManualInstallGuide();
     return;
   }
@@ -1026,9 +1024,6 @@ async function installPWA() {
     
     // Aguarda a resposta do usuário
     const choiceResult = await deferredPrompt.userChoice;
-    
-    console.log(`✅ Usuário ${choiceResult.outcome === 'accepted' ? 'aceitou' : 'recusou'} a instalação`);
-    
     if (choiceResult.outcome === 'accepted') {
       // Sucesso na instalação
       installButton.innerHTML = '✅ Instalado! O app será aberto em breve...';
@@ -1042,7 +1037,6 @@ async function installPWA() {
     deferredPrompt = null;
     
   } catch (error) {
-    console.error('❌ Erro durante instalação:', error);
     installButton.innerHTML = '❌ Erro na instalação';
     installButton.style.background = '#dc3545';
     
@@ -1107,10 +1101,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// 8. Debug helper
-if (window.location.search.includes('debugpwa')) {
-  console.log('🔍 Modo debug PWA ativado');
-  console.log('Display mode:', window.matchMedia('(display-mode: standalone)').matches);
-  console.log('Standalone:', window.navigator.standalone);
-  console.log('BeforeInstallPromptEvent disponível:', 'BeforeInstallPromptEvent' in window);
-}
+
+
+
+
+
