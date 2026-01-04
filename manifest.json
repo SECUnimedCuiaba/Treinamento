@@ -1,6 +1,6 @@
 {
   "name": "EquipFlix - Treinamentos",
-  "short_name": "EquipFlix",
+  "short_name": "Treinamentos",
   "description": "Plataforma de treinamentos da Engenharia Clínica",
   "start_url": "./index.html",
   "display": "standalone",
@@ -11,7 +11,7 @@
       "src": "./favicon.png",
       "sizes": "1024x1024",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ],
   "screenshots": [
@@ -30,4 +30,5 @@
     "label": "EquipFlix no Computador"
   }
 ]
+
 }
