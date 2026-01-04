@@ -863,7 +863,7 @@ function verificarPromocaoApp() {
         promoDiv.innerHTML = `
             <p style="margin: 0; font-size: 14px; ">Acessar o site pelo celular:</p>
             <img src="imagens/qrCodeSite.png" alt="QR Code App" style="margin-top: 10px; width: 100px; height: 100px; border: 5px solid white; border-radius: 5px;">
-            <p style="margin: 5px 0 0 0; font-size: 11px; color: #666;">Aponte a câmera do celular</p>`;
+            <p style="margin: 5px 0 0 0; font-size: 11px; color: #666;">Aponte a câmera do celular corporativo</p>`;
     }
 
     modalContainer.appendChild(promoDiv);
