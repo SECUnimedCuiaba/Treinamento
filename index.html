@@ -1,16 +1,27 @@
 <!DOCTYPE html>
 <html lang="pt-BR" dir="ltr">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="favicon.png">
-    <title>EquipFlix - Treinamentos Operacionais - Engenharia Clínica</title>
-    <link rel="stylesheet" href="CSS/estilo.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="application-name" content="EquipFlix">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="EquipFlix">
+  <meta name="description" content="Plataforma de treinamentos da Engenharia Clínica">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#153664">
+  <meta name="msapplication-TileColor" content="#153664">
+  <meta name="msapplication-tap-highlight" content="no">
+  
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <title>EquipFlix - Treinamentos Operacionais - Engenharia Clínica</title>
+  <link rel="stylesheet" href="CSS/estilo.css" />
+  <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
 
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#153664">
-    
-  <script>
+   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
@@ -19,7 +30,7 @@
       });
     }
   </script>
- </head>
+</head>
 
   <!-- Modal de Seleção de Setor -->
   <div id="sectorModal" class="modal">
@@ -222,6 +233,7 @@
     <script src="script.js" defer></script>
   </body>
 </html>
+
 
 
 
