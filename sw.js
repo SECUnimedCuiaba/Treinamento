@@ -2,7 +2,7 @@ const cacheName = 'equipflix-v2';
 const assets = [
   './', 
   './index.html', 
-  './css/estilo.css', 
+  './CSS/estilo.css', 
   './script.js',
   './favicon.png' 
 ];
@@ -96,6 +96,7 @@ self.addEventListener('notificationclick', function(event) {
     })
   );
 });
+
 
 
 
