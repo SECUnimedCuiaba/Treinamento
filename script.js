@@ -906,7 +906,7 @@ function verificarNotificacaoAgendaGeral() {
         tag: 'agenda-mensal',
         data: {
         type: 'agenda-mensal',
-        url: 'Treinamento/?setor=treinamento-mes' 
+        url: '/Treinamento/?setor=treinamento-mes' 
         }
        
       });
