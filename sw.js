@@ -94,7 +94,7 @@ self.addEventListener('push', event => {
     icon: data.icon,
     badge: data.badge,
     vibrate: [200, 100, 200],
-    data: { url: './?setor=treinamento-mes' }
+    data: { url: '/Treinamento/?setor=treinamento-mes' }
   };
   
   event.waitUntil(self.registration.showNotification(data.title, options));
@@ -120,3 +120,4 @@ self.addEventListener('notificationclick', event => {
       })
   );
 });
+
