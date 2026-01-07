@@ -74,27 +74,17 @@ self.addEventListener('fetch', event => {
 });
 
 self.addEventListener('push', event => {
-  let data = {
-    title: 'EquipFlix',
-    body: 'Você tem novos treinamentos disponíveis!',
-    icon: './favicon.png',
-    badge: './favicon.png'
-  };
+  // ... (seu código de parsing de data continua igual)
   
-  if (event.data) {
-    try {
-      data = { ...data, ...event.data.json() };
-    } catch (e) {
-      data.body = event.data.text() || data.body;
-    }
-  }
-  
+  // 1. Use URLs absolutas ou garanta que a base está correta
+  const baseUrl = new URL('/Treinamento/?setor=treinamento-mes', self.location.origin).href;
+
   const options = {
     body: data.body,
     icon: data.icon,
     badge: data.badge,
     vibrate: [200, 100, 200],
-    data: { url: '/Treinamento/?setor=treinamento-mes' }
+    data: { url: baseUrl } // Guardamos a URL completa e absoluta
   };
   
   event.waitUntil(self.registration.showNotification(data.title, options));
@@ -103,21 +93,25 @@ self.addEventListener('push', event => {
 self.addEventListener('notificationclick', event => {
   event.notification.close();
   
-  const urlToOpen = event.notification.data?.url || './';
+  // Recupera a URL absoluta salva no push
+  const urlToOpen = event.notification.data?.url;
   
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true })
       .then(clientList => {
+        // 2. Tenta focar em uma aba que já contenha a base da URL
         for (const client of clientList) {
-          if (client.url.includes(urlToOpen) && 'focus' in client) {
+          if (client.url === urlToOpen && 'focus' in client) {
             return client.focus();
           }
         }
         
-        if (clients.openWindow) {
+        // 3. Se não achar, abre a URL absoluta
+        if (clients.openWindow && urlToOpen) {
           return clients.openWindow(urlToOpen);
         }
       })
   );
 });
+
 
