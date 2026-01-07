@@ -14,7 +14,7 @@ const monthlyTrainings = {
   9: [], 
   10: [], 
   11: [], 
-  12: ["cardioversorPhilips", "aspiradorFanem"]
+  12: []
 };
 
 // Templates de equipamentos completos
@@ -337,9 +337,7 @@ function createCardElement(itemKey) {
   const equip = equipmentTemplates[itemKey];
   if (!equip) return null;
 
-  // VERIFICAÇÃO INTELIGENTE
-  // Se existir 'window.Capacitor', significa que estamos no App.
-  // Se não existir, estamos num navegador comum (PC, Mac, Chrome mobile).
+  // Identidica se navegação está no APP ou não
   const isApp = (window.Capacitor !== undefined);
   
   const baseUrl = "https://secunimedcuiaba.github.io/Treinamento/";
@@ -349,7 +347,7 @@ function createCardElement(itemKey) {
   if (equip.pdfLink) {
       if (isApp) {
           // --- MODO APP ANDROID ---
-          // Usa o Google Viewer para contornar a falta de leitor de PDF nativo
+          // Usa o Google Viewer
           const fullPdfPath = baseUrl + equip.pdfLink;
           const googleViewerLink = `https://docs.google.com/viewer?url=${fullPdfPath}&embedded=true`;
           
@@ -357,7 +355,7 @@ function createCardElement(itemKey) {
           instructionButtonHtml = `<a href="${googleViewerLink}" target="_self" class="instructions-link">Instruções Rápidas</a>`;
       } else {
           // --- MODO SITE NORMAL ---
-          // Mantém o comportamento original que já funcionava bem
+          // Mantém o comportamento original para abrir as fichas
           instructionButtonHtml = `<a href="${equip.pdfLink}" target="_blank" class="instructions-link">Instruções Rápidas</a>`;
       }
   } else {
@@ -860,19 +858,12 @@ function verificarPromocaoApp() {
     promoDiv.style.cssText = "margin-top: 20px; padding: 15px; background-color: #f0f8ff; border-radius: 8px; text-align: center; border: 1px solid #cce7ff; color: #333;";
 
     if (isMobile) {
-      /*
-        promoDiv.innerHTML = `
-            <p style="margin: 0; font-size: 14px; font-weight: bold;">Treinamentos no seu bolso!</p>
-            <a href="LINK DO APP" target="_blank" style="display: inline-block; margin-top: 10px; background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">
-                📱 Instalar App ***
-            </a>`;
-     */
      return;
     } else {
         promoDiv.innerHTML = `
             <p style="margin: 0; font-size: 14px; ">Acessar o site pelo celular:</p>
             <img src="imagens/qrCodeSite.png" alt="QR Code App" style="margin-top: 10px; width: 100px; height: 100px; border: 5px solid white; border-radius: 5px;">
-            <p style="margin: 5px 0 0 0; font-size: 11px; color: #666;">Aponte a câmera do celular</p>`;
+            <p style="margin: 5px 0 0 0; font-size: 11px; color: #666;">Aponte a câmera do celular corporativo</p>`;
     }
 
     modalContainer.appendChild(promoDiv);
@@ -903,12 +894,8 @@ function verificarNotificacaoAgendaGeral() {
         body: 'Clique para conferir!',
         icon: 'favicon.png',
         badge: 'favicon.png',
-        tag: 'agenda-mensal',
-        data: {
-        type: 'agenda-mensal',
-        url: '/Treinamento/?setor=treinamento-mes' 
-        }
-       
+        tag: 'agenda-mensal', 
+        vibrate: [200, 100, 200]
       });
       
       // Salva a chave do dia para não repetir hoje
@@ -916,3 +903,200 @@ function verificarNotificacaoAgendaGeral() {
     });
   }
 }
+
+// ======================================================
+// 6. INSTALAÇÃO DO PWA 
+// ======================================================
+
+let deferredPrompt = null;
+let installButton = null;
+
+// 1. Captura o evento de instalação
+window.addEventListener('beforeinstallprompt', (e) => {
+  
+  // Previne o prompt automático
+  e.preventDefault();
+  
+  // Armazena o evento para uso posterior
+  deferredPrompt = e;
+  
+  // Mostra o botão de instalação após 3 segundos
+  setTimeout(showInstallButton, 3000);
+});
+
+// 2. Função para mostrar botão de instalação
+function showInstallButton() {
+  // Não mostra se já está instalado ou se já existe o botão
+  if (isPWAInstalled() || document.getElementById('pwa-install-button')) {
+    return;
+  }
+  
+  // Cria o botão
+  installButton = document.createElement('button');
+  installButton.id = 'pwa-install-button';
+  installButton.innerHTML = `
+    <span style="font-size: 20px;">📱</span>
+    <div style="text-align: left;">
+      <div style="font-weight: bold; font-size: 14px;">Instalar App</div>
+      <div style="font-size: 11px; opacity: 0.8;">Acesso rápido aos treinamentos</div>
+    </div>
+    <span style="margin-left: auto;">↓</span>
+  `;
+  
+  // Estilos
+  installButton.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #153664 0%, #1e4a8e 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 15px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(21, 54, 100, 0.4);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 320px;
+    animation: slideInUp 0.5s ease, pulse 2s infinite;
+    transition: all 0.3s ease;
+  `;
+  
+  // Adiciona animação
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 6px 20px rgba(21, 54, 100, 0.4); }
+      50% { box-shadow: 0 6px 30px rgba(21, 54, 100, 0.7); }
+      100% { box-shadow: 0 6px 20px rgba(21, 54, 100, 0.4); }
+    }
+    
+    @media (max-width: 768px) {
+      #pwa-install-button {
+        left: 20px;
+        right: 20px;
+        bottom: 80px;
+        width: calc(100% - 40px);
+        max-width: none;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Evento de clique
+  installButton.addEventListener('click', installPWA);
+  
+  // Adiciona ao documento
+  document.body.appendChild(installButton);
+  
+  // Remove após 30 segundos
+  setTimeout(() => {
+    if (installButton && document.body.contains(installButton)) {
+      hideInstallButton();
+    }
+  }, 30000);
+}
+
+// 3. Função para instalar o PWA
+async function installPWA() {
+  if (!deferredPrompt) {
+    showManualInstallGuide();
+    return;
+  }
+  
+  try {
+    // Mostra o prompt de instalação
+    deferredPrompt.prompt();
+    
+    // Aguarda a resposta do usuário
+    const choiceResult = await deferredPrompt.userChoice;
+    if (choiceResult.outcome === 'accepted') {
+      // Sucesso na instalação
+      installButton.innerHTML = '✅ Instalado! O app será aberto em breve...';
+      installButton.style.background = '#28a745';
+      installButton.style.animation = 'none';
+      
+      setTimeout(hideInstallButton, 2000);
+    }
+    
+    // Limpa o prompt
+    deferredPrompt = null;
+    
+  } catch (error) {
+    installButton.innerHTML = '❌ Erro na instalação';
+    installButton.style.background = '#dc3545';
+    
+    setTimeout(hideInstallButton, 3000);
+  }
+}
+
+// 4. Função para esconder o botão
+function hideInstallButton() {
+  if (installButton && document.body.contains(installButton)) {
+    installButton.style.opacity = '0';
+    installButton.style.transform = 'translateY(50px)';
+    
+    setTimeout(() => {
+      if (installButton && document.body.contains(installButton)) {
+        installButton.remove();
+        installButton = null;
+      }
+    }, 300);
+  }
+}
+
+// 5. Verifica se o PWA já está instalado
+function isPWAInstalled() {
+  return window.matchMedia('(display-mode: standalone)').matches || 
+         window.navigator.standalone === true ||
+         document.referrer.includes('android-app://');
+}
+
+// 6. Guia de instalação manual (fallback)
+function showManualInstallGuide() {
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isAndroid = /Android/.test(navigator.userAgent);
+  
+  let message = '';
+  
+  if (isIOS) {
+    message = 'Para instalar: 1. Toque no ícone de compartilhar (📤) 2. Role para baixo 3. Toque em "Adicionar à Tela de Início"';
+  } else if (isAndroid) {
+    message = 'Para instalar: 1. Toque no menu (três pontos) 2. Toque em "Adicionar à tela inicial" 3. Confirme a instalação';
+  } else {
+    message = 'Para instalar: Clique no ícone de instalação (📥) na barra de endereços do navegador';
+  }
+  
+  alert(message);
+}
+
+// 7. Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+  // Verifica após carregamento completo
+  setTimeout(() => {
+    if (!isPWAInstalled() && deferredPrompt) {
+      showInstallButton();
+    }
+  }, 2000);
+  
+  // Monitora mudanças na visibilidade da página
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && deferredPrompt && !installButton) {
+      showInstallButton();
+    }
+  });
+});
