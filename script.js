@@ -895,7 +895,10 @@ function verificarNotificacaoAgendaGeral() {
         icon: 'favicon.png',
         badge: 'favicon.png',
         tag: 'agenda-mensal', 
-        vibrate: [200, 100, 200]
+        data: {
+          type: "agenda-mensal",
+          url: "/?setor=treinamento-mes",
+        },
       });
       
       // Salva a chave do dia para não repetir hoje
