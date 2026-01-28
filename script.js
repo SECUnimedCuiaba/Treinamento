@@ -4,17 +4,17 @@
 
 const monthlyTrainings = {
   1: ["ecgAlfamed"],
-  2: ["cardioversorPhilips"], 
-  3: ["monitorPhilips"], 
+  2: ["anestesiaDrager"], 
+  3: ["cardioversorPhilips", "cardioversorInstramed8"], 
   4: ["aspiradorFanem"], 
-  5: [], 
-  6: [], 
-  7: [], 
-  8: [], 
-  9: [], 
-  10: [], 
-  11: [], 
-  12: []
+  5: ["monitorPhilips", "monitorDragerVista120S"], 
+  6: ["ventiladorTecme", "ventiladorMagnamed", "ventiladorResmed" ], 
+  7: ["mesaCirurgicaBarrfab], 
+  8: ["bisturiWem"], 
+  9: ["bombaDeInfusaoLifemed"], 
+  10: ["autoclaveBaumer"], 
+  11: ["esterilizadorPeroxidoBaumer"], 
+  12: ["secadoraBaumer","lavadoraUltrassonicaBaumer"]
 };
 
 // Templates de equipamentos completos
