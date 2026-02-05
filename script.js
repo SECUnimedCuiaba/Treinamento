@@ -9,7 +9,7 @@ const monthlyTrainings = {
   4: ["aspiradorFanem"], 
   5: ["monitorPhilips", "monitorDragerVista120S"], 
   6: ["ventiladorTecme", "ventiladorMagnamed", "ventiladorResmed" ], 
-  7: ["mesaCirurgicaBarrfab], 
+  7: ["mesaBarrfab"], 
   8: ["bisturiWem"], 
   9: ["bombaDeInfusaoLifemed"], 
   10: ["autoclaveBaumer"], 
