@@ -61,7 +61,7 @@ const equipmentTemplates = {
     duracao: "20min",
     pdfLink: "instrucoes/MesaBarrfab.pdf",
     link: "https://forms.gle/SEU_LINK_AQUI",
-     driveId: "SEU_DRIVE_ID_AQUI"
+     driveId: "https://youtu.be/JxcA50DzaFg?si=s4xnyoQJhxrlOj-Z"
   },
   termohigrometro: {
     img: "imagens/termohigrometro.png",
