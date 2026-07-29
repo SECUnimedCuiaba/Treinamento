@@ -60,7 +60,8 @@ const equipmentTemplates = {
     fabricanteModelo: "Barrfab BF683 TDP",
     duracao: "20min",
     pdfLink: "instrucoes/MesaBarrfab.pdf",
-    link: null,
+    link: "https://forms.gle/SEU_LINK_AQUI",
+     driveId: "SEU_DRIVE_ID_AQUI"
   },
   termohigrometro: {
     img: "imagens/termohigrometro.png",
