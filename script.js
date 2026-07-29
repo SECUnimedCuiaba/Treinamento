@@ -58,7 +58,7 @@ const equipmentTemplates = {
     title: "Mesa Cirúrgica | Barrfab BF683 TDP",
     equipamento: "Mesa Cirúrgica",
     fabricanteModelo: "Barrfab BF683 TDP",
-    duracao: "30min",
+    duracao: "20min",
     pdfLink: "instrucoes/MesaBarrfab.pdf",
     link: null,
   },
