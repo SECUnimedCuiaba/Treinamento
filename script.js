@@ -61,7 +61,7 @@ const equipmentTemplates = {
     duracao: "30min",
     pdfLink: "instrucoes/MesaBarrfab.pdf",
     link: "https://forms.gle/xgdswhyromyNBCbQ7",
-    driveId: "cid=fb3c0779cead57da&id=FB3C0779CEAD57DA!s3664c787c4634c02979a597c62ffc5a6&resid=FB3C0779CEAD57DA!s3664c787c4634c02979a597c62ffc5a6&ithint=video,mp4&embed=1&width=1280&height=720&migratedtospo=true&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3YvYy9mYjNjMDc3OWNlYWQ1N2RhL0lRU0h4MlEyWThRQ1RKZWFXWHhpXzhXbUFTcWMySFUtbmZHT1FxY3FPTVhTbHVjP3dpZHRoPTEyODAmaGVpZ2h0PTcyMA",
+    driveId: "cid=fb3c0779cead57da&id=FB3C779CEAD57DA!s3664c787c4634c02979a597c62ffc5a6&resid=FB3C0779CEAD57DA!s3664c787c4634c02979a597c62ffc5a6&ithint=video,mp4&embed=1&width=1280&height=720&migratedtospo=true&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3YvYy9mYjNjMDc3OWNlYWQ1N2RhL0lRU0h4MlEyWThRQ1RKZWFXWHhpXzhXbUFTcWMySFUtbmZHT1FxY3FPTVhTbHVjP3dpZHRoPTEyODAmaGVpZ2h0PTcyMA",
   },
   termohigrometro: {
     img: "imagens/termohigrometro.png",
